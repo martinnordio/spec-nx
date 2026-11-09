@@ -87,7 +87,9 @@ they are not saved.
 - Azure DevOps: a personal access token in the environment variable `AZURE_DEVOPS_EXT_PAT`
   (never written to a file); the bash scripts also need `curl` and `jq`.
 
-**Selects:** the tools for the host, `stages/tools/<git_host>/` → `.specs/kit/tools/`, in
+**Selects:** the tools for the host, `stages/tools/<git_host>/` → `.specs/kit/tools/<git_host>/`
+(with the shared `spec_summary` script and `README.md` in `.specs/kit/tools/`, the same layout as
+in spec-nx, so the stage prompts' relative paths work in both), in
 every shell listed in the project's `shells` (see Q3), when `pr` is in `stages` or
 `link_issues` is `true`. With `"none"`, the `pr` stage only explains the manual steps and no
 tools are copied.

@@ -1,7 +1,7 @@
 # Requirements → Plan → PR Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress — Steps 0–2 done
+> **Status:** 🔄 In progress — Steps 0–3 done
 > **Created:** 2026-11-09
 > **Last updated:** 2026-11-09
 > **Branch:** `feature/spec-plan-pr` (all Steps; one pull request at the end)
@@ -110,7 +110,7 @@ PowerShell 7 and bash, chosen per developer (Q3, S13).
 | **0** | Bootstrap: layout, README, template, testing README, this spec | ✅ Done | [→ Step 0](#step-0--bootstrap) |
 | **1** | Setup questions Q1, Q2 | ✅ Done | [→ Step 1](#step-1--setup-questions) |
 | **2** | Git-host tools: update issue / backlog item and pull request (GitHub, Azure DevOps) | ✅ Done | [→ Step 2](#step-2--git-host-tools) |
-| **3** | Requirements stage (+ optional issue update) | ⬜ Not started | [→ Step 3](#step-3--requirements-stage) |
+| **3** | Requirements stage (+ optional issue update) | ✅ Done | [→ Step 3](#step-3--requirements-stage) |
 | **4** | Plan stage | ⬜ Not started | [→ Step 4](#step-4--plan-stage) |
 | **5** | Pull-request stage (pull request + issue, always) | ⬜ Not started | [→ Step 5](#step-5--pull-request-stage) |
 | **6** | Generator: `GENERATE KIT` (scan, suggest, ask, configuration, kit) and `--update` | ⬜ Not started | [→ Step 6](#step-6--generator) |
@@ -238,14 +238,34 @@ The assistant can write Part 1 of a new spec from a short request and the reposi
 request update the linked issue / backlog item (S4, S10).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/requirements/prompt.md`: command `REQUIREMENTS: <name> — <request>`; reads the repository first; writes the file name with today's date; fills Part 1 only; lists "already in the repository" and "new"; asks open questions.
-- [ ] Command `UPDATE ISSUE: <spec file>` in the same prompt: calls the git-host tool for the issue / backlog item in the spec header (dry run first).
-- [ ] Role text for the assistant (requirements engineer) inside the prompt or as `stages/requirements/role.md`.
-- [ ] Try it in `testing/` on a throw-away project; note the result in this Step's Notes.
-- [ ] Clean-content check (S8); commit "Step 3: requirements stage (#1)"; push.
+- [x] Record the start time in Notes below.
+- [x] `stages/requirements/prompt.md`: command `REQUIREMENTS: <name> — <request>`; reads the repository first; writes the file name with today's date; fills Part 1 only; lists "already in the repository" and "new"; asks open questions.
+- [x] Command `UPDATE ISSUE: <spec file>` in the same prompt: calls the git-host tool for the issue / backlog item in the spec header (dry run first).
+- [x] Role text for the assistant (requirements engineer) inside the prompt or as `stages/requirements/role.md`.
+- [x] Try it in `testing/` on a throw-away project; note the result in this Step's Notes.
+- [x] Clean-content check (S8); commit "Step 3: requirements stage (#1)"; push.
 
 ### Notes
+Started: 2026-11-09.
+
+- One file, `stages/requirements/prompt.md`, with the role inside it and three commands:
+  `REQUIREMENTS: <name> — <request>` (new spec), `REQUIREMENTS: <spec file> — <change>`
+  (revise Part 1; statement numbers stay stable), `UPDATE ISSUE: <spec file>` (dry run, then
+  the real update after confirmation; host from `spec-nx.json` or the remote, shell from
+  `spec-nx.local.json` or the operating system).
+- The prompt uses paths relative to itself (`../spec_template.md`, `../tools/…`), so it works
+  in spec-nx and in a generated kit; `generator/questions.md` now keeps the same layout in the
+  kit (`.specs/kit/tools/<git_host>/`).
+- Part 2 is replaced by a one-line placeholder under the marker until the plan stage runs.
+- Trial (`testing/todo-trial`, a small command-line to-do list, not pushed):
+  `REQUIREMENTS: save_tasks — keep my tasks after I close the program, and let me mark a task
+  as done` → `2026_11_09_save_tasks_spec.md` with "already in the repository" (`todo.py`
+  `add`/`list`, README), 5 testable statements (kept between runs, `done <n>`, wrong number,
+  first run, existing usage) and 2 open questions (where to keep the tasks; `done` twice).
+  No remote, so `UPDATE ISSUE` takes the "no git host" path; the issue dry run itself was
+  checked in Step 2.
+
+**Done (2026-11-09 · ~45m)** — requirements stage prompt with `REQUIREMENTS` and `UPDATE ISSUE`; trial spec written as expected.
 
 ---
 

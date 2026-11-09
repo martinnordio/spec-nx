@@ -224,7 +224,7 @@ is in progress:
 - [x] The spec template in two parts
 - [x] Setup questions Q1 and Q2 ([generator/questions.md](generator/questions.md))
 - [x] Git-host tools: keep the issue / backlog item and the pull request in sync with the spec ([stages/tools](stages/tools/README.md))
-- [ ] Requirements stage (can update the issue on request)
+- [x] Requirements stage (can update the issue on request) ([stages/requirements](stages/requirements/prompt.md))
 - [ ] Plan stage
 - [ ] Pull-request stage (always updates the pull request and the issue)
 - [ ] Generator: `GENERATE KIT` and `GENERATE KIT --update`
