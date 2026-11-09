@@ -55,8 +55,9 @@ offered again by `--update` once it exists.
 | A pull-request template, or merged pull requests | `pr` |
 | Nothing of the above | the default |
 
-**Selects:** each stage folder `stages/<stage>/` → `.specs/kit/<stage>/`; the spec template
-`stages/spec_template.md` → `.specs/kit/spec_template.md`.
+**Selects:** each stage folder `stages/<stage>/` → `.specs/kit/<stage>/`; the skills those
+stages load (`stages/skills/<skill>.md` → `.specs/kit/skills/`, see each prompt's *Skills to
+load*); the spec template `stages/spec_template.md` → `.specs/kit/spec_template.md`.
 
 ---
 

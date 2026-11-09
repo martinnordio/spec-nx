@@ -22,6 +22,10 @@ UPDATE ISSUE: <spec file>
 Puts a summary of the spec into its issue (GitHub) or backlog item (Azure DevOps): a dry run
 first, then the real update after the user confirms.
 
+## Skills to load
+
+Always: `../skills/requirements_engineer.md` — the role you take in this stage.
+
 ## Files this stage uses
 
 Paths are relative to this file, so they work both inside spec-nx (`stages/requirements/`)
@@ -29,16 +33,11 @@ and in a generated kit (`.specs/kit/requirements/`).
 
 | File | Use |
 |------|-----|
+| `../skills/requirements_engineer.md` | Your role: how to think and what to avoid |
 | `../spec_template.md` | The spec template (Part 1 · Requirements, marker, Part 2 · Plan) |
 | `../tools/README.md` | The summary format and the git-host scripts |
 | `.specs/spec-nx.json` | Project settings: `git_host`, `link_issues` (if the project has it) |
 | `.specs/spec-nx.local.json` | Developer settings: `shell` (if the project has it) |
-
-## Your role
-
-You are a requirements engineer. You care about *what* the software must do, not *how*. You
-write short, unambiguous statements that someone can check without asking you. You ask when
-something important is unclear instead of guessing. You reuse what the repository already has.
 
 ---
 

@@ -159,6 +159,21 @@ Examples:
 - **Data science:** requirements → plan → pr
 - **Requirements only:** requirements
 
+### Prompts and skills
+
+Each stage has a **prompt**: the commands you type (`REQUIREMENTS:`, `PLAN:`, `PR:`) and the
+rules the AI assistant follows to carry them out. The *way of thinking* behind a stage lives
+in a separate **skill**: a role the assistant takes on.
+
+| Skill | Thinks about | Used by |
+|-------|--------------|---------|
+| **Requirements engineer** | *What* is wanted: testable statements, what already exists, what is unclear | requirements, plan (to check Part 1) |
+| **Architect** | *How* to build it: the smallest change, small Steps, explicit decisions | plan |
+
+Keeping them apart means one role can serve several stages, a role can be improved without
+touching the commands, and the generator can adapt a role to your team (for example a
+requirements engineer for data-science work) while the commands stay the same.
+
 ## Requirements first, then the plan
 
 Each feature has **one spec file**, `yyyy_mm_dd_<name>_spec.md`, in two parts:
@@ -209,6 +224,7 @@ spec-nx/
   generator/         setup questions and the generator prompt
   stages/            the building blocks: one folder per stage (prompt, scripts)
     spec_template.md the spec file template, shared by the requirements and plan stages
+    skills/          roles the assistant takes on, shared by the stages
     tools/           git-host scripts (GitHub, Azure DevOps), shared by the stages
   examples/          generated kits, e.g. a "requirements → plan → pr" kit
   testing/           local trial runs (not pushed; see testing/README.md)
@@ -225,7 +241,7 @@ is in progress:
 - [x] Setup questions Q1 and Q2 ([generator/questions.md](generator/questions.md))
 - [x] Git-host tools: keep the issue / backlog item and the pull request in sync with the spec ([stages/tools](stages/tools/README.md))
 - [x] Requirements stage (can update the issue on request) ([stages/requirements](stages/requirements/prompt.md))
-- [ ] Plan stage
+- [x] Plan stage ([stages/plan](stages/plan/prompt.md)), with the skills in [stages/skills](stages/skills/)
 - [ ] Pull-request stage (always updates the pull request and the issue)
 - [ ] Generator: `GENERATE KIT` and `GENERATE KIT --update`
 

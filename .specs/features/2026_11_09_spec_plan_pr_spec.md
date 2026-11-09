@@ -1,7 +1,7 @@
 # Requirements → Plan → PR Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress — Steps 0–3 done
+> **Status:** 🔄 In progress — Steps 0–4 done
 > **Created:** 2026-11-09
 > **Last updated:** 2026-11-09
 > **Branch:** `feature/spec-plan-pr` (all Steps; one pull request at the end)
@@ -111,7 +111,7 @@ PowerShell 7 and bash, chosen per developer (Q3, S13).
 | **1** | Setup questions Q1, Q2 | ✅ Done | [→ Step 1](#step-1--setup-questions) |
 | **2** | Git-host tools: update issue / backlog item and pull request (GitHub, Azure DevOps) | ✅ Done | [→ Step 2](#step-2--git-host-tools) |
 | **3** | Requirements stage (+ optional issue update) | ✅ Done | [→ Step 3](#step-3--requirements-stage) |
-| **4** | Plan stage | ⬜ Not started | [→ Step 4](#step-4--plan-stage) |
+| **4** | Plan stage | ✅ Done | [→ Step 4](#step-4--plan-stage) |
 | **5** | Pull-request stage (pull request + issue, always) | ⬜ Not started | [→ Step 5](#step-5--pull-request-stage) |
 | **6** | Generator: `GENERATE KIT` (scan, suggest, ask, configuration, kit) and `--update` | ⬜ Not started | [→ Step 6](#step-6--generator) |
 | **7** | Use it on this spec, close it, update issue #1 and the pull request | ⬜ Not started | [→ Step 7](#step-7--use-it-on-this-spec-and-close-it) |
@@ -137,6 +137,7 @@ PowerShell 7 and bash, chosen per developer (Q3, S13).
 | D8 | The stage prompt (the AI assistant) builds the summary text from the spec; the git-host scripts only put that text into the `spec-summary` block of an issue or pull request | Scripts stay tiny, so writing each in PowerShell 7 and bash is cheap |
 | D9 | spec-nx's own repository is built and tested in Windows PowerShell 5.1 (the author's shell; the scripts also run in PowerShell 7); the bash scripts are tested in `testing/` with Git Bash | What the author uses is separate from what the kit offers (S13) |
 | D10 | spec-nx's `stages/` are the **reference building blocks**; a generated kit is the user's model's adaptation of them. The contract every kit keeps: the commands, the spec template's parts and marker, the `spec-summary` markers, the configuration keys. Scripts are checked with a dry run | A newer model gives a better kit without a new spec-nx release, and the contract keeps kits compatible with updates |
+| D11 | **Prompts and skills are separate files**, as in the earlier private kit: `stages/<stage>/prompt.md` holds the commands and rules and lists its *Skills to load*; roles live in `stages/skills/<role>.md`, shared by the stages; the generator copies the skills the chosen stages need | One role serves several stages; roles and commands change independently; the generator can adapt a role to a team without touching the commands |
 
 ---
 
@@ -267,6 +268,9 @@ Started: 2026-11-09.
 
 **Done (2026-11-09 · ~45m)** — requirements stage prompt with `REQUIREMENTS` and `UPDATE ISSUE`; trial spec written as expected.
 
+- Changed in Step 4 (D11): the role moved out of the prompt into
+  `stages/skills/requirements_engineer.md`; the prompt now lists it under *Skills to load*.
+
 ---
 
 ## Step 4 — Plan stage
@@ -275,12 +279,32 @@ Started: 2026-11-09.
 The assistant can fill Part 2 of a spec from its agreed Part 1 (S5).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/plan/prompt.md`: command `PLAN: <spec file>`; refuses while Part 1 has unanswered open questions; writes Steps (each starting with the start-time task), decisions, deferred items and a Definition of Done for the stages in use; never edits Part 1.
-- [ ] Try it in `testing/` on the spec from Step 3; note the result.
-- [ ] Clean-content check (S8); commit "Step 4: plan stage (#1)"; push.
+- [x] Record the start time in Notes below.
+- [x] `stages/plan/prompt.md`: command `PLAN: <spec file>`; refuses while Part 1 has unanswered open questions; writes Steps (each starting with the start-time task), decisions, deferred items and a Definition of Done for the stages in use; never edits Part 1.
+- [x] Skills as separate files (D11): `stages/skills/architect.md` (new) and `stages/skills/requirements_engineer.md` (moved out of the requirements prompt); both prompts list their *Skills to load*.
+- [x] Try it in `testing/` on the spec from Step 3; note the result.
+- [x] Clean-content check (S8); commit "Step 4: plan stage (#1)"; push.
 
 ### Notes
+Started: 2026-11-09.
+
+- `PLAN: <spec file>` checks Part 1 first (open questions, untestable or compound statements)
+  and stops without writing if it is not ready; writes Overview, Decisions, Steps (goal with
+  the statements covered, start-time task first, a check last), Deferred, Review Log and a
+  Definition of Done for the stages in `stages`; sets the status to "plan ready". `PLAN` again
+  keeps Steps already done and re-plans the rest, with a Review Log line.
+- Skills adapted generically from the earlier private kit: persona, used by, inputs, outputs,
+  process, anti-patterns; the architect is scoped to planning (ADRs and architecture documents
+  come with later stages).
+- README: new "Prompts and skills" section and `skills/` in the layout; `questions.md`: the
+  generator also copies the skills the chosen stages load.
+- Trial on `testing/todo-trial` (not pushed): `PLAN` on the Step 3 spec stopped because of the
+  2 open questions (as intended); `REQUIREMENTS: <spec> — <answers>` folded them into S1 and a
+  new S6 (statement numbers kept); `PLAN` then wrote 3 Steps covering S1–S6 (1: keep tasks in
+  `tasks.json`; 2: `done`; 3: README and final check), 3 decisions (JSON format, one file,
+  `unittest` with a temporary folder) and 1 deferred item (delete a task).
+
+**Done (2026-11-09 · ~1h)** — plan stage prompt, skills split out; trial: gate on open questions, revise, plan with full coverage.
 
 ---
 
