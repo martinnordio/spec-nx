@@ -25,6 +25,36 @@ request; someone else may only write requirements.
    spec kit**: the prompts, templates and scripts for exactly the stages you chose.
 4. Use the kit: write a spec, plan it, build it, open the pull request.
 
+## Why spec-nx
+
+### Your kit improves with your AI model
+
+spec-nx does not just copy files. Its prompts and scripts are **building blocks**: the
+generator gives them to the AI model you use, which **adapts them to your project** — your
+languages, folders, naming and conventions — while keeping the same commands and behaviour.
+
+So `GENERATE KIT --update` gives you an up-to-date kit in two ways:
+
+- **A newer spec-nx** brings better building blocks.
+- **A newer AI model** writes better prompts and scripts from the same building blocks — even
+  if spec-nx itself has not changed for a year.
+
+The building blocks stay the reference: every generated kit keeps their commands
+(`REQUIREMENTS:`, `PLAN:`, `PR:` …), file names and markers, and the generator checks the
+generated scripts with a dry run before you use them.
+
+### One tool, many projects and roles
+
+- **Different projects:** a product team, a data-science team and a student project each get
+  the kit that fits them, from the same spec-nx.
+- **Different roles in one project:** someone who only writes requirements, a developer who
+  goes all the way to the pull request, a reviewer — each can use the stages they need.
+- **Shared or personal kit** (a setup question):
+  - **Shared:** the team commits `.specs/kit/`; everyone uses the same kit.
+  - **Personal:** `.specs/kit/` is ignored by git; each contributor generates their own kit,
+    with their own stages and their own AI model. The specs in `.specs/features/` are shared
+    either way.
+
 ## How it works
 
 The generator is a prompt you run in the AI chat of your editor (a command-line tool will
@@ -47,8 +77,8 @@ follow).
    The assistant first **scans your repository** (git host, languages, folders, existing
    specs) and **suggests an answer** for each setup question. You confirm or change each one.
 
-3. **The answers are saved** in `.specs/spec-nx.json`, and **your kit is written** to
-   `.specs/kit/` — only the stages you chose:
+3. **The answers are saved** in `.specs/spec-nx.json`, and **your kit is generated** into
+   `.specs/kit/` — only the stages you chose, adapted to your project by your AI model:
 
    ```
    your-project/
@@ -70,7 +100,7 @@ follow).
 
    then `PLAN:` on the new spec, and `PR:` when the work is done.
 
-5. **Update the kit** when spec-nx improves (better prompts, new LLMs):
+5. **Update the kit** when spec-nx improves, or when you use a newer AI model:
 
    ```
    git submodule update --remote .spec-nx
@@ -150,6 +180,7 @@ The generator starts with a short list of questions (more will be added):
 | Q1 | **Development method** — which stages do you use? | Partly (existing specs, pull-request history) |
 | Q2 | **Git host** — none, GitHub or Azure DevOps? | Yes (the `origin` remote) |
 | Q3 | **Your shell** — PowerShell 7 or bash? (per developer) | Yes (the operating system) |
+| Q4 | **Shared or personal kit** — one kit for the team, or one per contributor? | Partly (is `.specs/kit/` committed or ignored?) |
 
 All questions, options and the configuration files: [generator/questions.md](generator/questions.md).
 
