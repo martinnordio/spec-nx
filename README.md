@@ -242,7 +242,7 @@ is in progress:
 - [x] Git-host tools: keep the issue / backlog item and the pull request in sync with the spec ([stages/tools](stages/tools/README.md))
 - [x] Requirements stage (can update the issue on request) ([stages/requirements](stages/requirements/prompt.md))
 - [x] Plan stage ([stages/plan](stages/plan/prompt.md)), with the skills in [stages/skills](stages/skills/)
-- [ ] Pull-request stage (always updates the pull request and the issue)
+- [x] Pull-request stage (always updates the pull request and the issue) ([stages/pr](stages/pr/prompt.md))
 - [ ] Generator: `GENERATE KIT` and `GENERATE KIT --update`
 
 Later: a command-line tool, the implementation, documentation and review stages, and a first
