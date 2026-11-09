@@ -24,8 +24,12 @@ $number = (gh pr list --head $branch --state open --json number --jq '.[0].numbe
 if ($LASTEXITCODE -ne 0) { throw 'gh could not list pull requests.' }
 
 if ($number) {
-    $body = (gh pr view $number --json body -q .body | Out-String)
-    $new = Set-SpecSummary -Body $body.TrimEnd() -Summary $summary
+    $body = (gh pr view $number --json body -q .body | Out-String).TrimEnd()
+    # A pull request opened by hand may not close the issue yet.
+    if ($Issue -and $body -notmatch "(?i)\b(close[sd]?|fix(e[sd])?|resolve[sd]?) #$Issue\b") {
+        $body = ("Closes #$Issue`n`n" + $body).TrimEnd()
+    }
+    $new = Set-SpecSummary -Body $body -Summary $summary
     if ($DryRun) {
         Write-Output "Would update pull request #$($number) to:"
         Write-Output $new
