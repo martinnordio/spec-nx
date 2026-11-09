@@ -85,7 +85,7 @@ they are not saved.
 
 - GitHub: the GitHub CLI `gh`, logged in (`gh auth status`).
 - Azure DevOps: a personal access token in the environment variable `AZURE_DEVOPS_EXT_PAT`
-  (never written to a file).
+  (never written to a file); the bash scripts also need `curl` and `jq`.
 
 **Selects:** the tools for the host, `stages/tools/<git_host>/` → `.specs/kit/tools/`, in
 every shell listed in the project's `shells` (see Q3), when `pr` is in `stages` or
@@ -126,7 +126,7 @@ computer.
 
 | Option | `shell` |
 |--------|---------|
-| PowerShell 7 (`pwsh`, Windows, also macOS / Linux) | `"powershell"` |
+| PowerShell (Windows PowerShell 5.1 or PowerShell 7; Windows, also macOS / Linux) | `"powershell"` |
 | bash or zsh (macOS, Linux, Git Bash on Windows) | `"bash"` |
 
 **Suggest from the computer:** Windows → `"powershell"`; macOS or Linux → `"bash"`.
