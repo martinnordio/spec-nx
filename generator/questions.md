@@ -18,6 +18,7 @@ questions whose key is missing (questions added to spec-nx later):
 | Q2 | Git host — where is the repository? | project | `git_host` | from the `origin` remote |
 | Q2b | Keep each spec in sync with an issue / backlog item? | project | `link_issues` | `true` if there is a git host |
 | Q3 | Which shell do you run the kit's scripts in? | developer | `shell` | from the operating system |
+| Q4 | Share the kit with the team, or keep it personal? | project | `kit` | `"shared"` |
 
 New questions get the next number and their own key; existing keys never change meaning.
 
@@ -140,6 +141,22 @@ computer.
 
 ---
 
+## Q4 · Shared or personal kit
+
+**Ask:** *Should the whole team use one kit, or should each contributor generate their own?*
+
+| Option | `kit` | Effect |
+|--------|-------|--------|
+| Shared | `"shared"` | `.specs/kit/` is committed; Q1 (stages) is a project answer; everyone uses the same kit |
+| Personal | `"personal"` | `.specs/kit/` is added to `.gitignore`; Q1 becomes a developer answer, so each contributor picks the stages for their role and generates the kit with their own AI model |
+
+**Suggest from the repository:** `"shared"` if `.specs/kit/` is already committed;
+`"personal"` if it is in `.gitignore`; otherwise the default.
+
+Either way the specs in `.specs/features/` and the project settings are shared.
+
+---
+
 ## `.specs/spec-nx.json` (project)
 
 Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the project.
@@ -152,7 +169,9 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
   "stages": ["requirements", "plan", "pr"],
   "git_host": "github",
   "link_issues": true,
-  "shells": ["powershell", "bash"]
+  "shells": ["powershell", "bash"],
+  "kit": "shared",
+  "model": "<AI model that generated the kit>"
 }
 ```
 
@@ -161,10 +180,12 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `version` | Format of this file (1). |
 | `spec_nx_version` | spec-nx commit (short hash) or tag the kit was generated from. |
 | `generated` | Date of the last `GENERATE KIT` or `--update`. |
-| `stages` | Answer to Q1. |
+| `stages` | Answer to Q1 (only when `kit` is `"shared"`). |
 | `git_host` | Answer to Q2. |
 | `link_issues` | Answer to Q2b. |
 | `shells` | Shells the kit's scripts are generated for: every developer's Q3 answer. |
+| `kit` | Answer to Q4. |
+| `model` | AI model that generated the shared kit (only when `kit` is `"shared"`). |
 
 ## `.specs/spec-nx.local.json` (developer)
 
@@ -181,3 +202,5 @@ Written by `GENERATE KIT` on each developer's computer; never committed.
 |-----|---------|
 | `version` | Format of this file (1). |
 | `shell` | Answer to Q3. |
+| `stages` | Answer to Q1 (only when the project's `kit` is `"personal"`). |
+| `model` | AI model that generated your personal kit (only when `kit` is `"personal"`). |

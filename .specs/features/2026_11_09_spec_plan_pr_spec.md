@@ -72,18 +72,24 @@ and the first example kit come in later specs.
   the pr stage always.
 - **S11 — Generate a kit:** in a project, one prompt command (`GENERATE KIT`) scans the
   repository, suggests an answer for each setup question, asks the user to confirm or change
-  each one, saves the answers in `.specs/spec-nx.json`, and writes the kit for the chosen
-  stages into `.specs/kit/` (stage prompts, spec template, git-host tools). It creates
+  each one, saves the answers in `.specs/spec-nx.json`, and generates the kit for the chosen
+  stages into `.specs/kit/`: the user's AI model takes spec-nx's stage prompts, spec template
+  and git-host tools as the starting point and adapts them to the project, keeping their
+  commands, file names and markers; generated scripts pass a dry run. It creates
   `.specs/` and `.specs/features/` if they do not exist and never touches existing specs.
 - **S12 — Update a kit:** `GENERATE KIT --update` reads `.specs/spec-nx.json`, asks nothing
   (except questions added to spec-nx since the file was written), and regenerates
-  `.specs/kit/` from the current spec-nx; the configuration records the spec-nx version it
-  was generated with.
+  `.specs/kit/` from the current spec-nx with the current AI model; the configuration records
+  the spec-nx version and the model it was generated with.
 - **S13 — Project and developer settings:** answers about how the team works (stages, git
   host, issues) are saved for the project in `.specs/spec-nx.json` (committed); answers about
   how one developer works (Q3: shell — PowerShell 7 or bash, suggested from the operating
   system) are saved in `.specs/spec-nx.local.json` (ignored by git). The kit contains the
   git-host scripts for every shell used in the team, so it works on Windows, macOS and Linux.
+- **S14 — Shared or personal kit:** a project answer (Q4) decides whether `.specs/kit/` is
+  committed and shared by the team, or ignored by git so that each contributor generates their
+  own kit with their own stages (Q1 becomes a developer answer) and AI model; the specs in
+  `.specs/features/` are shared either way.
 
 ### Open questions
 
@@ -129,6 +135,7 @@ PowerShell 7 and bash, chosen per developer (Q3, S13).
 | D7 | In a project, everything spec-nx writes lives in `.specs/`: `spec-nx.json` (answers + spec-nx version), `kit/` (generated, replaced on update), `features/` (the project's specs, never overwritten) | One folder to find, review and commit; updating the kit cannot touch specs |
 | D8 | The stage prompt (the AI assistant) builds the summary text from the spec; the git-host scripts only put that text into the `spec-summary` block of an issue or pull request | Scripts stay tiny, so writing each in PowerShell 7 and bash is cheap |
 | D9 | spec-nx's own repository is built and tested with PowerShell 7 (the author's shell); the bash scripts are tested in `testing/` with Git Bash | What the author uses is separate from what the kit offers (S13) |
+| D10 | spec-nx's `stages/` are the **reference building blocks**; a generated kit is the user's model's adaptation of them. The contract every kit keeps: the commands, the spec template's parts and marker, the `spec-summary` markers, the configuration keys. Scripts are checked with a dry run | A newer model gives a better kit without a new spec-nx release, and the contract keeps kits compatible with updates |
 
 ---
 
@@ -261,9 +268,10 @@ and `GENERATE KIT --update` regenerates the kit without asking again (S11, S12).
 
 ### Tasks
 - [ ] Record the start time in Notes below.
-- [ ] `generator/prompt.md`: `GENERATE KIT` — scan the repository (git remote, languages, folders, existing `.specs/`), suggest answers to the questions of `generator/questions.md`, ask the user to confirm each, write `.specs/spec-nx.json`, write `.specs/kit/` (chosen stage prompts, spec template, git-host tools), create `.specs/features/` if missing.
-- [ ] `GENERATE KIT --update`: read the configuration; ask only questions it does not contain; replace `.specs/kit/`; update the recorded spec-nx version; never touch `.specs/features/`.
+- [ ] `generator/prompt.md`: `GENERATE KIT` — scan the repository (git remote, languages, folders, existing `.specs/`), suggest answers to the questions of `generator/questions.md`, ask the user to confirm each, write `.specs/spec-nx.json`, generate `.specs/kit/` by adapting the chosen stage prompts, spec template and git-host tools to the project (D10), dry-run the generated scripts, create `.specs/features/` if missing.
+- [ ] `GENERATE KIT --update`: read the configuration; ask only questions it does not contain; regenerate `.specs/kit/` with the current model; record the spec-nx version and the model; never touch `.specs/features/`.
 - [ ] Developer settings: ask Q3 on each computer, write `.specs/spec-nx.local.json`, add it to the project's `.gitignore`, add the shell to the project's `shells` (S13).
+- [ ] Shared or personal kit (Q4): with `"personal"`, add `.specs/kit/` to `.gitignore` and keep `stages` and `model` in the developer file (S14).
 - [ ] `generator/spec-nx.schema.json` (or a documented format in `questions.md`): `version`, `spec_nx_version`, `stages`, `git_host`, `link_issues`.
 - [ ] Try both commands in `testing/` on a throw-away project (GitHub remote, no `.specs/`); note the result.
 - [ ] Clean-content check (S8); commit "Step 6: generator (#1)"; push.
@@ -309,7 +317,7 @@ the spec (S9, S10).
 
 ## Definition of Done
 
-- [x] Requirements · Part 1 agreed (S1..S13 testable)
+- [x] Requirements · Part 1 agreed (S1..S14 testable)
 - [x] Plan · Part 2 written; every Step has a goal and tasks
 - [ ] Implementation · every Step's tasks checked
 - ~~Documentation · affected docs updated — N/A (the README is a task of Steps 0 and 7)~~
