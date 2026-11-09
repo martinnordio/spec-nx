@@ -1,16 +1,23 @@
 # Setup questions
 
 The generator (`GENERATE KIT`) asks these questions to decide which kit to write into a
-project. For each question it first **scans the repository** and **suggests** an answer; the
-user confirms or changes it. The answers are saved in `.specs/spec-nx.json` of the project, so
-`GENERATE KIT --update` never asks them again — only questions whose key is missing from the
-file (questions added to spec-nx later).
+project. For each question it first **scans the repository** (and, for developer questions,
+the computer) and **suggests** an answer; the user confirms or changes it.
 
-| # | Question | Key in `spec-nx.json` | Default |
-|---|----------|-----------------------|---------|
-| Q1 | Development method — which stages do you use? | `stages` | `["requirements", "plan", "pr"]` |
-| Q2 | Git host — where is the repository? | `git_host` | from the `origin` remote |
-| Q2b | Keep each spec in sync with an issue / backlog item? | `link_issues` | `true` if there is a git host |
+Answers are saved at two levels, so `GENERATE KIT --update` never asks them again — only
+questions whose key is missing (questions added to spec-nx later):
+
+| Level | File | Shared? | Holds |
+|-------|------|---------|-------|
+| **Project** | `.specs/spec-nx.json` | Committed; the same for the whole team | How the team works: stages, git host, issues, the shells the kit supports |
+| **Developer** | `.specs/spec-nx.local.json` | Ignored by git; one per developer | How *you* work: your shell |
+
+| # | Question | Level | Key | Default |
+|---|----------|-------|-----|---------|
+| Q1 | Development method — which stages do you use? | project | `stages` | `["requirements", "plan", "pr"]` |
+| Q2 | Git host — where is the repository? | project | `git_host` | from the `origin` remote |
+| Q2b | Keep each spec in sync with an issue / backlog item? | project | `link_issues` | `true` if there is a git host |
+| Q3 | Which shell do you run the kit's scripts in? | developer | `shell` | from the operating system |
 
 New questions get the next number and their own key; existing keys never change meaning.
 
@@ -79,9 +86,10 @@ they are not saved.
 - Azure DevOps: a personal access token in the environment variable `AZURE_DEVOPS_EXT_PAT`
   (never written to a file).
 
-**Selects:** the tools for the host, `stages/tools/<git_host>` → `.specs/kit/tools/`, when
-`pr` is in `stages` or `link_issues` is `true`. With `"none"`, the `pr` stage only explains
-the manual steps and no tools are copied.
+**Selects:** the tools for the host, `stages/tools/<git_host>/` → `.specs/kit/tools/`, in
+every shell listed in the project's `shells` (see Q3), when `pr` is in `stages` or
+`link_issues` is `true`. With `"none"`, the `pr` stage only explains the manual steps and no
+tools are copied.
 
 ---
 
@@ -108,7 +116,31 @@ its description kept in sync with the spec?*
 
 ---
 
-## `.specs/spec-nx.json`
+## Q3 · Your shell (developer)
+
+Asked when the kit has tools (a git host is set). Each developer answers it on their own
+computer.
+
+**Ask:** *Which shell do you run the kit's scripts in?*
+
+| Option | `shell` |
+|--------|---------|
+| PowerShell 7 (`pwsh`, Windows, also macOS / Linux) | `"powershell"` |
+| bash or zsh (macOS, Linux, Git Bash on Windows) | `"bash"` |
+
+**Suggest from the computer:** Windows → `"powershell"`; macOS or Linux → `"bash"`.
+
+**Effect**
+
+- Saved in `.specs/spec-nx.local.json` (developer level); the generator adds that file to the
+  project's `.gitignore`.
+- The answer is also added to the project's `shells` list (if not there yet), so the kit
+  contains the scripts for every shell the team uses. The stage prompts call the script for
+  the developer's own `shell`.
+
+---
+
+## `.specs/spec-nx.json` (project)
 
 Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the project.
 
@@ -119,7 +151,8 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
   "generated": "2026-11-09",
   "stages": ["requirements", "plan", "pr"],
   "git_host": "github",
-  "link_issues": true
+  "link_issues": true,
+  "shells": ["powershell", "bash"]
 }
 ```
 
@@ -131,3 +164,20 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `stages` | Answer to Q1. |
 | `git_host` | Answer to Q2. |
 | `link_issues` | Answer to Q2b. |
+| `shells` | Shells the kit's scripts are generated for: every developer's Q3 answer. |
+
+## `.specs/spec-nx.local.json` (developer)
+
+Written by `GENERATE KIT` on each developer's computer; never committed.
+
+```json
+{
+  "version": 1,
+  "shell": "bash"
+}
+```
+
+| Key | Meaning |
+|-----|---------|
+| `version` | Format of this file (1). |
+| `shell` | Answer to Q3. |
