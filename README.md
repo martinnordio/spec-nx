@@ -1,9 +1,12 @@
 # spec-nx
 
-**Spec-nx: a generator for spec kits — specify, plan and build step by step, and show your
-code is right.**
+**Software engineering for vibe coding.**
 
-For anyone who builds software: developers, students, scientists, and curious kids.
+spec-nx generates the spec kit your team needs to build software with AI the right way: clear
+requirements, a plan in small steps, and a pull request that shows the code does what was
+asked.
+
+For anyone who builds software with AI: developers, students, scientists, and curious kids.
 
 > 🚧 **Work in progress.** spec-nx is built in the open, one spec at a time, using itself.
 > See [Status](#status) for what works today.
@@ -12,18 +15,27 @@ For anyone who builds software: developers, students, scientists, and curious ki
 
 ## The idea
 
-Every team works a little differently. A product team may go all the way from requirements to
-a reviewed pull request; a data-science team may only need requirements, a plan and a pull
-request; someone else may only write requirements.
+Vibe coding — describing what you want and letting an AI write the code — is fast. Without
+some discipline it also loses things: nobody wrote down what was wanted, the AI rebuilds what
+already exists, changes get too big to review, and later nobody knows why the code is the way
+it is.
 
-**spec-nx does not give everybody the same kit. It generates the kit you need.**
+spec-nx keeps the speed and adds the engineering:
 
-1. Add spec-nx to your project (as a git submodule, or copy it in as a component).
-2. Answer a few **setup questions** — or let spec-nx read the answers from your repository
-   (languages, folders, git host, existing specs).
-3. An AI assistant (Copilot or Claude in your editor, or a command-line LLM) generates **your
-   spec kit**: the prompts, templates and scripts for exactly the stages you chose.
-4. Use the kit: write a spec, plan it, build it, open the pull request.
+1. **Requirements first.** A short spec says *what* is wanted, as testable statements, checked
+   against what is already in the repository.
+2. **A plan in small steps.** Once the requirements are agreed, the work is cut into steps
+   small enough to review.
+3. **Evidence.** The issue, the spec and the pull request stay in sync, so anyone can see which
+   requirements a change meets — and why.
+
+The spec lives in the repository next to the code, so people and the AI work from the same
+source.
+
+There is no single right process: a product team, a data-science team and a student need
+different things, and so do different roles in one team. So spec-nx does not hand everyone
+the same kit — it **generates the kit you need**, adapted to your project by your own AI
+model, and regenerates it as models improve.
 
 ## Why spec-nx
 
@@ -211,7 +223,7 @@ is in progress:
 - [x] This README and the repository layout
 - [x] The spec template in two parts
 - [x] Setup questions Q1 and Q2 ([generator/questions.md](generator/questions.md))
-- [ ] Git-host tools: keep the issue / backlog item and the pull request in sync with the spec
+- [x] Git-host tools: keep the issue / backlog item and the pull request in sync with the spec ([stages/tools](stages/tools/README.md))
 - [ ] Requirements stage (can update the issue on request)
 - [ ] Plan stage
 - [ ] Pull-request stage (always updates the pull request and the issue)

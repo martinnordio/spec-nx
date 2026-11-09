@@ -1,7 +1,7 @@
 # Requirements → Plan → PR Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress — Steps 0–1 done
+> **Status:** 🔄 In progress — Steps 0–2 done
 > **Created:** 2026-11-09
 > **Last updated:** 2026-11-09
 > **Branch:** `feature/spec-plan-pr` (all Steps; one pull request at the end)
@@ -32,7 +32,8 @@ and the first example kit come in later specs.
 
 ## 1 · Specs
 
-- **S1 — The idea is written down:** the README explains the generator, the stages, the
+- **S1 — The idea is written down:** the README explains the goal (software engineering for
+  vibe coding: requirements first, small steps, evidence), the generator, the stages, the
   setup questions, "requirements first, then the plan", the git-host connection, how to add
   spec-nx to a project and what works today.
 - **S2 — One spec file, two parts:** the spec template has Part 1 · Requirements and
@@ -108,7 +109,7 @@ PowerShell 7 and bash, chosen per developer (Q3, S13).
 |------|-------------|--------|--------|
 | **0** | Bootstrap: layout, README, template, testing README, this spec | ✅ Done | [→ Step 0](#step-0--bootstrap) |
 | **1** | Setup questions Q1, Q2 | ✅ Done | [→ Step 1](#step-1--setup-questions) |
-| **2** | Git-host tools: update issue / backlog item and pull request (GitHub, Azure DevOps) | ⬜ Not started | [→ Step 2](#step-2--git-host-tools) |
+| **2** | Git-host tools: update issue / backlog item and pull request (GitHub, Azure DevOps) | ✅ Done | [→ Step 2](#step-2--git-host-tools) |
 | **3** | Requirements stage (+ optional issue update) | ⬜ Not started | [→ Step 3](#step-3--requirements-stage) |
 | **4** | Plan stage | ⬜ Not started | [→ Step 4](#step-4--plan-stage) |
 | **5** | Pull-request stage (pull request + issue, always) | ⬜ Not started | [→ Step 5](#step-5--pull-request-stage) |
@@ -134,7 +135,7 @@ PowerShell 7 and bash, chosen per developer (Q3, S13).
 | D6 | Git-host scripts live in `stages/tools/`, shared by the stages and selected by Q2 — not inside `stages/pr/` | A kit with only the requirements stage also needs the issue update |
 | D7 | In a project, everything spec-nx writes lives in `.specs/`: `spec-nx.json` (answers + spec-nx version), `kit/` (generated, replaced on update), `features/` (the project's specs, never overwritten) | One folder to find, review and commit; updating the kit cannot touch specs |
 | D8 | The stage prompt (the AI assistant) builds the summary text from the spec; the git-host scripts only put that text into the `spec-summary` block of an issue or pull request | Scripts stay tiny, so writing each in PowerShell 7 and bash is cheap |
-| D9 | spec-nx's own repository is built and tested with PowerShell 7 (the author's shell); the bash scripts are tested in `testing/` with Git Bash | What the author uses is separate from what the kit offers (S13) |
+| D9 | spec-nx's own repository is built and tested in Windows PowerShell 5.1 (the author's shell; the scripts also run in PowerShell 7); the bash scripts are tested in `testing/` with Git Bash | What the author uses is separate from what the kit offers (S13) |
 | D10 | spec-nx's `stages/` are the **reference building blocks**; a generated kit is the user's model's adaptation of them. The contract every kit keeps: the commands, the spec template's parts and marker, the `spec-summary` markers, the configuration keys. Scripts are checked with a dry run | A newer model gives a better kit without a new spec-nx release, and the contract keeps kits compatible with updates |
 
 ---
@@ -200,14 +201,33 @@ For each git host, a PowerShell 7 and a bash script put a given summary text int
 `spec-summary` block of an issue / backlog item and of a pull request (S6, S10, S13).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] Format of the summary block (title, S1…Sn, Steps with status, link to the spec) — written down for the stage prompts that build it (D8).
-- [ ] `stages/tools/github/`: `update_issue` and `update_pr` in `.ps1` and `.sh`, using `gh`: replace only the block (add it at the end if missing); `update_pr` finds or creates the pull request of the current branch (draft allowed); `--dry-run` prints the new description.
-- [ ] `stages/tools/azure_devops/`: the same in `.ps1` and `.sh`, using the REST API with `AZURE_DEVOPS_EXT_PAT`.
-- [ ] Dry run against issue #1 with both shells (nothing changed on GitHub).
-- [ ] Clean-content check (S8); commit "Step 2: git-host tools (#1)"; push.
+- [x] Record the start time in Notes below.
+- [x] Format of the summary block (title, S1…Sn, Steps with status, link to the spec) — written down for the stage prompts that build it (D8).
+- [x] `stages/tools/github/`: `update_issue` and `update_pr` in `.ps1` and `.sh`, using `gh`: replace only the block (add it at the end if missing); `update_pr` finds or creates the pull request of the current branch (draft allowed); `--dry-run` prints the new description.
+- [x] `stages/tools/azure_devops/`: the same in `.ps1` and `.sh`, using the REST API with `AZURE_DEVOPS_EXT_PAT`.
+- [x] Dry run against issue #1 with both shells (nothing changed on GitHub).
+- [x] Clean-content check (S8); commit "Step 2: git-host tools (#1)"; push.
 
 ### Notes
+Started: 2026-11-09.
+
+- Files: `stages/tools/README.md` (what each script does, needs, the summary format),
+  `spec_summary.ps1` / `.sh` (shared: put a text between the markers), `github/` and
+  `azure_devops/` with `update_issue` and `update_pr` in both shells; `azure_devops/ado.ps1` /
+  `.sh` read organisation, project and repository from the remote.
+- PowerShell scripts run in **Windows PowerShell 5.1** as well as PowerShell 7 (the author's
+  computer has only 5.1). Bash scripts tested with Git Bash; `.gitattributes` keeps `*.sh` in
+  LF and they are committed executable.
+- Checked: block replacement (empty body, no markers, existing block, idempotent) in both
+  shells; `update_issue` and `update_pr` dry runs against issue #1 and this branch in both
+  shells (would create a draft pull request with `Closes #1`); all `.ps1` parse, all `.sh` pass
+  `bash -n`; Azure DevOps remote parsing with a made-up URL.
+- **Not yet run against Azure DevOps** (no Azure DevOps project to test with); the scripts
+  follow the REST API (work item description stored as Markdown; pull request description
+  limit 4000 characters checked). To try when an Azure DevOps project is available.
+- Azure DevOps bash scripts need `curl` and `jq`; the GitHub ones only `gh`.
+
+**Done (2026-11-09 · ~1h30)** — git-host tools for GitHub and Azure DevOps in PowerShell and bash; dry runs on issue #1 and this branch in both shells.
 
 ---
 
