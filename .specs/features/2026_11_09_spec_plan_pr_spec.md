@@ -1,7 +1,7 @@
 # Requirements → Plan → PR Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress — Steps 0–4 done
+> **Status:** 🔄 In progress — Steps 0–5 done
 > **Created:** 2026-11-09
 > **Last updated:** 2026-11-09
 > **Branch:** `feature/spec-plan-pr` (all Steps; one pull request at the end)
@@ -112,7 +112,7 @@ PowerShell 7 and bash, chosen per developer (Q3, S13).
 | **2** | Git-host tools: update issue / backlog item and pull request (GitHub, Azure DevOps) | ✅ Done | [→ Step 2](#step-2--git-host-tools) |
 | **3** | Requirements stage (+ optional issue update) | ✅ Done | [→ Step 3](#step-3--requirements-stage) |
 | **4** | Plan stage | ✅ Done | [→ Step 4](#step-4--plan-stage) |
-| **5** | Pull-request stage (pull request + issue, always) | ⬜ Not started | [→ Step 5](#step-5--pull-request-stage) |
+| **5** | Pull-request stage (pull request + issue, always) | ✅ Done | [→ Step 5](#step-5--pull-request-stage) |
 | **6** | Generator: `GENERATE KIT` (scan, suggest, ask, configuration, kit) and `--update` | ⬜ Not started | [→ Step 6](#step-6--generator) |
 | **7** | Use it on this spec, close it, update issue #1 and the pull request | ⬜ Not started | [→ Step 7](#step-7--use-it-on-this-spec-and-close-it) |
 
@@ -315,12 +315,28 @@ The branch is pushed and the pull request and the issue / backlog item show the 
 summary (S6, S10).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/pr/prompt.md`: command `PR: <spec file>` (and `--dry-run`): push the branch; open or update the pull request; **always** update the linked issue / backlog item; both via the git-host tools.
-- [ ] Open this branch's pull request as a **draft** with the stage (`Closes #1` in the description); check the dry run for issue #1.
-- [ ] Clean-content check (S8); commit "Step 5: pull-request stage (#1)"; push.
+- [x] Record the start time in Notes below.
+- [x] `stages/pr/prompt.md`: command `PR: <spec file>` (and `--dry-run`): push the branch; open or update the pull request; **always** update the linked issue / backlog item; both via the git-host tools.
+- [x] Open this branch's pull request as a **draft** with the stage (`Closes #1` in the description); check the dry run for issue #1.
+- [x] Clean-content check (S8); commit "Step 5: pull-request stage (#1)"; push.
 
 ### Notes
+Started: 2026-11-09.
+
+- `PR: <spec file>`: checks the branch matches the spec header and nothing is uncommitted;
+  finds host and shell; builds the full summary (statements + Plan table) in the format of
+  `stages/tools/README.md`; title `<spec title> (#<issue>)`; draft while the spec is open; dry
+  run of both the pull request and the issue, then push and the real updates after
+  confirmation; marks ready only when asked; never merges. No skill needed (mechanical).
+- Run on this spec: summary of S1–S14 and Steps 0–7 (2216 characters, under the Azure DevOps
+  limit). Dry runs: "would create a draft pull request 'Requirements → Plan → PR (#1)' from
+  `feature/spec-plan-pr` with `Closes #1`"; issue #1 keeps its hand-written text with the
+  summary added below. The real draft pull request and issue update are made by the author
+  right after this commit (the author runs git and GitHub writes).
+- When a script is started as a separate `powershell -File` process, the console may show
+  `→` or `·` garbled; the text sent to GitHub is UTF-8 and correct (checked in the same session).
+
+**Done (2026-11-09 · ~40m)** — pr stage prompt; dry runs of the draft pull request and issue #1 with this spec's summary.
 
 ---
 
