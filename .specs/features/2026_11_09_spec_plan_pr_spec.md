@@ -1,7 +1,7 @@
 # Requirements → Plan → PR Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress — Steps 0–5 done
+> **Status:** 🔄 In progress — Steps 0–6 done
 > **Created:** 2026-11-09
 > **Last updated:** 2026-11-09
 > **Branch:** `feature/spec-plan-pr` (all Steps; one pull request at the end)
@@ -113,7 +113,7 @@ PowerShell 7 and bash, chosen per developer (Q3, S13).
 | **3** | Requirements stage (+ optional issue update) | ✅ Done | [→ Step 3](#step-3--requirements-stage) |
 | **4** | Plan stage | ✅ Done | [→ Step 4](#step-4--plan-stage) |
 | **5** | Pull-request stage (pull request + issue, always) | ✅ Done | [→ Step 5](#step-5--pull-request-stage) |
-| **6** | Generator: `GENERATE KIT` (scan, suggest, ask, configuration, kit) and `--update` | ⬜ Not started | [→ Step 6](#step-6--generator) |
+| **6** | Generator: `GENERATE KIT` (scan, suggest, ask, configuration, kit) and `--update` | ✅ Done | [→ Step 6](#step-6--generator) |
 | **7** | Use it on this spec, close it, update issue #1 and the pull request | ⬜ Not started | [→ Step 7](#step-7--use-it-on-this-spec-and-close-it) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
@@ -347,16 +347,45 @@ In a project, `GENERATE KIT` creates `.specs/spec-nx.json` and `.specs/kit/` fro
 and `GENERATE KIT --update` regenerates the kit without asking again (S11, S12).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `generator/prompt.md`: `GENERATE KIT` — scan the repository (git remote, languages, folders, existing `.specs/`), suggest answers to the questions of `generator/questions.md`, ask the user to confirm each, write `.specs/spec-nx.json`, generate `.specs/kit/` by adapting the chosen stage prompts, spec template and git-host tools to the project (D10), dry-run the generated scripts, create `.specs/features/` if missing.
-- [ ] `GENERATE KIT --update`: read the configuration; ask only questions it does not contain; regenerate `.specs/kit/` with the current model; record the spec-nx version and the model; never touch `.specs/features/`.
-- [ ] Developer settings: ask Q3 on each computer, write `.specs/spec-nx.local.json`, add it to the project's `.gitignore`, add the shell to the project's `shells` (S13).
-- [ ] Shared or personal kit (Q4): with `"personal"`, add `.specs/kit/` to `.gitignore` and keep `stages` and `model` in the developer file (S14).
-- [ ] `generator/spec-nx.schema.json` (or a documented format in `questions.md`): `version`, `spec_nx_version`, `stages`, `git_host`, `link_issues`.
-- [ ] Try both commands in `testing/` on a throw-away project (GitHub remote, no `.specs/`); note the result.
-- [ ] Clean-content check (S8); commit "Step 6: generator (#1)"; push.
+- [x] Record the start time in Notes below.
+- [x] `generator/prompt.md`: `GENERATE KIT` — scan the repository (git remote, languages, folders, existing `.specs/`), suggest answers to the questions of `generator/questions.md`, ask the user to confirm each, write `.specs/spec-nx.json`, generate `.specs/kit/` by adapting the chosen stage prompts, spec template and git-host tools to the project (D10), dry-run the generated scripts, create `.specs/features/` if missing.
+- [x] `GENERATE KIT --update`: read the configuration; ask only questions it does not contain; regenerate `.specs/kit/` with the current model; record the spec-nx version and the model; never touch `.specs/features/`.
+- [x] Developer settings: ask Q3 on each computer, write `.specs/spec-nx.local.json`, add it to the project's `.gitignore`, add the shell to the project's `shells` (S13).
+- [x] Shared or personal kit (Q4): with `"personal"`, add `.specs/kit/` to `.gitignore` and keep `stages` and `model` in the developer file (S14).
+- [x] `generator/spec-nx.schema.json` (or a documented format in `questions.md`): `version`, `spec_nx_version`, `stages`, `git_host`, `link_issues`.
+- [x] Try both commands in `testing/` on a throw-away project (GitHub remote, no `.specs/`); note the result.
+- [x] Clean-content check (S8); commit "Step 6: generator (#1)"; push.
 
 ### Notes
+Started: 2026-11-09.
+
+- `generator/prompt.md`: where spec-nx's building blocks are and what the generator writes in
+  the project; **the contract** every kit keeps (commands, spec file parts and marker, summary
+  markers, script names and parameters, kit layout, settings keys); `GENERATE KIT` in 8 steps
+  (read settings, scan, ask, save, generate and adapt, check, prepare `.specs/features/`,
+  report); `--update` (ask only missing keys and newly available stages; regenerate; report
+  the differences). Never touches `.specs/features/`, never commits.
+- The configuration format stays documented in `generator/questions.md`; no JSON schema file
+  for now (the generator is a prompt; a CLI can add one later).
+- Trial on `testing/todo-trial` (made-up GitHub remote, not pushed):
+  - Scan found GitHub, Windows, a Python command line without tests, one spec with Steps, no
+    pull-request template; suggestions requirements → plan → pr, GitHub, issues yes,
+    PowerShell, shared.
+  - Wrote both settings files and `.gitignore` (`.specs/spec-nx.local.json`); kit with the
+    3 stage prompts, 2 skills, the template and the GitHub PowerShell tools only (no bash, no
+    Azure DevOps). Adaptation: project files and `python -m unittest` in the prompts and
+    skills; host and shell fixed instead of detected; examples about tasks.
+  - Checks (`testing/check_kit.ps1`): every `../` path resolves, contract items present,
+    scripts parse, block replacement idempotent — ok.
+  - `--update` with a settings file missing `kit` (as if from an older spec-nx): asked only Q4,
+    kept all other answers, regenerated the kit (checks ok); the spec in `.specs/features/`
+    was byte-identical before and after. The update replayed the copy only; adaptation would
+    run again as in the first run.
+- Found during the trial: Windows PowerShell 5.1 misreads non-ASCII characters in `.ps1`
+  files without a byte-order mark. spec-nx's scripts are ASCII only (checked); the generator
+  now checks this for generated scripts too.
+
+**Done (2026-11-09 · ~1h15)** — generator prompt with `GENERATE KIT` and `--update`; trial: generate, adapt, check, update without asking again, specs untouched.
 
 ---
 

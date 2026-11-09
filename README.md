@@ -243,7 +243,7 @@ is in progress:
 - [x] Requirements stage (can update the issue on request) ([stages/requirements](stages/requirements/prompt.md))
 - [x] Plan stage ([stages/plan](stages/plan/prompt.md)), with the skills in [stages/skills](stages/skills/)
 - [x] Pull-request stage (always updates the pull request and the issue) ([stages/pr](stages/pr/prompt.md))
-- [ ] Generator: `GENERATE KIT` and `GENERATE KIT --update`
+- [x] Generator: `GENERATE KIT` and `GENERATE KIT --update` ([generator/prompt.md](generator/prompt.md))
 
 Later: a command-line tool, the implementation, documentation and review stages, and a first
 example kit.
