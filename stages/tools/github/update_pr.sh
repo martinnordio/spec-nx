@@ -25,7 +25,12 @@ summary="$(cat "$summary_file")"
 number="$(gh pr list --head "$branch" --state open --json number --jq '.[0].number')"
 
 if [[ -n "$number" ]]; then
-  new="$(set_spec_summary "$(gh pr view "$number" --json body -q .body)" "$summary")"
+  body="$(gh pr view "$number" --json body -q .body)"
+  # A pull request opened by hand may not close the issue yet.
+  if [[ -n "$issue" ]] && ! grep -Eiq "(close[sd]?|fix(e[sd])?|resolve[sd]?) #$issue([^0-9]|\$)" <<< "$body"; then
+    body="Closes #$issue"$'\n\n'"$body"
+  fi
+  new="$(set_spec_summary "$body" "$summary")"
   if [[ -n "$dry_run" ]]; then
     printf 'Would update pull request #%s to:\n%s\n' "$number" "$new"
     exit 0

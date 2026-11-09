@@ -233,8 +233,8 @@ spec-nx/
 
 ## Status
 
-The first feature, [requirements → plan → pr](.specs/features/2026_11_09_spec_plan_pr_spec.md),
-is in progress:
+The first feature, [requirements → plan → pr](.specs/features/done/2026_11_09_spec_plan_pr_spec.md),
+is complete (in review):
 
 - [x] This README and the repository layout
 - [x] The spec template in two parts

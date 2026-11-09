@@ -44,9 +44,10 @@ generated kit (`.specs/kit/pr/`).
    and bash on macOS / Linux. With no git host, explain how to open the pull request by hand
    and stop.
 
-3. **Build the summary** in the format of `../tools/README.md`: title, link to the spec on the
-   branch, status, the statements (one line each) and — if Part 2 has Steps — the Plan table
-   with each Step's status. Write it to a temporary file outside the repository.
+3. **Build the summary** in the format of `../tools/README.md`: title, link to the spec (on the
+   feature branch while it is open, on the default branch once it is closed), status, the
+   statements (one line each) and — if Part 2 has Steps — the Plan table with each Step's
+   status. Write it to a temporary file outside the repository.
 
 4. **Title and issue.**
    - Title of a new pull request: the spec title, followed by the issue reference if there is

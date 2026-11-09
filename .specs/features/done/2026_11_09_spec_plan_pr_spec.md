@@ -1,7 +1,7 @@
 # Requirements → Plan → PR Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress — Steps 0–6 done
+> **Status:** ✅ Complete — closed on `feature/spec-plan-pr`; pull request #2 in review
 > **Created:** 2026-11-09
 > **Last updated:** 2026-11-09
 > **Branch:** `feature/spec-plan-pr` (all Steps; one pull request at the end)
@@ -26,9 +26,9 @@ and the first example kit come in later specs.
 
 | Document | Purpose |
 |----------|---------|
-| [README.md](../../README.md) | The idea, stages, setup questions, layout, status |
-| [stages/spec_template.md](../../stages/spec_template.md) | The spec file template (Part 1 · Requirements, Part 2 · Plan) |
-| [.specs/README.md](../README.md) | Where spec-nx's own specs live and how they are named |
+| [README.md](../../../README.md) | The idea, stages, setup questions, layout, status |
+| [stages/spec_template.md](../../../stages/spec_template.md) | The spec file template (Part 1 · Requirements, Part 2 · Plan) |
+| [.specs/README.md](../../README.md) | Where spec-nx's own specs live and how they are named |
 
 ## 1 · Specs
 
@@ -114,7 +114,7 @@ PowerShell 7 and bash, chosen per developer (Q3, S13).
 | **4** | Plan stage | ✅ Done | [→ Step 4](#step-4--plan-stage) |
 | **5** | Pull-request stage (pull request + issue, always) | ✅ Done | [→ Step 5](#step-5--pull-request-stage) |
 | **6** | Generator: `GENERATE KIT` (scan, suggest, ask, configuration, kit) and `--update` | ✅ Done | [→ Step 6](#step-6--generator) |
-| **7** | Use it on this spec, close it, update issue #1 and the pull request | ⬜ Not started | [→ Step 7](#step-7--use-it-on-this-spec-and-close-it) |
+| **7** | Use it on this spec, close it, update issue #1 and the pull request | ✅ Done | [→ Step 7](#step-7--use-it-on-this-spec-and-close-it) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > tick its tasks `[x]`, set its row above to ✅ Done, and append a
@@ -396,13 +396,31 @@ spec-nx's first feature is delivered with its own stages; issue #1 and the pull 
 the spec (S9, S10).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] README Status updated.
-- [ ] Close the spec: move it to `.specs/features/done/`; fix links; tick the Definition of Done.
-- [ ] Clean-content check (S8); commit "Step 7: close the spec (#1)"; push.
-- [ ] `PR:` on this spec: pull request and issue #1 updated (the hand-written part of the issue is kept); mark the pull request ready; review; merge with a merge commit; delete the branch.
+- [x] Record the start time in Notes below.
+- [x] README Status updated.
+- [x] Close the spec: move it to `.specs/features/done/`; fix links; tick the Definition of Done.
+- [x] Clean-content check (S8); commit "Step 7: close the spec (#1)"; push.
+- [x] `PR:` on this spec: dry run of pull request #2 and issue #1 (the hand-written part of the issue is kept).
+- [ ] Author: real update of pull request #2 and issue #1; mark the pull request ready; review; merge with a merge commit; delete the branch.
 
 ### Notes
+Started: 2026-11-09.
+
+- Pull request #2 was opened by hand (title "Feature/spec plan pr", empty description, no
+  link to issue #1). Running the pr stage on it showed a gap: `update_pr` added
+  `Closes #<issue>` only when it *created* a pull request. Fixed in both shells: when
+  `-Issue` / `--issue` is given and the description has no closing reference to it
+  (`close(s|d)`, `fix(es|ed)`, `resolve(s|d)`), `Closes #<n>` is added at the top. Checked:
+  `Closes #1` and `fixes #1.` count as references; `Closes #12` and `see #1` do not.
+- Spec closed by hand (the closing prompt is deferred): moved to `.specs/features/done/`,
+  links one level deeper, README Status points to the closed spec.
+- The summary of a **closed** spec now links to the spec on the default branch, not the
+  feature branch (deleted after the merge, which would break the link in the issue for good):
+  `stages/tools/README.md` and the pr stage prompt say so.
+- Dry run with the final summary: pull request #2 would get `Closes #1` at the top and the
+  summary (all Steps ✅, link to `main`); issue #1 keeps its hand-written text, summary below.
+
+**Done (2026-11-09 · ~30m)** — spec closed; `update_pr` links existing pull requests to the issue; dry run of pull request #2 and issue #1 with the final summary. Merge by the author.
 
 ---
 
@@ -421,6 +439,8 @@ the spec (S9, S10).
 
 | Date | Reviewer | Scope | Outcome | Findings |
 |------|----------|-------|---------|----------|
+| 2026-11-09 | AI assistant (trials in `testing/`) | Each stage and the generator on a throw-away project; pr stage on this spec | Approve | F1: `update_pr` did not link a pull request opened by hand to its issue — fixed in Step 7 |
+| _2026-11-__ | Martin Nordio | Pull request #2 | _to fill in_ | |
 
 ---
 
@@ -428,17 +448,17 @@ the spec (S9, S10).
 
 - [x] Requirements · Part 1 agreed (S1..S14 testable)
 - [x] Plan · Part 2 written; every Step has a goal and tasks
-- [ ] Implementation · every Step's tasks checked
+- [x] Implementation · every Step's tasks checked (the merge is the author's, below)
 - ~~Documentation · affected docs updated — N/A (the README is a task of Steps 0 and 7)~~
-- [ ] Spec closed · moved to `.specs/features/done/`
-- [ ] Pull request · opened with the spec summary by the pr stage; reviewed; merged; branch deleted
+- [x] Spec closed · moved to `.specs/features/done/`
+- [ ] Pull request · opened with the spec summary by the pr stage; reviewed; merged; branch deleted — *pull request #2*
 
 ### Run guide
 
 All Steps on the branch `feature/spec-plan-pr`; one commit per Step, pushed as a backup:
 
 ```
-Load .specs/features/2026_11_09_spec_plan_pr_spec.md
+Load .specs/features/done/2026_11_09_spec_plan_pr_spec.md
 and stages/spec_template.md.
 
 DO STEP <N> — <goal from the Overview>
