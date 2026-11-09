@@ -25,6 +25,65 @@ request; someone else may only write requirements.
    spec kit**: the prompts, templates and scripts for exactly the stages you chose.
 4. Use the kit: write a spec, plan it, build it, open the pull request.
 
+## How it works
+
+The generator is a prompt you run in the AI chat of your editor (a command-line tool will
+follow).
+
+1. **Add spec-nx** to your project:
+
+   ```
+   git submodule add https://github.com/martinnordio/spec-nx .spec-nx
+   ```
+
+2. **Generate your kit.** In the AI chat:
+
+   ```
+   Load .spec-nx/generator/prompt.md.
+
+   GENERATE KIT
+   ```
+
+   The assistant first **scans your repository** (git host, languages, folders, existing
+   specs) and **suggests an answer** for each setup question. You confirm or change each one.
+
+3. **The answers are saved** in `.specs/spec-nx.json`, and **your kit is written** to
+   `.specs/kit/` — only the stages you chose:
+
+   ```
+   your-project/
+     .spec-nx/            spec-nx itself (submodule)
+     .specs/
+       spec-nx.json       your answers and the spec-nx version used
+       kit/               your generated kit: stage prompts, spec template, git-host tools
+       features/          your specs, yyyy_mm_dd_<name>_spec.md
+       features/done/     closed specs
+   ```
+
+4. **Use the kit**, stage by stage — for example:
+
+   ```
+   Load .specs/kit/requirements/prompt.md.
+   REQUIREMENTS: login page — users sign in with email and password
+   ```
+
+   then `PLAN:` on the new spec, and `PR:` when the work is done.
+
+5. **Update the kit** when spec-nx improves (better prompts, new LLMs):
+
+   ```
+   git submodule update --remote .spec-nx
+   ```
+
+   ```
+   Load .spec-nx/generator/prompt.md.
+
+   GENERATE KIT --update
+   ```
+
+   Your saved answers are reused, so nothing is asked again (only questions that are new in
+   spec-nx). `.specs/kit/` is regenerated; your specs in `.specs/features/` are never touched.
+
 ## Stages
 
 A kit is made of **stages**. You choose which ones you use (setup question Q1):
@@ -77,9 +136,10 @@ The generator starts with a short list of questions (more will be added):
 | Q1 | **Development method** — which stages do you use? | Partly (existing specs, pull-request history) |
 | Q2 | **Git host** — none, GitHub or Azure DevOps? | Yes (the `origin` remote) |
 
-If you connect a git host, the kit includes scripts that push the spec summary to the pull
-request; when the review stage is part of your kit, updating the review also updates the pull
-request.
+If you connect a git host, the kit includes scripts that keep the issue (GitHub) or backlog
+item (Azure DevOps) and the pull request in sync with the spec: the requirements stage can
+update the issue while you define it, and the pr stage always updates both. When the review
+stage is part of your kit, updating the review also updates the pull request.
 
 ## Repository layout
 
@@ -89,6 +149,7 @@ spec-nx/
   generator/         setup questions and the generator prompt
   stages/            the building blocks: one folder per stage (prompt, scripts)
     spec_template.md the spec file template, shared by the requirements and plan stages
+    tools/           git-host scripts (GitHub, Azure DevOps), shared by the stages
   examples/          generated kits, e.g. a "requirements → plan → pr" kit
   testing/           local trial runs (not pushed; see testing/README.md)
   .specs/            spec-nx's own specs — spec-nx is built with itself
@@ -101,12 +162,14 @@ is in progress:
 
 - [x] This README and the repository layout
 - [x] The spec template in two parts
-- [ ] Setup questions Q1 and Q2
-- [ ] Requirements stage
+- [x] Setup questions Q1 and Q2 ([generator/questions.md](generator/questions.md))
+- [ ] Git-host tools: keep the issue / backlog item and the pull request in sync with the spec
+- [ ] Requirements stage (can update the issue on request)
 - [ ] Plan stage
-- [ ] Pull-request stage (GitHub and Azure DevOps)
+- [ ] Pull-request stage (always updates the pull request and the issue)
+- [ ] Generator: `GENERATE KIT` and `GENERATE KIT --update`
 
-Later: the generator prompt, the implementation, documentation and review stages, and a first
+Later: a command-line tool, the implementation, documentation and review stages, and a first
 example kit.
 
 ## License
