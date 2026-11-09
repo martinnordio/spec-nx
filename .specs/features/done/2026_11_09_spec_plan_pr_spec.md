@@ -440,7 +440,7 @@ Started: 2026-11-09.
 | Date | Reviewer | Scope | Outcome | Findings |
 |------|----------|-------|---------|----------|
 | 2026-11-09 | AI assistant (trials in `testing/`) | Each stage and the generator on a throw-away project; pr stage on this spec | Approve | F1: `update_pr` did not link a pull request opened by hand to its issue — fixed in Step 7 |
-| _2026-11-__ | Martin Nordio | Pull request #2 | _to fill in_ | |
+| 2026-11-09 | Martin Nordio | Pull request #2 | Approve (merged) | — |
 
 ---
 
