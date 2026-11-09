@@ -54,7 +54,8 @@ follow).
    your-project/
      .spec-nx/            spec-nx itself (submodule)
      .specs/
-       spec-nx.json       your answers and the spec-nx version used
+       spec-nx.json       the team's answers and the spec-nx version used
+       spec-nx.local.json your own answers (not committed)
        kit/               your generated kit: stage prompts, spec template, git-host tools
        features/          your specs, yyyy_mm_dd_<name>_spec.md
        features/done/     closed specs
@@ -83,6 +84,19 @@ follow).
 
    Your saved answers are reused, so nothing is asked again (only questions that are new in
    spec-nx). `.specs/kit/` is regenerated; your specs in `.specs/features/` are never touched.
+
+### Project and developer settings
+
+Some answers are about **the team**, some about **you**:
+
+| | Project settings | Developer settings |
+|---|---|---|
+| File | `.specs/spec-nx.json` — committed, shared | `.specs/spec-nx.local.json` — not committed, one per developer |
+| Examples | stages, git host, issues | your shell: PowerShell 7 (Windows) or bash (macOS, Linux) |
+
+The kit contains its scripts for every shell your team uses, so a Windows developer and a
+macOS developer share the same kit. A new team member runs `GENERATE KIT` once: the project
+answers are already there, so only the developer questions are asked.
 
 ## Stages
 
@@ -135,6 +149,9 @@ The generator starts with a short list of questions (more will be added):
 |---|----------|----------------------------------|
 | Q1 | **Development method** — which stages do you use? | Partly (existing specs, pull-request history) |
 | Q2 | **Git host** — none, GitHub or Azure DevOps? | Yes (the `origin` remote) |
+| Q3 | **Your shell** — PowerShell 7 or bash? (per developer) | Yes (the operating system) |
+
+All questions, options and the configuration files: [generator/questions.md](generator/questions.md).
 
 If you connect a git host, the kit includes scripts that keep the issue (GitHub) or backlog
 item (Azure DevOps) and the pull request in sync with the spec: the requirements stage can
