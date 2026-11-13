@@ -13,7 +13,7 @@
 |------|-------|---------|-------|------|
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written from the migration plan (M1–M12) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written: one Step per M item |
-| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–3 done |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–4 done |
 
 ---
 
@@ -114,7 +114,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | **1** | Generator questions (M10) | ✅ Done | [→ Step 1](#step-1--generator-questions-m10) |
 | **2** | Implementation stage, developer skill, kit README (M1) | ✅ Done | [→ Step 2](#step-2--implementation-stage-m1) |
 | **3** | Guidelines (M2) | ✅ Done | [→ Step 3](#step-3--guidelines-m2) |
-| **4** | New project spec (M6) | ⬜ Not started | [→ Step 4](#step-4--new-project-spec-m6) |
+| **4** | New project spec (M6) | ✅ Done | [→ Step 4](#step-4--new-project-spec-m6) |
 | **5** | Company layer (M11) | ⬜ Not started | [→ Step 5](#step-5--company-layer-m11) |
 | **6** | Documentation stage (M3) | ⬜ Not started | [→ Step 6](#step-6--documentation-stage-m3) |
 | **7** | Review stage and semantic-diff block (M4) | ⬜ Not started | [→ Step 7](#step-7--review-stage-m4) |
@@ -237,13 +237,19 @@ its reference instead of copying it.
 Q0c and the project setup spec for any language (S6).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/setup/project_spec.md` (questions per language, Part 1 + Part 2 shape, Step 0 skeleton).
-- [ ] Q0c `project_spec` in the questions; generator writes the spec after the kit, never over an existing file.
-- [ ] Check: a read-through for Python only, TypeScript only and Python + Svelte gives a sensible spec.
+- [x] Record the start time in Notes below.
+- [x] `stages/setup/project_spec.md` (questions per language, Part 1 + Part 2 shape, Step 0 skeleton).
+- [x] Q0c `project_spec` in the questions; generator writes the spec after the kit, never over an existing file.
+- [x] Check: a read-through for Python only, TypeScript only and Python + Svelte gives a sensible spec.
 
 ### Notes
+Started: 2026-11-13 09:43
 
+**Done (2026-11-13 · ~3m · Claude Opus 5.5)** — building block for the project setup spec
+(kind of project, framework, package manager, tests, linter per language; S1–S4 run / test /
+check / install; one skeleton Step per part, then glue); Q0c and generator step 8. Read-through:
+Python only → one skeleton Step + glue; TypeScript web app → SvelteKit / React suggestion;
+Python + Svelte → server and UI Steps, then glue with a run script.
 ---
 
 ## Step 5 — Company layer (M11)
