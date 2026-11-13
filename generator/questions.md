@@ -428,6 +428,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `link_issues` | Answer to Q2b. |
 | `work_item_type` | Answer to Q2c (Azure DevOps only). |
 | `work_items` | Answer to Q2d (Azure DevOps only): `{ "org", "project" }` of the backlog items. |
+| `parent` | Optional, set by hand: the default parent (issue number / work item id) of `CREATE ISSUE`, used when neither the command nor the spec header names one. |
 | `shells` | Shells the kit's scripts are generated for: every developer's Q3 answer. |
 | `kit` | Answer to Q4. |
 | `kit_dir` | Answer to Q4b (missing = `".specs/kit"`). |

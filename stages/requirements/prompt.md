@@ -43,7 +43,7 @@ and in a generated kit (`.specs/kit/requirements/`).
 | `../skills/requirements_engineer.md` | Your role: how to think and what to avoid |
 | `../spec_template.md` | The spec template (Part 1 · Requirements, marker, Part 2 · Plan) |
 | `../tools/README.md` | The summary format and the git-host scripts |
-| `.specs/spec-nx.json` | Project settings: `git_host`, `link_issues`, `work_item_type`, `work_items` (if the project has them) |
+| `.specs/spec-nx.json` | Project settings: `git_host`, `link_issues`, `work_item_type`, `work_items`, `parent` (if the project has them) |
 | `.specs/spec-nx.local.json` | Developer settings: `shell` (if the project has it) |
 
 ---
@@ -138,8 +138,10 @@ and in a generated kit (`.specs/kit/requirements/`).
 
 1. **Check.** The header has no `Issue:` / `Backlog item:` (otherwise use `UPDATE ISSUE`).
    Find the git host and the shell as in `UPDATE ISSUE` steps 2–3; with no git host, stop.
-2. **Parent.** From the command (`parent <n>`), the header's `Parent:` line, or ask once:
-   *"Is there a parent? (number, or none)"*. GitHub: the new issue becomes a **sub-issue** of
+2. **Parent.** From the command (`parent <n>`), the header's `Parent:` line, the project's
+   default `parent` in `.specs/spec-nx.json`, or ask once:
+   *"Is there a parent? (number, or none)"*. The dry run names the parent — check it.
+   GitHub: the new issue becomes a **sub-issue** of
    the parent. Azure DevOps: the new backlog item gets the parent as its **Parent** link.
 3. **Title and type.** Title: the spec title without the trailing "Spec". Azure DevOps type:
    `work_item_type` from `.specs/spec-nx.json`, otherwise ask (Product Backlog Item, User
