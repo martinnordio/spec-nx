@@ -16,6 +16,7 @@ The questions are **asked in the order of this table**:
 
 | # | Question | Level | Key | Default |
 |---|----------|-------|-----|---------|
+| Q5 | Company layer — use one? (asked first: its defaults feed every suggestion) | project | `layer` | the layer found, or `null` |
 | Q0 | Project start — a new (empty) project or an existing one? | project | `project` | from the scan |
 | Q0b | Languages — which programming languages? | project | `languages` | from the scan |
 | Q0c | Write a project setup spec? (new projects only) | project | `project_spec` | yes |
@@ -27,6 +28,27 @@ The questions are **asked in the order of this table**:
 | Q4 | Share the kit with the team, or keep it personal? | project | `kit` | `"shared"` |
 
 New questions get the next number and their own key; existing keys never change meaning.
+
+---
+
+## Q5 · Company layer
+
+Asked first, but only when a layer is found or the user names one.
+
+**Ask:** *I found the layer `<name>` in `<path>`. Use its defaults and rules?*
+
+| Option | `layer` |
+|--------|---------|
+| Yes | the path of the layer folder, relative to the project root (e.g. `".my-kit/layer"`) |
+| No | `null` |
+
+**Suggest from the repository:** a folder with a `layer.json`, at most three levels deep,
+including submodules (for example `.my-kit/layer/`); ignore `.spec-nx/`, `node_modules/`
+and virtual environments. With none found, the question is not asked and `layer` is `null`.
+
+**Effect:** see [layer.md](layer.md) — `defaults.json` becomes the suggestion of every
+later question (the scan of the repository still wins), and the layer's blocks are added to
+the kit.
 
 ---
 
@@ -263,6 +285,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
   "version": 1,
   "spec_nx_version": "a1b2c3d",
   "generated": "2026-11-09",
+  "layer": null,
   "project": "existing",
   "languages": ["python", "typescript"],
   "stages": ["requirements", "plan", "implementation", "pr"],
@@ -280,6 +303,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `version` | Format of this file (1). |
 | `spec_nx_version` | spec-nx commit (short hash) or tag the kit was generated from. |
 | `generated` | Date of the last `GENERATE KIT` or `--update`. |
+| `layer` | Answer to Q5: path of the company layer, or `null`. |
 | `project` | Answer to Q0. |
 | `languages` | Answer to Q0b. |
 | `project_spec` | Answer to Q0c: the project setup spec's file name, or `false` (only when `project` is `"new"`). |
