@@ -1,8 +1,8 @@
 # Spec-Kit Migration Plan
 
 > **Author:** Martin Nordio
-> **Status:** 📝 Decisions agreed — all M items are built in one spec:
-> [2026_11_13_spec_kit_migration_spec.md](../features/2026_11_13_spec_kit_migration_spec.md)
+> **Status:** ✅ Done — all M items were built in one spec:
+> [2026_11_13_spec_kit_migration_spec.md](../features/done/2026_11_13_spec_kit_migration_spec.md)
 > **Created:** 2026-11-11
 > **Last updated:** 2026-11-13
 > **Source:** the original spec-kit — an earlier private kit, used as the git submodule `.spec-kit/`
@@ -41,7 +41,7 @@ old spec-kit keep their pinned submodule commit; there is no migration tool (D11
 Until phase 2 is done, new projects may use the old spec-kit prompts at their pinned commit.
 
 **2026-11-13:** phases 1 and 4 are built together in one spec,
-[2026_11_13_spec_kit_migration_spec.md](../features/2026_11_13_spec_kit_migration_spec.md), one
+[2026_11_13_spec_kit_migration_spec.md](../features/done/2026_11_13_spec_kit_migration_spec.md), one
 Step per M item and one pull request.
 
 ## Principles
@@ -170,17 +170,17 @@ In the order to build them (see Phases). **Status:** ⬜ Not created · 📝 Spe
 
 | # | Phase | Spec | Covers | Needs | Status |
 |---|-------|------|--------|-------|--------|
-| M10 | 1 | **generator questions** — Q0 project start, Q0b languages, Q1 Simple / Full / Custom | D6, D7, D9 | — | ⬜ Not created |
-| M1 | 1 | **implementation** — the implementation stage, developer skill, closing a spec, kit README | I1, I3, I16, I18, I22, I38 | M10 | ⬜ Not created |
-| M2 | 1 | **guidelines** — baseline guidelines, `GUIDELINES:` | I23–I25 | M10, M1 | ⬜ Not created |
-| M6 | 1 | **new project** — Q0c and the project setup spec for any language | I11, D8 | M10, M2 | ⬜ Not created |
-| M11 | 1 | **company layer** — `layer` key, `defaults.json`, extra blocks | D10 | M2, M6 | ⬜ Not created |
-| M3 | 4 | **documentation** — architecture, ADRs and project docs | I4, I5, I17, I31–I33 | M1 | ⬜ Not created |
-| M4 | 4 | **review** — semantic diff and code review | I6, I7, I19, I26, I27, I34, I36, I37, I42 | M1, M2 | ⬜ Not created |
-| M5 | 4 | **improvement** — hygiene sweep that writes an improvement spec | I8, I20 | M4 | ⬜ Not created |
-| M7 | 4 | **ui** — Looks contract, UI catalog, UI designer | I12, I13, I21, I28, I35 | M3, M11 | ⬜ Not created |
-| M9 | 4 | **agent permissions** — generate the AI agent's allow / ask / deny list | I41 | M11 | ⬜ Not created |
-| M12 | 4 | **setup tooling** — tooling and dev-machine setup specs | I9, I10 | M6 | ⬜ Not created |
+| M10 | 1 | **generator questions** — Q0 project start, Q0b languages, Q1 Simple / Full / Custom | D6, D7, D9 | — | ✅ Done (Step 1) |
+| M1 | 1 | **implementation** — the implementation stage, developer skill, closing a spec, kit README | I1, I3, I16, I18, I22, I38 | M10 | ✅ Done (Step 2) |
+| M2 | 1 | **guidelines** — baseline guidelines, `GUIDELINES:` | I23–I25 | M10, M1 | ✅ Done (Step 3) |
+| M6 | 1 | **new project** — Q0c and the project setup spec for any language | I11, D8 | M10, M2 | ✅ Done (Step 4) |
+| M11 | 1 | **company layer** — `layer` key, `defaults.json`, extra blocks | D10 | M2, M6 | ✅ Done (Step 5) |
+| M3 | 4 | **documentation** — architecture, ADRs and project docs | I4, I5, I17, I31–I33 | M1 | ✅ Done (Step 6) |
+| M4 | 4 | **review** — semantic diff and code review | I6, I7, I19, I26, I27, I34, I36, I37, I42 | M1, M2 | ✅ Done (Step 7; I37 deferred) |
+| M5 | 4 | **improvement** — hygiene sweep that writes an improvement spec | I8, I20 | M4 | ✅ Done (Step 8) |
+| M7 | 4 | **ui** — Looks contract, UI catalog, UI designer | I12, I13, I21, I28, I35 | M3, M11 | ✅ Done (Step 9) |
+| M9 | 4 | **agent permissions** — generate the AI agent's allow / ask / deny list | I41 | M11 | ✅ Done (Step 10) |
+| M12 | 4 | **setup tooling** — tooling and dev-machine setup specs | I9, I10 | M6 | ✅ Done (Step 11) |
 | ~~M8~~ | — | ~~**migrate**~~ — dropped 2026-11-13 (D11) | — | — | ~~Dropped~~ |
 
 ### M10 — generator questions
