@@ -1,0 +1,8 @@
+param(
+    [Parameter(Mandatory)] [string] $SummaryFile,
+    [string] $SemanticDiffFile,
+    [string] $Title,
+    [int] $Issue,
+    [switch] $Draft,
+    [switch] $DryRun
+)

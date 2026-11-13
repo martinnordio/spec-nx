@@ -1,0 +1,172 @@
+# yaml-language-server: $schema=../../../../stages/review/change_record.schema.json
+version: 1
+branch: feature/spec-kit-migration
+base: 3cae701
+why: |
+  spec-nx had three stages (requirements, plan, pr) and four setup questions, so a team could
+  not yet replace the original hand-written spec-kit with a generated kit. This branch brings
+  over everything the migration plan kept: implementation, documentation and review stages,
+  on-demand improvement, setup and ui stages, coding guidelines, a spec for new projects, a
+  private company layer and agent permissions — as building blocks, with no company content.
+spec:
+  path: .specs/features/done/2026_11_13_spec_kit_migration_spec.md
+  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16]
+changes:
+  - id: question-table
+    kind: config
+    change: modified
+    object: generator/questions.md — the setup questions and their asking order
+    note: Six new questions (Q0, Q0b, Q0c, Q1b, Q5, Q6); Q5 is asked first; old keys unchanged.
+    statements: [S1, S6, S7, S12, S14]
+    examples:
+      - name: table
+        input: |
+          the question table of generator/questions.md
+  - id: q1-workflow
+    kind: config
+    change: modified
+    object: Q1 options (key stages)
+    note: Simple / Full / Custom replace Full / Data science / Requirements only / Custom; the key keeps its meaning.
+    statements: [S1, S14]
+    examples:
+      - name: options
+        input: |
+          section "Q1" of generator/questions.md, up to its rules
+  - id: settings-file
+    kind: data-format
+    change: modified
+    object: .specs/spec-nx.json
+    note: New keys layer, project, languages, on_demand, agent; version stays 1.
+    statements: [S1, S7, S12, S14]
+    examples:
+      - name: spec-nx-json
+        input: |
+          the example of .specs/spec-nx.json in generator/questions.md
+  - id: kit-layout
+    kind: data-format
+    change: modified
+    object: .specs/kit/ — what GENERATE KIT writes
+    note: The kit now also gets README.md, guidelines/, and the other files of each stage folder.
+    statements: [S4, S5]
+    examples:
+      - name: generate-step-5
+        input: |
+          step 5 of GENERATE KIT in generator/prompt.md
+  - id: command-contract
+    kind: command
+    change: modified
+    object: the commands every kit keeps
+    note: Thirteen commands added; the four existing ones unchanged.
+    statements: [S2, S3, S5, S8, S9, S10, S11, S13, S14]
+    examples:
+      - name: contract
+        input: |
+          "The contract every kit keeps" in generator/prompt.md
+  - id: stage-implementation
+    kind: command
+    change: added
+    object: "IMPLEMENT: <spec file> [Step <n>], CLOSE: <spec file>"
+    statements: [S2, S3]
+    examples:
+      - name: commands
+        input: |
+          section "Commands" of stages/implementation/prompt.md
+  - id: stage-guidelines
+    kind: command
+    change: added
+    object: "GUIDELINES: <language>"
+    statements: [S5]
+    examples:
+      - name: commands
+        input: |
+          section "Command" of stages/guidelines/prompt.md
+  - id: stage-documentation
+    kind: command
+    change: added
+    object: "DOCS:, ARCHITECTURE, ADR:"
+    statements: [S8]
+    examples:
+      - name: commands
+        input: |
+          section "Commands" of stages/documentation/prompt.md
+  - id: stage-review
+    kind: command
+    change: added
+    object: "REVIEW:, CODE REVIEW:"
+    note: REVIEW writes .specs/changes/<name>/ — this folder was written by it.
+    statements: [S9]
+    examples:
+      - name: commands
+        input: |
+          section "Commands" of stages/review/prompt.md
+  - id: stage-improvement
+    kind: command
+    change: added
+    object: "IMPROVE: <scope> [--dry-run]"
+    statements: [S10]
+    examples:
+      - name: commands
+        input: |
+          section "Command" of stages/improvement/prompt.md
+  - id: stage-setup
+    kind: command
+    change: added
+    object: "SETUP TOOLING: <scope>, SETUP MACHINE"
+    statements: [S13]
+    examples:
+      - name: commands
+        input: |
+          section "Commands" of stages/setup/prompt.md
+  - id: stage-ui
+    kind: command
+    change: added
+    object: "LOOK: <app>, UI CATALOG"
+    statements: [S11]
+    examples:
+      - name: commands
+        input: |
+          section "Commands" of stages/ui/prompt.md
+  - id: update-pr-parameters
+    kind: command
+    change: modified
+    object: update_pr.ps1 / update_pr.sh (GitHub, Azure DevOps)
+    note: One optional parameter each; calls without it behave as before.
+    statements: [S9, S14]
+    examples:
+      - name: github-update-pr-ps1
+        input: |
+          param block of stages/tools/github/update_pr.ps1
+      - name: github-update-pr-sh
+        input: |
+          usage line of stages/tools/github/update_pr.sh
+      - name: azure-devops-update-pr-ps1
+        input: |
+          param block of stages/tools/azure_devops/update_pr.ps1
+      - name: azure-devops-update-pr-sh
+        input: |
+          usage line of stages/tools/azure_devops/update_pr.sh
+  - id: pr-description
+    kind: data-format
+    change: modified
+    object: pull-request description
+    note: A second marker block for the semantic diff after the spec summary; hand-written text kept.
+    statements: [S9, S14]
+    examples:
+      - name: with-semantic-diff
+        input: |
+          body "Hand text" + an old spec-summary block; Set-SpecSummary "NEW SUMMARY",
+          then (after only) Set-SemanticDiff "SEMANTIC DIFF"
+breaking: none — existing settings files, commands, markers and script calls keep working.
+review:
+  - question: Why one spec for twelve migration items instead of one spec each?
+    answer: |
+      The author wanted one review and one pull request; each item is one Step and one commit,
+      so the history still shows them separately (spec decision D1).
+  - question: Why does a company layer exist instead of company files in spec-nx?
+    answer: |
+      spec-nx is open source and must name no company (S15). The layer keeps a company's stack,
+      rules, Looks and permissions private, next to spec-nx, without a fork (S7).
+  - question: Can VS Code Copilot block git push like Claude Code?
+    answer: |
+      No. Its terminal setting can only require approval, so the kit's prompts keep the rule
+      "never commit or push" for every agent.

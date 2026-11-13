@@ -1,7 +1,7 @@
 # Spec-Kit Migration Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress
+> **Status:** ✅ Complete — closed on `feature/spec-kit-migration`; pull request not opened yet
 > **Created:** 2026-11-13
 > **Last updated:** 2026-11-13
 > **Branch:** `feature/spec-kit-migration` (all Steps; one pull request at the end)
@@ -13,7 +13,10 @@
 |------|-------|---------|-------|------|
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written from the migration plan (M1–M12) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written: one Step per M item |
-| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–11 done |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–12 done |
+| 2026-11-13 | review | `REVIEW:` | Claude Opus 5.5 | semantic diff written |
+| 2026-11-13 | review | `CODE REVIEW:` | Claude Opus 5.5 | Approve; 1 Should-fix, 3 Nits deferred |
+| 2026-11-13 | implementation | `CLOSE:` | Claude Opus 5.5 | spec closed |
 
 ---
 
@@ -21,17 +24,17 @@
 
 ## Context
 
-The [migration plan](../migrations/2026_11_11_spec_kit_migration.md) lists what of the original
+The [migration plan](../../migrations/2026_11_11_spec_kit_migration.md) lists what of the original
 spec-kit moves into spec-nx and cuts it into items M1–M12 (M8 dropped). This spec builds all of
 them, so a project can generate a complete kit — from an empty repository to a reviewed pull
 request — and company content stays in a private layer outside spec-nx.
 
 **Already in the repository:**
-- Stages `requirements`, `plan`, `pr` ([stages/](../../stages/)); skills `requirements_engineer`,
+- Stages `requirements`, `plan`, `pr` ([stages/](../../../stages/)); skills `requirements_engineer`,
   `architect`; the spec template with the Stage log; git-host tools for GitHub and Azure DevOps.
-- Generator with Q1–Q4 ([generator/questions.md](../../generator/questions.md),
-  [generator/prompt.md](../../generator/prompt.md)).
-- The first feature, [requirements → plan → pr](done/2026_11_09_spec_plan_pr_spec.md).
+- Generator with Q1–Q4 ([generator/questions.md](../../../generator/questions.md),
+  [generator/prompt.md](../../../generator/prompt.md)).
+- The first feature, [requirements → plan → pr](2026_11_09_spec_plan_pr_spec.md).
 
 **New:** stages `implementation`, `documentation`, `review`, and on demand `improvement`,
 `setup`, `ui`; guideline baselines; the new-project spec; the company layer; agent permissions;
@@ -106,6 +109,22 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 
 # Part 2 · Plan
 
+## Closing summary
+
+**Built:** spec-nx now has every stage of the method — requirements, plan, implementation,
+documentation, review, pr — and the on-demand stages improvement, setup and ui; coding
+guideline baselines for five languages; a project setup spec for empty repositories; a
+private company layer; and agent permissions. The generator asks Q5, Q0, Q0b, Q0c, Q1 (Simple /
+Full / Custom), Q1b, Q2–Q4 and Q6, and writes a kit README. The pull-request scripts publish the
+semantic diff in their own block.
+**Differs from the plan:** a new change kind `command` was added to the semantic diff (the
+objects of spec-nx are commands); `agent` became a list so a team can use both agents; the dark
+neutral Look's `primary` was darkened to meet contrast. Everything else as planned.
+**Files:** `generator/` (questions, prompt, `layer.md`); `stages/` (implementation,
+documentation, review, improvement, setup, ui, guidelines, agent, `kit_readme.md`, four new
+skills); `stages/tools/` (`spec_summary.*`, `update_pr.*`); `README.md`;
+`.specs/changes/done/spec-kit-migration/`.
+
 ## 2 · Spec Overview
 
 | Step | Description | Status | Detail |
@@ -122,7 +141,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | **9** | UI stage (M7) | ✅ Done | [→ Step 9](#step-9--ui-stage-m7) |
 | **10** | Agent permissions (M9) | ✅ Done | [→ Step 10](#step-10--agent-permissions-m9) |
 | **11** | Setup tooling (M12) | ✅ Done | [→ Step 11](#step-11--setup-tooling-m12) |
-| **12** | README, checks, semantic diff, close | ⬜ Not started | [→ Step 12](#step-12--readme-checks-semantic-diff-close) |
+| **12** | README, checks, semantic diff, close | ✅ Done | [→ Step 12](#step-12--readme-checks-semantic-diff-close) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
@@ -399,14 +418,23 @@ compares needs with what the computer has and plans only the missing installs. C
 The README tells the new story, everything passes the checks, this spec is reviewed with its own review stage and closed (S14, S15, S16).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] README: stages, questions, layout, company layer, status.
-- [ ] Checks of D7 on the whole repository; search for company names and local paths.
-- [ ] `REVIEW:` this spec → `.specs/changes/spec-kit-migration/`.
-- [ ] Close the spec; migration plan statuses; dry run of the pull request and the issue.
+- [x] Record the start time in Notes below.
+- [x] README: stages, questions, layout, company layer, status.
+- [x] Checks of D7 on the whole repository; search for company names and local paths.
+- [x] `REVIEW:` this spec → `.specs/changes/spec-kit-migration/`.
+- [x] Close the spec; migration plan statuses; dry run of the pull request and the issue.
 
 ### Notes
+Started: 2026-11-13 10:14
 
+**Done (2026-11-13 · ~6m · Claude Opus 5.5)** — README rewritten for the new stages,
+questions, layer and layout; checks: every `../` path in `stages/` resolves, 6 PowerShell files
+parse and are ASCII, 6 bash files pass `bash -n`, no company names, internal hosts or local
+paths; 4 template placeholder links fail the link check by design (finding 3). `REVIEW:` wrote
+the record (14 blocks, schema-valid after one fix), 17 Before | After pairs produced from
+`3cae701` and the head, the review page and the pull-request text; `CODE REVIEW:` approved
+with 1 Should-fix and 3 Nits (deferred). Spec closed; pull request and issue prepared as a dry
+run — nothing pushed.
 ---
 
 ## Deferred Items
@@ -416,6 +444,8 @@ The README tells the new story, everything passes the checks, this spec is revie
 | HTML review page and card images (`render_cards`) | Markdown first (D5) | a later review spec |
 | Command-line generator | Out of scope of the migration | later |
 | Example kits in `examples/` | After the stages settle | later |
+| Try `GENERATE KIT` end to end in `testing/`: an empty repository (Q0c) and an existing one, with and without a layer | Code review finding 2; prompts cannot run in this repository | before the first project switches |
+| Committed tests for the git-host scripts (block replacement, parameters) | Code review finding 1 (C7) | a later spec for script tests |
 
 ---
 
@@ -423,6 +453,17 @@ The README tells the new story, everything passes the checks, this spec is revie
 
 | Date | Reviewer | Scope | Outcome | Findings |
 |------|----------|-------|---------|----------|
+| 2026-11-13 | AI assistant (Claude Opus 5.5) | semantic diff | — | [review page](../../changes/done/spec-kit-migration/review.md); checks 4 pass · 4 n/a · 1 fail (C7) |
+| 2026-11-13 | AI assistant (Claude Opus 5.5) | diff | Approve | 0 Blocking · 1 Should-fix · 3 Nit (the same model wrote the code: a person should review too) |
+
+### Code review 2026-11-13
+
+| # | Finding | Layer | Class | Severity | Target |
+|---|---------|-------|-------|----------|--------|
+| 1 | C7: the changed scripts have no committed tests; the checks ran from the git-ignored `testing/` folder | scan | test | Nit | Deferred Items |
+| 2 | `GENERATE KIT` with the new questions was not run end to end in a scratch project | spec | test | Should-fix | Deferred Items |
+| 3 | Placeholder links in templates fail a link check by design | scan | docs | Nit | none |
+| 4 | Spec summary + semantic diff may exceed Azure DevOps' 4 000 characters | code | docs | Nit | none — the script stops with a clear message |
 
 ---
 
@@ -430,8 +471,8 @@ The README tells the new story, everything passes the checks, this spec is revie
 
 - [x] Requirements · Part 1 agreed (S1..S16 testable, open questions answered)
 - [x] Plan · Part 2 written; every Step has a goal and tasks
-- [ ] Implementation · every Step's tasks checked
-- [ ] Documentation · README and generator docs updated
-- [ ] Review · semantic diff written for this spec
-- [ ] Spec closed · moved to `.specs/features/done/`
+- [x] Implementation · every Step's tasks checked
+- [x] Documentation · README and generator docs updated
+- [x] Review · semantic diff written for this spec
+- [x] Spec closed · moved to `.specs/features/done/`
 - [ ] Pull request · opened with the spec summary; reviewed; merged; branch deleted

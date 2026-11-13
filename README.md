@@ -99,6 +99,7 @@ follow).
        spec-nx.json       the team's answers and the spec-nx version used
        spec-nx.local.json your own answers (not committed)
        kit/               your generated kit: stage prompts, spec template, git-host tools
+       guidelines/        your project's own coding rules (GUIDELINES:)
        features/          your specs, yyyy_mm_dd_<name>_spec.md
        features/done/     closed specs
    ```
@@ -110,7 +111,8 @@ follow).
    REQUIREMENTS: login page — users sign in with email and password
    ```
 
-   then `PLAN:` on the new spec, and `PR:` when the work is done.
+   then `PLAN:` on the new spec, `IMPLEMENT:` once per Step, and `PR:` when the work is done.
+   The kit's own `README.md` lists every command of your stages.
 
 5. **Update the kit** when spec-nx improves, or when you use a newer AI model:
 
@@ -144,20 +146,38 @@ answers are already there, so only the developer questions are asked.
 
 A kit is made of **stages**. You choose which ones you use (setup question Q1):
 
-| Stage | What it does | Output |
-|-------|--------------|--------|
-| **requirements** | Writes the requirements of a feature (S1, S2, …) after checking what already exists in the repository | Part 1 of the spec file |
-| **plan** | Turns agreed requirements into Steps with goals and tasks | Part 2 of the same spec file |
-| **implementation** | Does the Steps one by one, ticking tasks and recording when each is done | Code + updated spec |
-| **documentation** | Updates the documents the change affects | README, architecture, … |
-| **review** | Builds a *semantic diff*: Before/After of APIs, outputs and screens, linked to the requirements | Review page + images |
-| **pr** | Pushes the branch and opens or updates the pull request with a summary of the spec | Pull request on GitHub or Azure DevOps |
+| Stage | Commands | What it does | Output |
+|-------|----------|--------------|--------|
+| **requirements** | `REQUIREMENTS:`, `UPDATE ISSUE:` | Writes the requirements of a feature (S1, S2, …) after checking what already exists in the repository | Part 1 of the spec file |
+| **plan** | `PLAN:` | Turns agreed requirements into Steps with goals and tasks | Part 2 of the same spec file |
+| **implementation** | `IMPLEMENT:`, `CLOSE:` | Does the Steps one by one, ticking tasks and recording when each is done and with which model; closes the spec | Code + updated spec |
+| **documentation** | `DOCS:`, `ARCHITECTURE`, `ADR:` | Updates the documents the change affects; architecture and decision records | README, architecture, ADRs, … |
+| **review** | `REVIEW:`, `CODE REVIEW:` | Builds a *semantic diff*: Before / After of the commands, APIs, outputs and screens that changed, linked to the requirements; a layered code review | Review page + pull-request text; findings in the spec |
+| **pr** | `PR:` | Pushes the branch and opens or updates the pull request with a summary of the spec (and the semantic diff) | Pull request on GitHub or Azure DevOps |
 
-Examples:
+Workflows:
 
+- **Simple** (the default, e.g. for data science): requirements → plan → implementation → pr
 - **Full:** requirements → plan → implementation → documentation → review → pr
-- **Data science:** requirements → plan → pr
-- **Requirements only:** requirements
+- **Custom:** you answer yes / no for each stage.
+
+**On demand** (question Q1b), used now and then rather than for every feature:
+
+| Stage | Commands | What it does |
+|-------|----------|--------------|
+| **improvement** | `IMPROVE:` | A clean-up spec after some merges — never changes behaviour |
+| **setup** | `SETUP TOOLING:`, `SETUP MACHINE` | Specs that bring the tooling, or a developer's computer, up to date |
+| **ui** | `LOOK:`, `UI CATALOG` | Dark and light Looks from one style contract; a catalog of components and pages |
+
+Every kit also gets **coding guidelines** for the project's languages (Python, TypeScript,
+Svelte, PowerShell, bash) and the command `GUIDELINES:` that writes the project's own rules
+into `.specs/guidelines/`.
+
+### A new project
+
+In an empty repository the generator asks for your languages and offers a **project setup
+spec**: it asks the framework, package manager and test tools per language and writes a first
+spec whose Steps build a skeleton that runs, is checked and has one passing test.
 
 ### Prompts and skills
 
@@ -168,7 +188,11 @@ in a separate **skill**: a role the assistant takes on.
 | Skill | Thinks about | Used by |
 |-------|--------------|---------|
 | **Requirements engineer** | *What* is wanted: testable statements, what already exists, what is unclear | requirements, plan (to check Part 1) |
-| **Architect** | *How* to build it: the smallest change, small Steps, explicit decisions | plan |
+| **Architect** | *How* to build it: the smallest change, small Steps, explicit decisions, architecture, ADRs | plan, documentation |
+| **Developer** | Doing one Step well, with the project's checks | implementation |
+| **Reviewer** | Does the change do what the spec says, and is it sound? | review |
+| **Refactorer** | Clean-up without behaviour change | improvement |
+| **UI designer** | Consistent screens: Looks, conventions, catalog | ui |
 
 Keeping them apart means one role can serve several stages, a role can be improved without
 touching the commands, and the generator can adapt a role to your team (for example a
@@ -204,31 +228,47 @@ spec-nx uses the usual names of your git host; it adds no new ones.
 
 ## Setup questions
 
-The generator starts with a short list of questions (more will be added):
+The generator starts with a short list of questions:
 
 | # | Question | Can be read from the repository? |
 |---|----------|----------------------------------|
-| Q1 | **Development method** — which stages do you use? | Partly (existing specs, pull-request history) |
+| Q5 | **Company layer** — use your company's defaults and rules? (asked first, only if one is found) | Yes (a folder with `layer.json`) |
+| Q0 | **Project start** — a new, empty project or an existing one? | Yes (what files exist) |
+| Q0b | **Languages** — which programming languages? | Yes for an existing project |
+| Q0c | **Project setup spec** — write a first spec that sets up the project? (new projects) | — |
+| Q1 | **Workflow** — Simple, Full or Custom? | Partly (existing documents) |
+| Q1b | **On-demand stages** — improvement, setup, ui? | Partly (a UI framework, a new project) |
 | Q2 | **Git host** — none, GitHub or Azure DevOps? | Yes (the `origin` remote) |
-| Q3 | **Your shell** — PowerShell 7 or bash? (per developer) | Yes (the operating system) |
+| Q3 | **Your shell** — PowerShell or bash? (per developer) | Yes (the operating system) |
 | Q4 | **Shared or personal kit** — one kit for the team, or one per contributor? | Partly (is `.specs/kit/` committed or ignored?) |
+| Q6 | **AI agent permissions** — for Claude Code, VS Code Copilot, both or none? | Partly (existing agent settings) |
 
 All questions, options and the configuration files: [generator/questions.md](generator/questions.md).
 
 If you connect a git host, the kit includes scripts that keep the issue (GitHub) or backlog
 item (Azure DevOps) and the pull request in sync with the spec: the requirements stage can
 update the issue while you define it, and the pr stage always updates both. When the review
-stage is part of your kit, updating the review also updates the pull request.
+stage is part of your kit, the pull request also gets the semantic diff.
+
+## Your company's rules: a layer
+
+A company or team can keep its own defaults and rules — its stack for new projects, its
+coding rules, its brand Looks, its agent permissions — in a private **layer** next to
+spec-nx, without forking it. The generator reads the layer after spec-nx's building blocks;
+the project's own rules still win. The format: [generator/layer.md](generator/layer.md).
 
 ## Repository layout
 
 ```
 spec-nx/
   README.md          this file
-  generator/         setup questions and the generator prompt
-  stages/            the building blocks: one folder per stage (prompt, scripts)
-    spec_template.md the spec file template, shared by the requirements and plan stages
+  generator/         setup questions, the generator prompt, the company-layer format
+  stages/            the building blocks: one folder per stage (prompt, templates, rules)
+    spec_template.md the spec file template, shared by all stages
+    kit_readme.md    the README of a generated kit
     skills/          roles the assistant takes on, shared by the stages
+    guidelines/      coding-rule baselines per language and GUIDELINES:
+    agent/           how the AI agent's permissions are written
     tools/           git-host scripts (GitHub, Azure DevOps), shared by the stages
   examples/          generated kits, e.g. a "requirements → plan → pr" kit
   testing/           local trial runs (not pushed; see testing/README.md)
@@ -237,20 +277,16 @@ spec-nx/
 
 ## Status
 
-The first feature, [requirements → plan → pr](.specs/features/done/2026_11_09_spec_plan_pr_spec.md),
-is complete (in review):
+Done:
 
-- [x] This README and the repository layout
-- [x] The spec template in two parts
-- [x] Setup questions Q1 and Q2 ([generator/questions.md](generator/questions.md))
-- [x] Git-host tools: keep the issue / backlog item and the pull request in sync with the spec ([stages/tools](stages/tools/README.md))
-- [x] Requirements stage (can update the issue on request) ([stages/requirements](stages/requirements/prompt.md))
-- [x] Plan stage ([stages/plan](stages/plan/prompt.md)), with the skills in [stages/skills](stages/skills/)
-- [x] Pull-request stage (always updates the pull request and the issue) ([stages/pr](stages/pr/prompt.md))
-- [x] Generator: `GENERATE KIT` and `GENERATE KIT --update` ([generator/prompt.md](generator/prompt.md))
+- [x] [requirements → plan → pr](.specs/features/done/2026_11_09_spec_plan_pr_spec.md): the
+  first three stages, the git-host tools and the generator.
+- [x] [Spec-kit migration](.specs/features/done/2026_11_13_spec_kit_migration_spec.md): the
+  implementation, documentation and review stages; the on-demand stages improvement, setup
+  and ui; guidelines; the new-project spec; the company layer; agent permissions; questions
+  Q0, Q0b, Q0c, Q1b, Q5, Q6.
 
-Later: a command-line tool, the implementation, documentation and review stages, and a first
-example kit.
+Later: a command-line tool, an HTML review page with images, and example kits.
 
 ## License
 
