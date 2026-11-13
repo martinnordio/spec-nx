@@ -13,7 +13,7 @@
 |------|-------|---------|-------|------|
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written from the migration plan (M1–M12) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written: one Step per M item |
-| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–8 done |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–9 done |
 
 ---
 
@@ -119,7 +119,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | **6** | Documentation stage (M3) | ✅ Done | [→ Step 6](#step-6--documentation-stage-m3) |
 | **7** | Review stage and semantic-diff block (M4) | ✅ Done | [→ Step 7](#step-7--review-stage-m4) |
 | **8** | Improvement stage (M5) | ✅ Done | [→ Step 8](#step-8--improvement-stage-m5) |
-| **9** | UI stage (M7) | ⬜ Not started | [→ Step 9](#step-9--ui-stage-m7) |
+| **9** | UI stage (M7) | ✅ Done | [→ Step 9](#step-9--ui-stage-m7) |
 | **10** | Agent permissions (M9) | ⬜ Not started | [→ Step 10](#step-10--agent-permissions-m9) |
 | **11** | Setup tooling (M12) | ⬜ Not started | [→ Step 11](#step-11--setup-tooling-m12) |
 | **12** | README, checks, semantic diff, close | ⬜ Not started | [→ Step 12](#step-12--readme-checks-semantic-diff-close) |
@@ -340,12 +340,18 @@ resolve; behaviour changes are excluded in step 3 and under Never.
 `LOOK:`, `UI CATALOG` and the Looks contract (S11).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/ui/prompt.md`, `looks.md` (contract), templates `ui_conventions.md`, `ui_catalog.md`; `stages/skills/ui_designer.md`.
-- [ ] Check: no brand values in spec-nx.
+- [x] Record the start time in Notes below.
+- [x] `stages/ui/prompt.md`, `looks.md` (contract), templates `ui_conventions.md`, `ui_catalog.md`; `stages/skills/ui_designer.md`.
+- [x] Check: no brand values in spec-nx.
 
 ### Notes
+Started: 2026-11-13 10:11
 
+**Done (2026-11-13 · ~2m · Claude Opus 5.5)** — ui stage (`LOOK:` writes a look spec: dark +
+light switchable, roles only, theme-aware top navigation; `UI CATALOG`), Looks contract with
+neutral dark / light Looks (company Looks come from the layer), two templates, UI designer
+skill. Check: no brand names or brand colours; contrast of the neutral Looks measured — dark
+`primary` darkened to `#2f6fe0` (4.7 : 1 with white), all text pairs ≥ 4.5 : 1.
 ---
 
 ## Step 10 — Agent permissions (M9)
