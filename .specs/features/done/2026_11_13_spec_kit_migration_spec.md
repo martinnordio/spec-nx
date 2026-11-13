@@ -1,7 +1,7 @@
 # Spec-Kit Migration Spec
 
 > **Author:** Martin Nordio
-> **Status:** ✅ Complete — closed on `feature/spec-kit-migration`; pull request not opened yet
+> **Status:** ✅ Complete — closed on `feature/spec-kit-migration`; pull request #4 in review
 > **Created:** 2026-11-13
 > **Last updated:** 2026-11-13
 > **Branch:** `feature/spec-kit-migration` (all Steps; one pull request at the end)
@@ -27,6 +27,7 @@
 | 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Step 15 done |
 | 2026-11-13 | review | `REVIEW:` | Claude Opus 5.5 | semantic diff updated: create-issue, commit-message |
 | 2026-11-13 | requirements | `CREATE ISSUE:` | Claude Opus 5.5 | issue #3 created (no parent) |
+| 2026-11-13 | pr | `PR:` | person | pull request #4 opened (closes #3) |
 
 ---
 
