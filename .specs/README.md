@@ -11,8 +11,6 @@ Part 2 (plan), then the Steps, one commit each, and one pull request per spec.
   features/              open specs
   features/done/         closed specs (moved here when the spec is closed)
   changes/done/          semantic diffs (review stage) of closed specs: record, Before / After, review page
-  migrations/            migration plans: what to bring over from another kit, as a list of specs to create
-  migration_template.md  template of a migration plan
 ```
 
 ## Naming

@@ -29,8 +29,8 @@
 ## Spec
 
 [2026_11_13_spec_kit_migration_spec.md](../../../features/done/2026_11_13_spec_kit_migration_spec.md) —
-statements S1–S17, Steps 0–14; plan:
-[2026_11_11_spec_kit_migration.md](../../../migrations/2026_11_11_spec_kit_migration.md).
+statements S1–S17, Steps 0–14. The migration plan it came from was removed in Step 14 (in the
+git history).
 
 ## Semantic diff
 

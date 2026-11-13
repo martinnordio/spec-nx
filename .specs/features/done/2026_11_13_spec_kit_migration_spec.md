@@ -1,7 +1,7 @@
 # Spec-Kit Migration Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 Reopened for Steps 13–14 (HTML review page; remove the migration plan)
+> **Status:** ✅ Complete — closed on `feature/spec-kit-migration`; pull request not opened yet
 > **Created:** 2026-11-13
 > **Last updated:** 2026-11-13
 > **Branch:** `feature/spec-kit-migration` (all Steps; one pull request at the end)
@@ -20,6 +20,9 @@
 | 2026-11-13 | pr | `PR:` | Claude Opus 5.5 | pull request and issue prepared (dry run); waiting for the author's approval |
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 revised: S17 HTML review page (author's request) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | re-planned: Steps 13–14 added |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 13–14 done |
+| 2026-11-13 | review | `REVIEW:` | Claude Opus 5.5 | semantic diff updated: HTML report, review-page block |
+| 2026-11-13 | implementation | `CLOSE:` | Claude Opus 5.5 | spec closed again |
 
 ---
 
@@ -27,7 +30,8 @@
 
 ## Context
 
-The [migration plan](../../migrations/2026_11_11_spec_kit_migration.md) lists what of the original
+The migration plan (`.specs/migrations/2026_11_11_spec_kit_migration.md`, removed in Step 14 once
+the migration was done; last version: `git show bbf7af7:.specs/migrations/2026_11_11_spec_kit_migration.md`) lists what of the original
 spec-kit moves into spec-nx and cuts it into items M1–M12 (M8 dropped). This spec builds all of
 them, so a project can generate a complete kit — from an empty repository to a reviewed pull
 request — and company content stays in a private layer outside spec-nx.
@@ -109,7 +113,8 @@ questions Q0, Q0b, Q0c, Q1b, Q5, Q6.
 
 ### Open questions
 
-_None open._ The plan's open questions were answered on 2026-11-13 (see the migration plan).
+_None open._ The plan's open questions were answered on 2026-11-13 in the migration plan
+(see Context); the answers are decisions D1–D7 below.
 
 <!-- spec-nx:plan -->
 
@@ -127,7 +132,8 @@ Full / Custom), Q1b, Q2–Q4 and Q6, and writes a kit README. The pull-request s
 semantic diff in their own block.
 **Differs from the plan:** a new change kind `command` was added to the semantic diff (the
 objects of spec-nx are commands); `agent` became a list so a team can use both agents; the dark
-neutral Look's `primary` was darkened to meet contrast. Everything else as planned.
+neutral Look's `primary` was darkened to meet contrast; the HTML review page (S17) was added
+after the first close, and the migration plan was removed once done (Steps 13–14).
 **Files:** `generator/` (questions, prompt, `layer.md`); `stages/` (implementation,
 documentation, review, improvement, setup, ui, guidelines, agent, `kit_readme.md`, four new
 skills); `stages/tools/` (`spec_summary.*`, `update_pr.*`); `README.md`;
@@ -151,7 +157,7 @@ skills); `stages/tools/` (`spec_summary.*`, `update_pr.*`); `README.md`;
 | **11** | Setup tooling (M12) | ✅ Done | [→ Step 11](#step-11--setup-tooling-m12) |
 | **12** | README, checks, semantic diff, close | ✅ Done | [→ Step 12](#step-12--readme-checks-semantic-diff-close) |
 | **13** | HTML review page (S17) | ✅ Done | [→ Step 13](#step-13--html-review-page-s17) |
-| **14** | Remove the migration plan and its template | ⬜ Not started | [→ Step 14](#step-14--remove-the-migration-plan-and-its-template) |
+| **14** | Remove the migration plan and its template | ✅ Done | [→ Step 14](#step-14--remove-the-migration-plan-and-its-template) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
@@ -477,13 +483,17 @@ px, tooltip shows on hover, code ligatures off; the record (15 blocks) passes th
 The migration is done, so its plan and the plan template leave the repository; nothing links to them.
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] Delete `.specs/migrations/` and `.specs/migration_template.md`; update `.specs/README.md`.
-- [ ] Replace links to the plan with a note (it stays in the git history); close the spec again.
-- [ ] Check: the link check finds only the known template placeholders.
+- [x] Record the start time in Notes below.
+- [x] Delete `.specs/migrations/` and `.specs/migration_template.md`; update `.specs/README.md`.
+- [x] Replace links to the plan with a note (it stays in the git history); close the spec again.
+- [x] Check: the link check finds only the known template placeholders.
 
 ### Notes
+Started: 2026-11-13 11:34
 
+**Done (2026-11-13 · ~1m · Claude Opus 5.5)** — plan and template removed; the spec and the
+review page point to the last version in the git history; spec closed again. Link check: only
+the 4 known template placeholders.
 ---
 
 ## Deferred Items
