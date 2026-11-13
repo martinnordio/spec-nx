@@ -66,6 +66,8 @@ generated kit (`.specs/kit/plan/`).
      *Requirements* and *Plan*.
 
 4. **Update the header:** **Status** `⬜ Not started — plan ready`; **Last updated** today.
+   Add a **Stage log** row: today, `plan`, `PLAN:`, the exact name of the AI model you are,
+   `Part 2 written` (add the section from the template above Part 1 if the spec has none).
 
 5. **Report to the user:** the Steps in one line each, the decisions, anything deferred, and
    the next step — implement Step 0 (or Step 1), or, if the kit has the pr stage, open the
@@ -78,6 +80,7 @@ generated kit (`.specs/kit/plan/`).
 - Re-plan the Steps not started; if a Step in progress is affected, say so and ask before
   changing it.
 - Add a line to the Review Log: date, "re-planned", and why.
+- Add a **Stage log** row: today, `plan`, `PLAN:`, your model, `re-planned: <why>`.
 
 ## Never
 

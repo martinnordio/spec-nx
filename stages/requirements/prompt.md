@@ -70,6 +70,8 @@ and in a generated kit (`.specs/kit/requirements/`).
    - **Branch:** `feature/<name>` (with `-` instead of `_`). Do not create the branch.
    - **Issue:** add the line `> **Issue:** #<n>` (GitHub) or `> **Backlog item:** <id>`
      (Azure DevOps) if the user gave one, or if `link_issues` is `true` (then ask for it).
+   - **Stage log:** replace the example row with today, `requirements`, `REQUIREMENTS:`, the
+     exact name of the AI model you are, and `Part 1 written`.
 
 5. **Fill Part 1:**
    - **Context:** two or three sentences — the problem and why it matters.
@@ -110,6 +112,9 @@ and in a generated kit (`.specs/kit/requirements/`).
 - Move answered open questions into the statements, and remove them from the list.
 - Update **Last updated**. If Part 2 already has a plan, tell the user which Steps the change
   may affect.
+- Add a **Stage log** row: today, `requirements`, `REQUIREMENTS:`, your model, `Part 1
+  revised: <what changed>`. If the spec has no Stage log (older spec), add the section from
+  the template above Part 1.
 
 ## UPDATE ISSUE
 

@@ -185,6 +185,10 @@ Each feature has **one spec file**, `yyyy_mm_dd_<name>_spec.md`, in two parts:
 
 Keeping both parts in one file means the reason for every Step is right above it.
 
+A short **Stage log** at the top of the spec records which stage wrote what, and with which AI
+model (requirements, plan, each implemented Step, pull request), so you can later see — and
+compare — what each model produced.
+
 ## Terms
 
 spec-nx uses the usual names of your git host; it adds no new ones.

@@ -14,6 +14,17 @@
        Part 2 · Plan         — added by the plan stage once Part 1 is agreed (how, in Steps).
      The marker line `<!-- spec-nx:plan -->` separates them; keep it. -->
 
+## Stage log
+
+<!-- Every stage that writes to this spec adds a row: which stage, which command, and which AI
+     model did it. Use the model's exact name (e.g. "Claude Opus 4.6"); write "person" for
+     edits made by hand. If the last row has the same date, stage and model, update it
+     instead of adding a new one. Rows are never removed. -->
+
+| Date | Stage | Command | Model | Note |
+|------|-------|---------|-------|------|
+| YYYY-MM-DD | requirements | `REQUIREMENTS:` | [model] | Part 1 written |
+
 ---
 
 # Part 1 · Requirements
@@ -69,8 +80,9 @@ Clear, testable statements: each describes WHAT the system does, not HOW.
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
-> 2. Append a **`**Done (YYYY-MM-DD · ~<duration>)**`** line to that Step's **Notes**:
->    date, time it took, a one-line summary and the verifying test/command result.
+> 2. Append a **`**Done (YYYY-MM-DD · ~<duration> · <model>)**`** line to that Step's
+>    **Notes**: date, time it took, the AI model that did the work, a one-line summary and
+>    the verifying test/command result.
 >
 > The table and the Step sections must **always agree**.
 
@@ -97,7 +109,7 @@ Clear, testable statements: each describes WHAT the system does, not HOW.
 - [ ] Task B
 
 ### Notes
-<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym)** — summary + verifying result. -->
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---
 
@@ -112,7 +124,7 @@ Clear, testable statements: each describes WHAT the system does, not HOW.
 - [ ] Task B
 
 ### Notes
-<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym)** — summary + verifying result. -->
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---
 
