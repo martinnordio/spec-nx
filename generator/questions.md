@@ -63,8 +63,8 @@ by the project setup spec.
 | `"existing"` | the languages of the source files and build files found (`pyproject.toml` → `python`, `package.json` + `.ts` → `typescript`, `.svelte` → `svelte`, `*.ps1` → `powershell`, `*.sh` → `bash`), most used first; ignore `.specs/` and submodules |
 | `"new"` | nothing — ask openly; one short example list helps ("e.g. python, or python + typescript") |
 
-**Selects:** the guideline baselines `stages/guidelines/<language>.md` →
-`.specs/kit/guidelines/`, for each language that has one.
+**Selects:** `stages/guidelines/prompt.md` and the baselines `stages/guidelines/<language>.md`
+→ `.specs/kit/guidelines/`, for each language that has one.
 
 ---
 

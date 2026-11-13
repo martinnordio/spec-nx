@@ -13,6 +13,7 @@
 |------|-------|---------|-------|------|
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written from the migration plan (M1–M12) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written: one Step per M item |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–3 done |
 
 ---
 
@@ -112,7 +113,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | **0** | Branch, migration plan, this spec | ✅ Done | [→ Step 0](#step-0--branch-migration-plan-this-spec) |
 | **1** | Generator questions (M10) | ✅ Done | [→ Step 1](#step-1--generator-questions-m10) |
 | **2** | Implementation stage, developer skill, kit README (M1) | ✅ Done | [→ Step 2](#step-2--implementation-stage-m1) |
-| **3** | Guidelines (M2) | ⬜ Not started | [→ Step 3](#step-3--guidelines-m2) |
+| **3** | Guidelines (M2) | ✅ Done | [→ Step 3](#step-3--guidelines-m2) |
 | **4** | New project spec (M6) | ⬜ Not started | [→ Step 4](#step-4--new-project-spec-m6) |
 | **5** | Company layer (M11) | ⬜ Not started | [→ Step 5](#step-5--company-layer-m11) |
 | **6** | Documentation stage (M3) | ⬜ Not started | [→ Step 6](#step-6--documentation-stage-m3) |
@@ -216,13 +217,18 @@ engineer and architect), kit README building block written by the generator. Che
 Baselines per language and `GUIDELINES:` (S5).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/guidelines/prompt.md` (`GUIDELINES: <lang>`), baselines `python.md`, `typescript.md`, `svelte.md`, `powershell.md`, `bash.md`.
-- [ ] Generator copies the baselines of `languages`; implementation stage loads them.
-- [ ] Check: each baseline ≤ ~100 lines and names its linter configuration.
+- [x] Record the start time in Notes below.
+- [x] `stages/guidelines/prompt.md` (`GUIDELINES: <lang>`), baselines `python.md`, `typescript.md`, `svelte.md`, `powershell.md`, `bash.md`.
+- [x] Generator copies the baselines of `languages`; implementation stage loads them.
+- [x] Check: each baseline ≤ ~100 lines and names its linter configuration.
 
 ### Notes
+Started: 2026-11-13 09:41
 
+**Done (2026-11-13 · ~2m · Claude Opus 5.5)** — `GUIDELINES:` (scan, project file only for
+what is specific, diff when it exists) and five baselines; the generator copies the baselines
+of `languages`. Check: 36–58 lines per baseline, each names its linter configuration and links
+its reference instead of copying it.
 ---
 
 ## Step 4 — New project spec (M6)
