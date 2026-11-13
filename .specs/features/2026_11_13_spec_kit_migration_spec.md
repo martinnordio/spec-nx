@@ -13,7 +13,7 @@
 |------|-------|---------|-------|------|
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written from the migration plan (M1–M12) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written: one Step per M item |
-| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–9 done |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–10 done |
 
 ---
 
@@ -120,7 +120,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | **7** | Review stage and semantic-diff block (M4) | ✅ Done | [→ Step 7](#step-7--review-stage-m4) |
 | **8** | Improvement stage (M5) | ✅ Done | [→ Step 8](#step-8--improvement-stage-m5) |
 | **9** | UI stage (M7) | ✅ Done | [→ Step 9](#step-9--ui-stage-m7) |
-| **10** | Agent permissions (M9) | ⬜ Not started | [→ Step 10](#step-10--agent-permissions-m9) |
+| **10** | Agent permissions (M9) | ✅ Done | [→ Step 10](#step-10--agent-permissions-m9) |
 | **11** | Setup tooling (M12) | ⬜ Not started | [→ Step 11](#step-11--setup-tooling-m12) |
 | **12** | README, checks, semantic diff, close | ⬜ Not started | [→ Step 12](#step-12--readme-checks-semantic-diff-close) |
 
@@ -360,12 +360,18 @@ skill. Check: no brand names or brand colours; contrast of the neutral Looks mea
 Q6 and the permissions file for the chosen agent (S12).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] Q6 `agent`; `stages/agent/permissions.md` (allow / ask / deny lists per tool kind, file formats per agent); generator writes or proposes the file.
-- [ ] Check: the example files are valid JSON.
+- [x] Record the start time in Notes below.
+- [x] Q6 `agent`; `stages/agent/permissions.md` (allow / ask / deny lists per tool kind, file formats per agent); generator writes or proposes the file.
+- [x] Check: the example files are valid JSON.
 
 ### Notes
+Started: 2026-11-13 10:13
 
+**Done (2026-11-13 · ~2m · Claude Opus 5.5)** — Q6 `agent` (a list: Claude Code, VS Code
+Copilot, both, none); building block with allow / ask / deny lists from the project's tools and
+the layer, the file and syntax per agent (checked against both agents' current documentation;
+Copilot can only require approval, not block), never overwriting an existing file. Check: all
+seven JSON examples in the permissions, questions and layer documents parse.
 ---
 
 ## Step 11 — Setup tooling (M12)

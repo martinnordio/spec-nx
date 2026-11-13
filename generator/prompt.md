@@ -33,6 +33,7 @@ This file is `<spec-nx>/generator/prompt.md`, where `<spec-nx>` is spec-nx in th
 | `stages/kit_readme.md` | Reference README of the kit (workflow and commands) |
 | `stages/guidelines/` | `GUIDELINES:` prompt and the baseline coding rules per language |
 | `stages/setup/project_spec.md` | How to write the project setup spec of a new project (Q0c) |
+| `stages/agent/permissions.md` | How to write the AI agent's permissions (Q6) |
 | `stages/tools/` | Reference git-host scripts (PowerShell and bash) and their README |
 
 | In the project | What |
@@ -145,6 +146,10 @@ compatible with updates and with each other:
 8. **Project setup spec** (only when Q0c was answered yes in this run): follow
    `stages/setup/project_spec.md` — ask per language, then write the spec as a **new** file in
    `.specs/features/` (stop if it exists). Save its file name as `project_spec`.
+
+   **Agent permissions** (for each agent in `agent`): follow `stages/agent/permissions.md` —
+   build the lists from the project's tools (and the layer's `agent/permissions.json`), then
+   create the agent's file or show a diff that only adds entries.
 
 9. **Report:** the answers, the kit's files, what was adapted (one line per file), what came
    from the company layer (one line per file), the checks,
