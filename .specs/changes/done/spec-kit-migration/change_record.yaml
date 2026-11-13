@@ -159,7 +159,7 @@ changes:
   - id: review-page
     kind: data-format
     change: added
-    object: .specs/changes/<name>/review.html — the HTML review report
+    object: .specs/review/<yyyy-mm-dd>_<branch-slug>.html and .specs/review/index.html — the HTML review reports
     note: Self-contained page; Before | After side by side, coloured diffs with concept tooltips, findings, metadata.
     statements: [S17]
     examples:

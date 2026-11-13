@@ -28,6 +28,7 @@
 | 2026-11-13 | review | `REVIEW:` | Claude Opus 5.5 | semantic diff updated: create-issue, commit-message |
 | 2026-11-13 | requirements | `CREATE ISSUE:` | Claude Opus 5.5 | issue #3 created (no parent) |
 | 2026-11-13 | pr | `PR:` | person | pull request #4 opened (closes #3) |
+| 2026-11-13 | review | `REVIEW:` | Claude Opus 5.5 | review page moved to `.specs/review/` as HTML with an index (Step 16) |
 
 ---
 
@@ -174,6 +175,7 @@ skills); `stages/tools/` (`spec_summary.*`, `update_pr.*`); `README.md`;
 | **13** | HTML review page (S17) | ✅ Done | [→ Step 13](#step-13--html-review-page-s17) |
 | **14** | Remove the migration plan and its template | ✅ Done | [→ Step 14](#step-14--remove-the-migration-plan-and-its-template) |
 | **15** | Create the issue with a parent; commit references (S18–S20) | ✅ Done | [→ Step 15](#step-15--create-the-issue-with-a-parent-commit-references-s18s20) |
+| **16** | Review pages as HTML in `.specs/review/` with an index (S17) | ✅ Done | [→ Step 16](#step-16--review-pages-as-html-in-specsreview-with-an-index-s17) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
@@ -194,7 +196,7 @@ skills); `stages/tools/` (`spec_summary.*`, `update_pr.*`); `README.md`;
 | D2 | On-demand stages get their own key `on_demand` (Q1b); `stages` keeps its six values | P3: an existing key never changes meaning |
 | D3 | Guidelines are a building block `stages/guidelines/` (prompt + baselines), copied to `.specs/kit/guidelines/` when `languages` is set — not a Q1 stage | Every stage that writes code needs them; they are not a step of the method |
 | D4 | New questions: Q0 `project`, Q0b `languages`, Q0c `project_spec`, Q1b `on_demand`, Q5 `layer`, Q6 `agent`. They are **asked** in the order of the question table; Q5 comes first because the layer's defaults feed every suggestion | Numbers stay stable (P3); the order is what the user sees |
-| D5 | The review stage writes `.specs/changes/<name>/` (`change_record.yaml`, `review.html`, `review.md`, `semantic_diff.md`) and `.specs/changes/index.html`; `update_pr.*` gets an optional `-SemanticDiffFile` / `--semantic-diff` that replaces the `semantic-diff` block. Card images are deferred | The HTML page is the full report (side by side, tooltips); the Markdown copy can be read on the git host without downloading; the optional parameter keeps old calls working (S14) |
+| D5 | The review stage writes the **HTML review page** `.specs/review/<yyyy-mm-dd>_<branch-slug>.html` and the index `.specs/review/index.html` (no Markdown page), and keeps the record, Before / After and the pull-request text in `.specs/changes/<name>/`; `update_pr.*` gets an optional `-SemanticDiffFile` / `--semantic-diff` that replaces the `semantic-diff` block. Card images are deferred | The same place and form as the original kit's review pages, so reviewers find every page in one folder; the optional parameter keeps old calls working (S14) |
 | D6 | Agent permissions: Claude Code → `.claude/settings.json` (`permissions` allow / ask / deny); VS Code Copilot → `.vscode/settings.json` (`chat.tools.terminal.autoApprove`). Both are project files: created if missing, otherwise a proposed diff | The two agents the author uses; project files survive `--update` (P2) |
 | D7 | Prompts cannot be unit-tested; each Step is checked by: every `../` path in the prompts exists, PowerShell files parse and are ASCII, bash files pass `bash -n`, and a read-through against the statements | The checks the generator itself runs (generator step 6) |
 
@@ -536,6 +538,30 @@ files parse and are ASCII, 8 bash files pass `bash -n`; GitHub dry runs in Power
 parent) and bash; the Azure DevOps scripts are only syntax-checked (no Azure DevOps repository
 here) — deferred to the trial run. This spec's issue #3 was created with the new GitHub
 script.
+
+---
+
+## Step 16 — Review pages as HTML in `.specs/review/` with an index (S17)
+
+### Goal
+The review stage writes only HTML review pages, in one folder with an index, like the original
+kit's review pages; spec-nx's own review follows it (S17, review of PR #4).
+
+### Tasks
+- [x] Record the start time in Notes below.
+- [x] Template: table of contents per card and highlight, page header, recommendation, *Previously reviewed*, concepts glossary; `index_page.html`.
+- [x] Review prompt, rules, `CLOSE`, generator contract, README: `.specs/review/<yyyy-mm-dd>_<branch-slug>.html` + `.specs/review/index.html`; no Markdown page.
+- [x] This branch: page moved to `.specs/review/`, index built from the template, `review.md` and the old index removed, links fixed.
+- [x] Check: the page opens with no external requests; links resolve; the record is valid.
+
+### Notes
+Started: 2026-11-13 12:05
+
+**Done (2026-11-13 · ~15m · Claude Opus 5.5)** — the HTML page is the only review page; it
+and the index live in `.specs/review/`; the record, Before / After and the pull-request text
+stay in `.specs/changes/`. Checks: record valid (17 blocks); link check only the 4 known
+template placeholders; page and index open in the browser with no external requests.
+
 ---
 
 ## Deferred Items
@@ -555,7 +581,7 @@ script.
 
 | Date | Reviewer | Scope | Outcome | Findings |
 |------|----------|-------|---------|----------|
-| 2026-11-13 | AI assistant (Claude Opus 5.5) | semantic diff | — | [review page](../../changes/done/spec-kit-migration/review.md); checks 4 pass · 4 n/a · 1 fail (C7) |
+| 2026-11-13 | AI assistant (Claude Opus 5.5) | semantic diff | — | [review page](../../review/2026-11-13_feature-spec-kit-migration.html); checks 4 pass · 4 n/a · 1 fail (C7) |
 | 2026-11-13 | AI assistant (Claude Opus 5.5) | diff | Approve | 0 Blocking · 1 Should-fix · 3 Nit (the same model wrote the code: a person should review too) |
 
 ### Code review 2026-11-13

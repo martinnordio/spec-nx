@@ -152,7 +152,7 @@ A kit is made of **stages**. You choose which ones you use (setup question Q1):
 | **plan** | `PLAN:` | Turns agreed requirements into Steps with goals and tasks | Part 2 of the same spec file |
 | **implementation** | `IMPLEMENT:`, `CLOSE:` | Does the Steps one by one, ticking tasks and recording when each is done and with which model; closes the spec | Code + updated spec |
 | **documentation** | `DOCS:`, `ARCHITECTURE`, `ADR:` | Updates the documents the change affects; architecture and decision records | README, architecture, ADRs, … |
-| **review** | `REVIEW:`, `CODE REVIEW:` | Builds a *semantic diff*: Before / After of the commands, APIs, outputs and screens that changed, linked to the requirements; a layered code review | Review page (HTML report + Markdown) + pull-request text; findings in the spec |
+| **review** | `REVIEW:`, `CODE REVIEW:` | Builds a *semantic diff*: Before / After of the commands, APIs, outputs and screens that changed, linked to the requirements; a layered code review | HTML review page in `.specs/review/` (with an index) + pull-request text; findings in the spec |
 | **pr** | `PR:` | Pushes the branch and opens or updates the pull request with a summary of the spec (and the semantic diff) | Pull request on GitHub or Azure DevOps |
 
 Workflows:
