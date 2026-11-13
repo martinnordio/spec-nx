@@ -59,7 +59,8 @@ compatible with updates and with each other:
   Stage log row with the model it ran on.
 - The **summary block** markers `<!-- spec-summary:start -->` / `<!-- spec-summary:end -->`,
   and the `<!-- semantic-diff:start -->` / `<!-- semantic-diff:end -->` block of the review
-  stage; the change record format (`review/change_record.schema.json`).
+  stage; the change record format (`review/change_record.schema.json`) and the review page
+  files (`review.html`, `review.md`, `semantic_diff.md`, `.specs/changes/index.html`).
 - The **scripts**: names, parameters, `-DryRun` / `--dry-run`, and what they change.
 - The **layout** of the kit: `README.md`, `<stage>/prompt.md`, `skills/`, `spec_template.md`,
   `tools/`

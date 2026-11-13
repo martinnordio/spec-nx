@@ -9,6 +9,9 @@
 | **Files** | 54 changed · +3 314 / −110 lines |
 | **Written by** | `REVIEW:` · Claude Opus 5.5 |
 
+> **Full report:** [review.html](review.html) — Before | After side by side, coloured diffs with
+> concept tooltips. Download it and open it in a browser. This Markdown page has the same content.
+
 ## Summary
 
 - spec-nx gets the rest of the method: **implementation**, **documentation** and **review**
@@ -26,7 +29,7 @@
 ## Spec
 
 [2026_11_13_spec_kit_migration_spec.md](../../../features/done/2026_11_13_spec_kit_migration_spec.md) —
-statements S1–S16, Steps 0–12; plan:
+statements S1–S17, Steps 0–14; plan:
 [2026_11_11_spec_kit_migration.md](../../../migrations/2026_11_11_spec_kit_migration.md).
 
 ## Semantic diff
@@ -39,8 +42,8 @@ original hand-written spec-kit with a generated kit. **Breaking:** none.
 |---|-------|--------|
 | C1 | Record exists | pass |
 | C2 | Record passes the schema | pass (first run failed on the example name `spec-nx.json`; fixed) |
-| C3 | Every `S<n>` exists in the spec | pass (S1–S16) |
-| C4 | Every block differs Before / After | pass (17 pairs) |
+| C3 | Every `S<n>` exists in the spec | pass (S1–S17) |
+| C4 | Every block differs Before / After | pass (18 pairs) |
 | C5 | Detectable changes have a block | pass (all 13 new commands, the new settings keys) |
 | C6 | API / schema changes with API contracts / data model | n/a (the project has neither) |
 | C7 | Command changes of code come with test changes | **fail** — see finding 1 |
@@ -245,6 +248,22 @@ NEW SUMMARY
 <!-- semantic-diff:start -->
 SEMANTIC DIFF
 <!-- semantic-diff:end -->
+```
+
+### DATA-FORMAT · `review.html` — added
+
+The HTML review report, from `stages/review/review_page.html` (S17). Before: absent.
+After — its sections ([after/review-page/sections.txt](after/review-page/sections.txt)):
+
+```
+#summary  Summary
+#spec  Spec
+#semantic-diff  Semantic diff
+#highlights  Highlights
+#findings  Findings
+#not-covered  Not covered
+#concepts  Concepts
+#checklist  Reviewer checklist
 ```
 
 ### Questions a reviewer will ask

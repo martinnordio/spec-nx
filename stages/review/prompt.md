@@ -36,6 +36,7 @@ generated kit (`.specs/kit/review/`).
 | `change_record.yaml` | Template of the change record |
 | `change_record.schema.json` | Schema the record must pass |
 | `code_review.md` | The layered checklist and the finding table |
+| `review_page.html` | Template of the HTML review page (styles, sections, tooltips, metadata) |
 | `../guidelines/<language>.md`, `.specs/guidelines/<language>.md` | Coding rules of the languages changed |
 | `.specs/architecture.md` | Module boundaries, if the project has it |
 
@@ -71,19 +72,34 @@ generated kit (`.specs/kit/review/`).
 4. **Checks.** Run the checks of `semantic_diff.md` (C1–C9): `pass`, `fail` or `n/a`. Each
    failure is a finding.
 
-5. **Review page** `review.md`, in this order:
+5. **Review page**, in two forms with the same content:
+   - **`review.html`** — the full report, from `review_page.html`: Before | After side by
+     side with the changed lines shaded, the highlights as coloured diffs with **concept
+     tooltips**, the findings, a reviewer checklist and the `review-meta` data. One
+     self-contained file: no external files (images as `data:` URIs while it stays under
+     ~5 MB), works without JavaScript, every code character escaped, relative links only.
+   - **`review.md`** — the same sections in Markdown, so the page can also be read on the
+     git host without downloading anything.
+
+   Sections, in this order:
    1. **Header** — branch, base..head, date, commits, files, `+/-` lines.
    2. **Summary** — three to five bullets in plain words.
    3. **Spec** — link, statements covered, Steps.
-   4. **Semantic diff** — `why`, `breaking`, the checks in one line; then one section per
-      block: `<KIND> · <object> — <change>`, the note, the example input, and Before | After
-      (two code blocks, or a table for tabular kinds).
-   5. **Highlights** — at most 12 real diff hunks (≤ 40 lines each, never reformatted or
-      invented), most relevant first: public interfaces, non-trivial logic, security,
-      statements' acceptance; for each: what changed, why it matters, what to check.
+   4. **Semantic diff** — `why`, `breaking`, the checks; then one card per block:
+      `<KIND> · <object> — <change>`, the note, the example input, and Before | After.
+   5. **Highlights** — at most 12 real diff hunks (≤ 40 lines each, with line numbers, never
+      reformatted or invented), most relevant first: public interfaces, non-trivial logic,
+      security, statements' acceptance; for each: what changed, why it matters, what to
+      check. In the HTML page, 2–5 **concept tooltips** per hunk: the concept in one
+      sentence, then why it is used on that line (≤ 40 words), correct for the versions in
+      use; each concept also once in **Concepts**.
    6. **Findings** — the table of `code_review.md` (failed checks included).
    7. **Not covered** — what was left out (lock files, generated files, renames, formatting),
       with the reason.
+   8. **Concepts** and **Reviewer checklist** (HTML page only).
+
+   Then add the page to **`.specs/changes/index.html`** (create it if missing): one row per
+   review page, newest first — date, branch, spec, checks, open findings, link.
 
 6. **Pull-request text** `semantic_diff.md` (at most ~2 000 characters, so the description
    stays under the Azure DevOps limit together with the spec summary):
@@ -92,7 +108,9 @@ generated kit (`.specs/kit/review/`).
    ### Semantic diff
    <why, one line> · checks <n pass · n n/a · n fail> · findings <n>
 
-   **Review here first:** [review page](<full URL of review.md on the branch>)
+   **Review here first:** [review page](<full URL of review.md on the branch>) · full report
+   with Before | After and tooltips: [review.html](<URL to download review.html>) (open it in
+   a browser)
 
    | Kind | Object | Change | Statements |
    |------|--------|--------|------------|

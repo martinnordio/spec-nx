@@ -1,0 +1,8 @@
+#summary  Summary
+#spec  Spec
+#semantic-diff  Semantic diff
+#highlights  Highlights
+#findings  Findings
+#not-covered  Not covered
+#concepts  Concepts
+#checklist  Reviewer checklist
