@@ -13,7 +13,7 @@
 |------|-------|---------|-------|------|
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written from the migration plan (M1–M12) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written: one Step per M item |
-| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–4 done |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–5 done |
 
 ---
 
@@ -115,7 +115,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | **2** | Implementation stage, developer skill, kit README (M1) | ✅ Done | [→ Step 2](#step-2--implementation-stage-m1) |
 | **3** | Guidelines (M2) | ✅ Done | [→ Step 3](#step-3--guidelines-m2) |
 | **4** | New project spec (M6) | ✅ Done | [→ Step 4](#step-4--new-project-spec-m6) |
-| **5** | Company layer (M11) | ⬜ Not started | [→ Step 5](#step-5--company-layer-m11) |
+| **5** | Company layer (M11) | ✅ Done | [→ Step 5](#step-5--company-layer-m11) |
 | **6** | Documentation stage (M3) | ⬜ Not started | [→ Step 6](#step-6--documentation-stage-m3) |
 | **7** | Review stage and semantic-diff block (M4) | ⬜ Not started | [→ Step 7](#step-7--review-stage-m4) |
 | **8** | Improvement stage (M5) | ⬜ Not started | [→ Step 8](#step-8--improvement-stage-m5) |
@@ -258,13 +258,18 @@ Python + Svelte → server and UI Steps, then glue with a run script.
 Q5 `layer`, the layer format and how the generator uses it (S7).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] Q5 in the questions; layer format (`layer.json`, `defaults.json`, `guidelines/`, `setup/`, `looks/`, `agent/`, `notes/`) documented in `generator/layer.md` with a tiny generic example.
-- [ ] Generator: find the layer, pre-fill suggestions, adapt its blocks, name them in the report; `--update` re-reads it.
-- [ ] Check: no company content in the example.
+- [x] Record the start time in Notes below.
+- [x] Q5 in the questions; layer format (`layer.json`, `defaults.json`, `guidelines/`, `setup/`, `looks/`, `agent/`, `notes/`) documented in `generator/layer.md` with a tiny generic example.
+- [x] Generator: find the layer, pre-fill suggestions, adapt its blocks, name them in the report; `--update` re-reads it.
+- [x] Check: no company content in the example.
 
 ### Notes
+Started: 2026-11-13 09:43
 
+**Done (2026-11-13 · ~2m · Claude Opus 5.5)** — `generator/layer.md` (files, priority project >
+layer > spec-nx, contract cannot be changed, example); Q5 `layer` asked first; generator finds
+the layer, uses `defaults.json` as suggestions, adds its guidelines, notes, skills, looks and
+setup, and reports them. Check: both JSON examples parse; the example names no company.
 ---
 
 ## Step 6 — Documentation stage (M3)

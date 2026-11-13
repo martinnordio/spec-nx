@@ -26,6 +26,7 @@ This file is `<spec-nx>/generator/prompt.md`, where `<spec-nx>` is spec-nx in th
 | In spec-nx | What |
 |------------|------|
 | `generator/questions.md` | The setup questions, how to suggest answers, what each answer selects, and the format of the two settings files |
+| `generator/layer.md` | The format of a company layer and how it is used |
 | `stages/<stage>/prompt.md` | Reference prompt of each stage (`requirements`, `plan`, `pr`, …) |
 | `stages/skills/<role>.md` | Reference roles the stage prompts load |
 | `stages/spec_template.md` | Reference spec template |
@@ -39,6 +40,7 @@ This file is `<spec-nx>/generator/prompt.md`, where `<spec-nx>` is spec-nx in th
 | `.specs/spec-nx.json` | Project settings (committed) |
 | `.specs/spec-nx.local.json` | Developer settings (not committed) |
 | `.specs/kit/` | The generated kit — replaced on every generation |
+| `<layer>/` | A company layer, if the project uses one (`layer` in the settings) |
 | `.specs/features/` | The project's specs — **never** changed by the generator |
 
 ## The contract every kit keeps
@@ -66,6 +68,10 @@ compatible with updates and with each other:
 
 1. **Read the settings.** Load `.specs/spec-nx.json` and `.specs/spec-nx.local.json` if they
    exist. Every question whose key already has a value is not asked again.
+
+   **Find the company layer** (Q5, see `generator/layer.md`): `layer` from the settings, or a
+   folder with a `layer.json` in the project. If the user accepts it, read its `layer.json`
+   and `defaults.json` now — they are the suggestions for the questions below.
 
 2. **Scan the project** to suggest answers (see "Suggest from …" in `generator/questions.md`):
    - is the repository empty (only README, LICENSE, `.git*` files, `.specs/`, submodules)?
@@ -113,6 +119,14 @@ compatible with updates and with each other:
    Scripts are copied **unchanged** unless the project needs a change (for example a
    different default branch); any change must keep their parameters and behaviour.
 
+   **With a company layer** (`generator/layer.md`):
+   - its `guidelines/<language>.md` replaces the spec-nx baseline of that language;
+   - its `notes/<stage>.md` is added to the end of that stage's prompt under a heading
+     **Company notes** — leave out and report any note that contradicts the contract;
+   - its `skills/<role>.md` is copied when a prompt or note loads it;
+   - its `looks/` is copied to `ui/looks/` when the kit has the `ui` stage;
+   - its `setup/` gives the suggestions of the project setup spec (step 8).
+
 6. **Check the kit.**
    - Every `../…` path in the generated prompts exists inside `.specs/kit/`.
    - The contract items above are present in the generated files.
@@ -128,7 +142,8 @@ compatible with updates and with each other:
    `stages/setup/project_spec.md` — ask per language, then write the spec as a **new** file in
    `.specs/features/` (stop if it exists). Save its file name as `project_spec`.
 
-9. **Report:** the answers, the kit's files, what was adapted (one line per file), the checks,
+9. **Report:** the answers, the kit's files, what was adapted (one line per file), what came
+   from the company layer (one line per file), the checks,
    and how to start: `Load .specs/kit/requirements/prompt.md` → `REQUIREMENTS: <name> — <request>`
    (the whole workflow is in `.specs/kit/README.md`). With a project setup spec, start with
    `Load .specs/kit/implementation/prompt.md` → `IMPLEMENT: <project spec>` instead.
@@ -141,7 +156,8 @@ compatible with updates and with each other:
 2. Ask **only** the questions of `generator/questions.md` whose key is missing (questions added
    to spec-nx since), and stages the user chose earlier that now exist in `stages/`
    (offer them; do not add them without asking).
-3. Update `spec_nx_version`, `generated` and `model`; keep every other answer.
+3. Update `spec_nx_version`, `generated` and `model`; keep every other answer. Read the company
+   layer again (`layer`), if there is one: it may have changed with its repository.
 4. Regenerate `.specs/kit/` as in steps 5–6 above, from the current building blocks and with
    the current model.
 5. Report what changed in the kit compared to before (new or removed files, notable changes),
