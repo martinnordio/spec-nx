@@ -63,6 +63,7 @@ compatible with updates and with each other:
    exist. Every question whose key already has a value is not asked again.
 
 2. **Scan the project** to suggest answers (see "Suggest from …" in `generator/questions.md`):
+   - is the repository empty (only README, LICENSE, `.git*` files, `.specs/`, submodules)?
    - `git remote get-url origin`, the operating system;
    - languages, main folders, how the project is built, run and tested (README, build files,
      test folders);
@@ -70,22 +71,23 @@ compatible with updates and with each other:
 
    Tell the user in a few lines what you found.
 
-3. **Ask the questions** of `generator/questions.md` that have no answer yet, in order, one
-   short message each, with your **suggestion** and the options. Respect the rules there (for
-   example Q2b only with a git host; Q1 at developer level for a personal kit). If a chosen
-   stage does not exist yet in `stages/`, say so and leave it out.
+3. **Ask the questions** of `generator/questions.md` that have no answer yet, in the order of
+   its question table, one short message each, with your **suggestion** and the options.
+   Respect the rules there (for example Q2b only with a git host; Custom in Q1 one stage at a
+   time; Q1 and Q1b at developer level for a personal kit). If a chosen stage does not exist
+   yet in `stages/`, say so and leave it out.
 
 4. **Save the answers.**
    - `.specs/spec-nx.json`: `version`, `spec_nx_version` (`git -C <spec-nx> rev-parse --short
      HEAD`), `generated` (today), and the project answers; add the developer's `shell` to
      `shells`; `model` (the name of the model you are) when the kit is shared.
-   - `.specs/spec-nx.local.json`: `version`, `shell`; `stages` and `model` when the kit is
-     personal.
+   - `.specs/spec-nx.local.json`: `version`, `shell`; `stages`, `on_demand` and `model` when
+     the kit is personal.
    - `.gitignore` of the project: add `.specs/spec-nx.local.json`; add `.specs/kit/` when the
      kit is personal. Do not change other lines.
 
 5. **Generate `.specs/kit/`.** Delete the old `.specs/kit/` if there is one, then for the
-   chosen stages:
+   stages in `stages` and `on_demand`:
    - `<stage>/prompt.md` from `stages/<stage>/prompt.md`;
    - the skills those prompts list under *Skills to load*, into `skills/`;
    - `spec_template.md`;

@@ -9,12 +9,17 @@ questions whose key is missing (questions added to spec-nx later):
 
 | Level | File | Shared? | Holds |
 |-------|------|---------|-------|
-| **Project** | `.specs/spec-nx.json` | Committed; the same for the whole team | How the team works: stages, git host, issues, the shells the kit supports |
+| **Project** | `.specs/spec-nx.json` | Committed; the same for the whole team | What the project is and how the team works: project start, languages, stages, git host, issues, the shells the kit supports |
 | **Developer** | `.specs/spec-nx.local.json` | Ignored by git; one per developer | How *you* work: your shell |
+
+The questions are **asked in the order of this table**:
 
 | # | Question | Level | Key | Default |
 |---|----------|-------|-----|---------|
-| Q1 | Development method — which stages do you use? | project | `stages` | `["requirements", "plan", "pr"]` |
+| Q0 | Project start — a new (empty) project or an existing one? | project | `project` | from the scan |
+| Q0b | Languages — which programming languages? | project | `languages` | from the scan |
+| Q1 | Workflow — which stages do you use? | project | `stages` | Simple: `["requirements", "plan", "implementation", "pr"]` |
+| Q1b | On-demand stages — which extra commands do you want? | project | `on_demand` | `[]` |
 | Q2 | Git host — where is the repository? | project | `git_host` | from the `origin` remote |
 | Q2b | Keep each spec in sync with an issue / backlog item? | project | `link_issues` | `true` if there is a git host |
 | Q3 | Which shell do you run the kit's scripts in? | developer | `shell` | from the operating system |
@@ -24,40 +29,108 @@ New questions get the next number and their own key; existing keys never change 
 
 ---
 
-## Q1 · Development method
+## Q0 · Project start
 
-**Ask:** *Which stages do you want in your kit?*
+**Ask:** *Is this a new, empty project, or a project that already has code?*
 
-| Option | `stages` |
-|--------|----------|
-| Full | `["requirements", "plan", "implementation", "documentation", "review", "pr"]` |
-| Data science | `["requirements", "plan", "pr"]` |
-| Requirements only | `["requirements"]` |
-| Custom | any list that follows the rules below |
+| Option | `project` |
+|--------|-----------|
+| New (empty) | `"new"` |
+| Existing | `"existing"` |
+
+**Suggest from the repository:** `"new"` when the repository holds nothing but a README,
+LICENSE, `.git*` files, `.specs/` and git submodules (such as `.spec-nx/`); otherwise
+`"existing"`. Tell the user what you found ("only README and LICENSE" / "Python package in
+`src/`, 40 files").
+
+**Effect:** with `"new"`, Q0b is asked openly and the project setup spec is offered after the
+kit is generated (see the generator).
+
+---
+
+## Q0b · Languages
+
+**Ask:** *Which programming languages does the project use?* (several allowed)
+
+**Options:** `python`, `typescript`, `javascript`, `svelte`, `powershell`, `bash`, or any other
+language name in lower case. Frameworks (FastAPI, React, …) are not languages — they are asked
+by the project setup spec.
+
+**Suggest**
+
+| `project` | Suggests |
+|-----------|----------|
+| `"existing"` | the languages of the source files and build files found (`pyproject.toml` → `python`, `package.json` + `.ts` → `typescript`, `.svelte` → `svelte`, `*.ps1` → `powershell`, `*.sh` → `bash`), most used first; ignore `.specs/` and submodules |
+| `"new"` | nothing — ask openly; one short example list helps ("e.g. python, or python + typescript") |
+
+**Selects:** the guideline baselines `stages/guidelines/<language>.md` →
+`.specs/kit/guidelines/`, for each language that has one.
+
+---
+
+## Q1 · Workflow
+
+**Ask:** *Which workflow do you want?*
+
+| Option | `stages` | For |
+|--------|----------|-----|
+| **Simple** (default) | `["requirements", "plan", "implementation", "pr"]` | Small teams, data science: a spec, small Steps, a pull request |
+| **Full** | `["requirements", "plan", "implementation", "documentation", "review", "pr"]` | Product code: also documents and a semantic diff for the reviewer |
+| **Custom** | your choice, one stage at a time | Anything else |
+
+**Custom** asks one short question per stage, in this order, and shows the rule:
+
+```
+requirements: yes (always)
+plan:          yes / no
+implementation: yes / no   (only if plan is yes)
+documentation: yes / no
+review:        yes / no    (only if implementation is yes)
+pr:            yes / no
+```
 
 **Rules**
 
 - `requirements` is always included.
 - `plan` needs `requirements`; `implementation` needs `plan`; `review` needs `implementation`.
+  A stage whose prerequisite is "no" is not asked.
 - `documentation` and `pr` can be added to any set.
 - The list is kept in this order: requirements, plan, implementation, documentation, review, pr.
 
-**Available today:** `requirements`, `plan`, `pr`. If the user picks a stage that spec-nx
-does not have yet, the generator says so, keeps it out of the kit and does not save it — it is
-offered again by `--update` once it exists.
+If the user picks a stage that spec-nx does not have yet, the generator says so, keeps it out
+of the kit and does not save it — it is offered again by `--update` once it exists.
 
 **Suggest from the repository**
 
 | Found | Suggests |
 |-------|----------|
 | `.specs/spec-nx.json` | its `stages` (this is an update) |
-| Specs in `.specs/features/` with a plan part (Steps) | `plan` |
-| A pull-request template, or merged pull requests | `pr` |
-| Nothing of the above | the default |
+| `.specs/architecture.md` or `.specs/decisions/` | Full |
+| Nothing of the above | Simple |
 
 **Selects:** each stage folder `stages/<stage>/` → `.specs/kit/<stage>/`; the skills those
 stages load (`stages/skills/<skill>.md` → `.specs/kit/skills/`, see each prompt's *Skills to
 load*); the spec template `stages/spec_template.md` → `.specs/kit/spec_template.md`.
+
+---
+
+## Q1b · On-demand stages
+
+**Ask:** *Do you also want these commands? They are used now and then, not for every feature.*
+
+| Stage | Commands | Useful when |
+|-------|----------|-------------|
+| `improvement` | `IMPROVE:` | After a few merges: a clean-up spec that never changes behaviour |
+| `setup` | `SETUP TOOLING:`, `SETUP MACHINE` | Bringing linters, tests, CI or a developer's computer up to date |
+| `ui` | `LOOK:`, `UI CATALOG` | The project has a user interface |
+
+`on_demand` is a list of these names, possibly empty.
+
+**Suggest from the repository:** `ui` when a UI framework is found (`.svelte`, `.tsx`, `.vue`,
+HTML templates); `setup` when `project` is `"new"`; `improvement` when `review` is in
+`stages`.
+
+**Selects:** `stages/<stage>/` → `.specs/kit/<stage>/` and the skills they load, like Q1.
 
 ---
 
@@ -150,8 +223,8 @@ computer.
 
 | Option | `kit` | Effect |
 |--------|-------|--------|
-| Shared | `"shared"` | `.specs/kit/` is committed; Q1 (stages) is a project answer; everyone uses the same kit |
-| Personal | `"personal"` | `.specs/kit/` is added to `.gitignore`; Q1 becomes a developer answer, so each contributor picks the stages for their role and generates the kit with their own AI model |
+| Shared | `"shared"` | `.specs/kit/` is committed; Q1 and Q1b (stages) are project answers; everyone uses the same kit |
+| Personal | `"personal"` | `.specs/kit/` is added to `.gitignore`; Q1 and Q1b become developer answers, so each contributor picks the stages for their role and generates the kit with their own AI model |
 
 **Suggest from the repository:** `"shared"` if `.specs/kit/` is already committed;
 `"personal"` if it is in `.gitignore`; otherwise the default.
@@ -169,7 +242,10 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
   "version": 1,
   "spec_nx_version": "a1b2c3d",
   "generated": "2026-11-09",
-  "stages": ["requirements", "plan", "pr"],
+  "project": "existing",
+  "languages": ["python", "typescript"],
+  "stages": ["requirements", "plan", "implementation", "pr"],
+  "on_demand": ["improvement"],
   "git_host": "github",
   "link_issues": true,
   "shells": ["powershell", "bash"],
@@ -183,7 +259,10 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `version` | Format of this file (1). |
 | `spec_nx_version` | spec-nx commit (short hash) or tag the kit was generated from. |
 | `generated` | Date of the last `GENERATE KIT` or `--update`. |
+| `project` | Answer to Q0. |
+| `languages` | Answer to Q0b. |
 | `stages` | Answer to Q1 (only when `kit` is `"shared"`). |
+| `on_demand` | Answer to Q1b (only when `kit` is `"shared"`). |
 | `git_host` | Answer to Q2. |
 | `link_issues` | Answer to Q2b. |
 | `shells` | Shells the kit's scripts are generated for: every developer's Q3 answer. |
@@ -206,4 +285,5 @@ Written by `GENERATE KIT` on each developer's computer; never committed.
 | `version` | Format of this file (1). |
 | `shell` | Answer to Q3. |
 | `stages` | Answer to Q1 (only when the project's `kit` is `"personal"`). |
+| `on_demand` | Answer to Q1b (only when the project's `kit` is `"personal"`). |
 | `model` | AI model that generated your personal kit (only when `kit` is `"personal"`). |

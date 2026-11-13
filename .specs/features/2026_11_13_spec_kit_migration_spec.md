@@ -110,7 +110,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | Step | Description | Status | Detail |
 |------|-------------|--------|--------|
 | **0** | Branch, migration plan, this spec | ✅ Done | [→ Step 0](#step-0--branch-migration-plan-this-spec) |
-| **1** | Generator questions (M10) | ⬜ Not started | [→ Step 1](#step-1--generator-questions-m10) |
+| **1** | Generator questions (M10) | ✅ Done | [→ Step 1](#step-1--generator-questions-m10) |
 | **2** | Implementation stage, developer skill, kit README (M1) | ⬜ Not started | [→ Step 2](#step-2--implementation-stage-m1) |
 | **3** | Guidelines (M2) | ⬜ Not started | [→ Step 3](#step-3--guidelines-m2) |
 | **4** | New project spec (M6) | ⬜ Not started | [→ Step 4](#step-4--new-project-spec-m6) |
@@ -175,13 +175,17 @@ for company names and local paths: no match.
 The generator asks Q0, Q0b, Q1 (Simple / Full / Custom) and Q1b (S1, S14).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `generator/questions.md`: Q0 `project`, Q0b `languages`, Q1 options and Custom rules, Q1b `on_demand`; question table with the asking order; settings example and key table.
-- [ ] `generator/prompt.md`: scan for an empty repository and languages; ask in the new order; `--update` asks only missing keys.
-- [ ] Check: every key in the example JSON is in the key table and has a question.
+- [x] Record the start time in Notes below.
+- [x] `generator/questions.md`: Q0 `project`, Q0b `languages`, Q1 options and Custom rules, Q1b `on_demand`; question table with the asking order; settings example and key table.
+- [x] `generator/prompt.md`: scan for an empty repository and languages; ask in the new order; `--update` asks only missing keys.
+- [x] Check: every key in the example JSON is in the key table and has a question.
 
 ### Notes
+Started: 2026-11-13 10:00
 
+**Done (2026-11-13 · ~15m · Claude Opus 5.5)** — Q0, Q0b, Q1 (Simple / Full / Custom), Q1b
+written; question table shows the asking order; generator scans for an empty repository.
+Check: the 12 keys of the example JSON are all in the key table.
 ---
 
 ## Step 2 — Implementation stage (M1)
