@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Put a spec summary into the spec-summary block of the Azure DevOps pull request of the current
-# branch; creates the pull request if there is none (needs --title). Text outside the block is kept.
-# usage: update_pr.sh <summary-file> [--title <title>] [--issue <id>] [--draft] [--dry-run]
+# branch; creates the pull request if there is none (needs --title). With --semantic-diff, also
+# puts that text into the semantic-diff block. Text outside the blocks is kept.
+# usage: update_pr.sh <summary-file> [--semantic-diff <file>] [--title <title>] [--issue <id>] [--draft] [--dry-run]
 set -euo pipefail
 here="$(cd "$(dirname "$0")" && pwd)"
 . "$here/../spec_summary.sh"
@@ -10,11 +11,12 @@ here="$(cd "$(dirname "$0")" && pwd)"
 # Azure DevOps refuses pull-request descriptions longer than this.
 max_description=4000
 
-summary_file="${1:?usage: update_pr.sh <summary-file> [--title <title>] [--issue <id>] [--draft] [--dry-run]}"
+summary_file="${1:?usage: update_pr.sh <summary-file> [--semantic-diff <file>] [--title <title>] [--issue <id>] [--draft] [--dry-run]}"
 shift
-title='' issue='' draft=false dry_run=''
+title='' issue='' draft=false dry_run='' semantic_diff_file=''
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --semantic-diff) semantic_diff_file="$2"; shift 2 ;;
     --title) title="$2"; shift 2 ;;
     --issue) issue="$2"; shift 2 ;;
     --draft) draft=true; shift ;;
@@ -40,6 +42,9 @@ else
   [[ -n "$title" ]] || { echo "No active pull request for '$branch' yet: pass --title to create one." >&2; exit 1; }
   new="$(set_spec_summary '' "$summary")"
   target="a new $([[ $draft == true ]] && echo 'draft ')pull request '$title' from '$branch'"
+fi
+if [[ -n "$semantic_diff_file" ]]; then
+  new="$(set_semantic_diff "$new" "$(cat "$semantic_diff_file")")"
 fi
 if (( ${#new} > max_description )); then
   echo "The description has ${#new} characters; Azure DevOps allows $max_description. Shorten the summary." >&2
