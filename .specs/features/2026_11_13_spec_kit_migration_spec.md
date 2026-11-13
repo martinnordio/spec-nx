@@ -13,7 +13,7 @@
 |------|-------|---------|-------|------|
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written from the migration plan (M1–M12) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written: one Step per M item |
-| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–10 done |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–11 done |
 
 ---
 
@@ -121,7 +121,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | **8** | Improvement stage (M5) | ✅ Done | [→ Step 8](#step-8--improvement-stage-m5) |
 | **9** | UI stage (M7) | ✅ Done | [→ Step 9](#step-9--ui-stage-m7) |
 | **10** | Agent permissions (M9) | ✅ Done | [→ Step 10](#step-10--agent-permissions-m9) |
-| **11** | Setup tooling (M12) | ⬜ Not started | [→ Step 11](#step-11--setup-tooling-m12) |
+| **11** | Setup tooling (M12) | ✅ Done | [→ Step 11](#step-11--setup-tooling-m12) |
 | **12** | README, checks, semantic diff, close | ⬜ Not started | [→ Step 12](#step-12--readme-checks-semantic-diff-close) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
@@ -380,12 +380,17 @@ seven JSON examples in the permissions, questions and layer documents parse.
 `SETUP TOOLING:` and `SETUP MACHINE` (S13).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/setup/prompt.md` with both commands, writing normal specs.
-- [ ] Check: paths exist.
+- [x] Record the start time in Notes below.
+- [x] `stages/setup/prompt.md` with both commands, writing normal specs.
+- [x] Check: paths exist.
 
 ### Notes
+Started: 2026-11-13 10:14
 
+**Done (2026-11-13 · ~1m · Claude Opus 5.5)** — setup stage: detect the stack first; `SETUP
+TOOLING:` checks T1–T11 and writes a spec that keeps behaviour unchanged; `SETUP MACHINE`
+compares needs with what the computer has and plans only the missing installs. Check: every
+`../` path in `stages/` resolves.
 ---
 
 ## Step 12 — README, checks, semantic diff, close
