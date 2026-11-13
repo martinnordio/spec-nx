@@ -16,7 +16,7 @@ asked).
 ```
 GENERATE KIT --update
 ```
-Regenerate `.specs/kit/` from the saved answers; asks only questions that are new.
+Regenerate the kit from the saved answers; asks only questions that are new.
 
 ## Where things are
 
@@ -40,9 +40,12 @@ This file is `<spec-nx>/generator/prompt.md`, where `<spec-nx>` is spec-nx in th
 |----------------|------|
 | `.specs/spec-nx.json` | Project settings (committed) |
 | `.specs/spec-nx.local.json` | Developer settings (not committed) |
-| `.specs/kit/` | The generated kit — replaced on every generation |
+| `.specs/kit/` | The generated kit — replaced on every generation (another folder with Q4b `kit_dir`) |
 | `<layer>/` | A company layer, if the project uses one (`layer` in the settings) |
 | `.specs/features/` | The project's specs — **never** changed by the generator |
+
+Below, `.specs/kit/` stands for the kit folder `kit_dir`; paths the kit **shows** to its users
+start with `kit_ref` (Q4c), e.g. `Load <kit_ref>/requirements/prompt.md`.
 
 ## The contract every kit keeps
 
@@ -102,7 +105,10 @@ compatible with updates and with each other:
    - `.gitignore` of the project: add `.specs/spec-nx.local.json`; add `.specs/kit/` when the
      kit is personal. Do not change other lines.
 
-5. **Generate `.specs/kit/`.** Delete the old `.specs/kit/` if there is one, then for the
+5. **Generate `.specs/kit/`.** Delete the old kit: the whole `.specs/kit/` folder; for another
+   `kit_dir`, only the entries listed in `kit_files` — never `.specs/`, `.spec-nx/`, the layer
+   or any other file. If a new kit file would replace a file that is not in `kit_files`, stop
+   and ask. Then for the
    stages in `stages` and `on_demand`:
    - `<stage>/prompt.md` from `stages/<stage>/prompt.md`, with the other files of the stage
      folder (templates, rules);
@@ -116,12 +122,20 @@ compatible with updates and with each other:
    - `tools/README.md`, `tools/spec_summary.*` and `tools/<git_host>/` — only the scripts for
      the shells in `shells` — when the kit has the `pr` stage or `link_issues` is `true`.
 
+   For another `kit_dir`, save the top-level files and folders written in `kit_files` in
+   `.specs/spec-nx.json`.
+
    **Adapt** each prompt and skill to the project while keeping the contract:
    - use the project's own words, folders and examples (its language, how it is run and
      tested, where its docs are) instead of generic ones;
    - leave out parts about stages the kit does not have (for example, `UPDATE ISSUE` when
      `link_issues` is `false`; *Skills to load* lines for skills not copied);
-   - keep instructions short and concrete; do not add new commands.
+   - keep instructions short and concrete; do not add new commands;
+   - write every path into the kit as its users see it: `<kit_ref>/…`;
+   - when `kit_ref` differs from `kit_dir` (the kit is used from other repositories, which
+     have no settings): write this repository's `git_host`, `link_issues`, `work_item_type`,
+     `stages` and `languages` into the prompts that read them as the defaults — a using
+     project's own `.specs/spec-nx.json` still wins.
 
    Scripts are copied **unchanged** unless the project needs a change (for example a
    different default branch); any change must keep their parameters and behaviour.
@@ -155,10 +169,10 @@ compatible with updates and with each other:
 
 9. **Report:** the answers, the kit's files, what was adapted (one line per file), what came
    from the company layer (one line per file), the checks,
-   and how to start: `Load .specs/kit/requirements/prompt.md` → `REQUIREMENTS: <name> — <request>`
-   (the whole workflow is in `.specs/kit/README.md`). With a project setup spec, start with
-   `Load .specs/kit/implementation/prompt.md` → `IMPLEMENT: <project spec>` instead.
-   Remind the user to commit `.specs/spec-nx.json` (and `.specs/kit/` when shared).
+   and how to start: `Load <kit_ref>/requirements/prompt.md` → `REQUIREMENTS: <name> — <request>`
+   (the whole workflow is in `<kit_ref>/README.md`). With a project setup spec, start with
+   `Load <kit_ref>/implementation/prompt.md` → `IMPLEMENT: <project spec>` instead.
+   Remind the user to commit `.specs/spec-nx.json` (and the kit when shared).
 
 ## GENERATE KIT --update
 

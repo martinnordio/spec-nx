@@ -28,9 +28,13 @@ The questions are **asked in the order of this table**:
 | Q2d | Azure DevOps: in which project are the backlog items? | project | `work_items` | the repository's organisation and project |
 | Q3 | Which shell do you run the kit's scripts in? | developer | `shell` | from the operating system |
 | Q4 | Share the kit with the team, or keep it personal? | project | `kit` | `"shared"` |
+| Q4b | Kit folder — where should the kit go? | project | `kit_dir` | `".specs/kit"` |
+| Q4c | Kit used from other repositories — under which folder? (only when `kit_dir` is not the default) | project | `kit_ref` | `kit_dir` |
 | Q6 | AI agent permissions — for which agents? | project | `agent` | the agents found |
 
 New questions get the next number and their own key; existing keys never change meaning.
+
+In this file `.specs/kit/` stands for the kit folder, `kit_dir` (Q4b).
 
 ---
 
@@ -325,6 +329,45 @@ Either way the specs in `.specs/features/` and the project settings are shared.
 
 ---
 
+## Q4b · Kit folder
+
+**Ask:** *Where should the kit go? Normally `.specs/kit/`. Choose another folder only when
+this repository is itself a kit that other repositories add as a submodule.*
+
+| Option | `kit_dir` |
+|--------|-----------|
+| Default | `".specs/kit"` |
+| Repository root — this repository is the kit | `"."` |
+| Another folder | the path relative to the project root |
+
+**Suggest from the repository:** the layer's `kit_dir`, if any; otherwise the default.
+
+**Effect:** the kit is written to `kit_dir`. Outside `.specs/kit/` the kit is always shared
+(`kit` `"shared"`), and a regeneration deletes only the entries of `kit_files` (see
+`generator/prompt.md`, step 5).
+
+---
+
+## Q4c · Kit used from other repositories
+
+Asked only when `kit_dir` is not `".specs/kit"`.
+
+**Ask:** *Do other repositories add this kit as a submodule? Under which folder?*
+
+| Option | `kit_ref` |
+|--------|-----------|
+| No — only this repository uses it | the same as `kit_dir` |
+| Yes | the submodule folder in those repositories, e.g. `".my-kit"` |
+
+**Suggest from the repository:** the layer's `kit_ref`, if any; otherwise `kit_dir`.
+
+**Effect:** every path the kit shows to its users starts with `kit_ref` (for example
+`Load .my-kit/requirements/prompt.md`). When `kit_ref` differs from `kit_dir`, the kit's
+README starts with how to add it to a project, and the prompts carry this repository's
+answers as defaults, because the using projects have no settings of their own.
+
+---
+
 ## Q6 · AI agent permissions
 
 **Ask:** *Should I write the permissions of your AI agent, so it runs tests and linters
@@ -387,6 +430,9 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `work_items` | Answer to Q2d (Azure DevOps only): `{ "org", "project" }` of the backlog items. |
 | `shells` | Shells the kit's scripts are generated for: every developer's Q3 answer. |
 | `kit` | Answer to Q4. |
+| `kit_dir` | Answer to Q4b (missing = `".specs/kit"`). |
+| `kit_ref` | Answer to Q4c (missing = `kit_dir`). |
+| `kit_files` | Top-level files and folders of the last generation, relative to `kit_dir` (only when `kit_dir` is not `".specs/kit"`). |
 | `agent` | Answer to Q6: the AI agents whose permissions the generator writes. |
 | `model` | AI model that generated the shared kit (only when `kit` is `"shared"`). |
 

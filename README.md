@@ -241,6 +241,8 @@ The generator starts with a short list of questions:
 | Q2 | **Git host** — none, GitHub or Azure DevOps? | Yes (the `origin` remote) |
 | Q3 | **Your shell** — PowerShell or bash? (per developer) | Yes (the operating system) |
 | Q4 | **Shared or personal kit** — one kit for the team, or one per contributor? | Partly (is `.specs/kit/` committed or ignored?) |
+| Q4b | **Kit folder** — `.specs/kit/` or, for a repository that *is* a shared kit, e.g. the root? | From a company layer |
+| Q4c | **Kit used from other repositories** — under which submodule folder? (only for another kit folder) | From a company layer |
 | Q6 | **AI agent permissions** — for Claude Code, VS Code Copilot, both or none? | Partly (existing agent settings) |
 
 All questions, options and the configuration files: [generator/questions.md](generator/questions.md).

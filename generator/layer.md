@@ -19,14 +19,20 @@ my-company-kit/            the private repository, added to projects as a submod
     skills/<role>.md
 ```
 
-Every file except `layer.json` is optional.
+Every file except `layer.json` is optional. Below, `.specs/kit/` stands for the kit folder
+(`kit_dir`, Q4b).
+
+**One shared kit for all projects:** instead of each project generating its own kit, the
+private repository can generate the kit once into its own root — `defaults.json` with
+`"kit_dir": "."` and `"kit_ref": "<submodule folder>"` (Q4b, Q4c). Projects then only add
+the submodule and load `<submodule folder>/<stage>/prompt.md`.
 
 ## Files
 
 | File | Holds | Used by |
 |------|-------|---------|
 | `layer.json` | `{ "name": "<layer name>", "version": 1 }` — marks the folder as a layer | Q5 (finding the layer) |
-| `defaults.json` | Any subset of the keys of `.specs/spec-nx.json` (`languages`, `stages`, `on_demand`, `git_host`, `link_issues`, `shells`, `kit`, `agent`) | Suggestions of every question |
+| `defaults.json` | Any subset of the keys of `.specs/spec-nx.json` (`languages`, `stages`, `on_demand`, `git_host`, `link_issues`, `shells`, `kit`, `kit_dir`, `kit_ref`, `agent`) | Suggestions of every question |
 | `guidelines/<language>.md` | The company's rules for a language, same shape as `stages/guidelines/<language>.md` | Replaces the spec-nx baseline for that language in `.specs/kit/guidelines/` |
 | `setup/<language>.md` | The company's stack for a language: the answers of the table in `stages/setup/project_spec.md` (framework, package manager, tests, lint) plus fixed conventions (folders, ports, run scripts) | Suggestions of the project setup spec (Q0c) |
 | `looks/` | Brand looks (colours, fonts, components) in the shape of `stages/ui/looks.md` | The ui stage (`LOOK:`) |
