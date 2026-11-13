@@ -1,18 +1,27 @@
-# Shared by the git-host tools: put a summary between the spec-summary markers of a description.
+# Shared by the git-host tools: put a text between named markers of a description
+# (<!-- spec-summary:start --> ... <!-- spec-summary:end -->, the same for semantic-diff).
 # Source it: . "$here/../spec_summary.sh"
 
-SPEC_SUMMARY_START='<!-- spec-summary:start -->'
-SPEC_SUMMARY_END='<!-- spec-summary:end -->'
-
-# set_spec_summary <body> <summary>  ->  new body on stdout
-set_spec_summary() {
-  local body="$1" summary="$2"
-  local block="$SPEC_SUMMARY_START"$'\n'"$summary"$'\n'"$SPEC_SUMMARY_END"
+# set_marked_block <body> <name> <text>  ->  new body on stdout
+set_marked_block() {
+  local body="$1" name="$2" text="$3"
+  local start="<!-- $name:start -->" end="<!-- $name:end -->"
+  local block="$start"$'\n'"$text"$'\n'"$end"
   if [[ -z "${body//[[:space:]]/}" ]]; then
     printf '%s\n' "$block"
-  elif [[ "$body" == *"$SPEC_SUMMARY_START"*"$SPEC_SUMMARY_END"* ]]; then
-    printf '%s%s%s\n' "${body%%"$SPEC_SUMMARY_START"*}" "$block" "${body#*"$SPEC_SUMMARY_END"}"
+  elif [[ "$body" == *"$start"*"$end"* ]]; then
+    printf '%s%s%s\n' "${body%%"$start"*}" "$block" "${body#*"$end"}"
   else
     printf '%s\n\n%s\n' "$body" "$block"
   fi
+}
+
+# set_spec_summary <body> <summary>  ->  new body on stdout
+set_spec_summary() {
+  set_marked_block "$1" spec-summary "$2"
+}
+
+# set_semantic_diff <body> <text>  ->  new body on stdout
+set_semantic_diff() {
+  set_marked_block "$1" semantic-diff "$2"
 }

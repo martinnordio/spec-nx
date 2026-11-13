@@ -50,12 +50,15 @@ examples from project to project. These must stay exactly as in spec-nx, so that
 compatible with updates and with each other:
 
 - The **commands**: `REQUIREMENTS:`, `UPDATE ISSUE:`, `PLAN:`, `IMPLEMENT:`, `CLOSE:`,
-  `GUIDELINES:`, `DOCS:`, `ARCHITECTURE`, `ADR:`, `PR:` and their arguments.
+  `GUIDELINES:`, `DOCS:`, `ARCHITECTURE`, `ADR:`, `REVIEW:`, `CODE REVIEW:`, `PR:` and their
+  arguments.
 - The **spec file**: name `yyyy_mm_dd_<name>_spec.md`; the Stage log (date, stage, command,
   model) above Part 1 · Requirements, the marker line `<!-- spec-nx:plan -->`, Part 2 · Plan;
   statements `S<n>`, Steps, decisions `D<n>`. Every stage that writes to the spec adds a
   Stage log row with the model it ran on.
-- The **summary block** markers `<!-- spec-summary:start -->` / `<!-- spec-summary:end -->`.
+- The **summary block** markers `<!-- spec-summary:start -->` / `<!-- spec-summary:end -->`,
+  and the `<!-- semantic-diff:start -->` / `<!-- semantic-diff:end -->` block of the review
+  stage; the change record format (`review/change_record.schema.json`).
 - The **scripts**: names, parameters, `-DryRun` / `--dry-run`, and what they change.
 - The **layout** of the kit: `README.md`, `<stage>/prompt.md`, `skills/`, `spec_template.md`,
   `tools/`

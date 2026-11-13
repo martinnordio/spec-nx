@@ -53,6 +53,11 @@ generated kit (`.specs/kit/pr/`).
    statements (one line each) and — if Part 2 has Steps — the Plan table with each Step's
    status. Write it to a temporary file outside the repository.
 
+   **Semantic diff:** if the review stage wrote `semantic_diff.md` for this branch
+   (`.specs/changes/<name>/` or `.specs/changes/done/<name>/`), pass it to the pull-request
+   script too (`-SemanticDiffFile <file>` / `--semantic-diff <file>`); it fills the
+   pull request's `semantic-diff` block.
+
 4. **Title and issue.**
    - Title of a new pull request: the spec title, followed by the issue reference if there is
      one (`<title> (#<n>)`).
@@ -65,10 +70,10 @@ generated kit (`.specs/kit/pr/`).
 
    | Host | Shell | Pull request | Issue / backlog item |
    |------|-------|--------------|----------------------|
-   | GitHub | PowerShell | `../tools/github/update_pr.ps1 -SummaryFile <file> -Title <title> -Issue <n> [-Draft] -DryRun` | `../tools/github/update_issue.ps1 -Issue <n> -SummaryFile <file> -DryRun` |
-   | GitHub | bash | `../tools/github/update_pr.sh <file> --title <title> --issue <n> [--draft] --dry-run` | `../tools/github/update_issue.sh <n> <file> --dry-run` |
-   | Azure DevOps | PowerShell | `../tools/azure_devops/update_pr.ps1 -SummaryFile <file> -Title <title> -Issue <id> [-Draft] -DryRun` | `../tools/azure_devops/update_issue.ps1 -Issue <id> -SummaryFile <file> -DryRun` |
-   | Azure DevOps | bash | `../tools/azure_devops/update_pr.sh <file> --title <title> --issue <id> [--draft] --dry-run` | `../tools/azure_devops/update_issue.sh <id> <file> --dry-run` |
+   | GitHub | PowerShell | `../tools/github/update_pr.ps1 -SummaryFile <file> [-SemanticDiffFile <file>] -Title <title> -Issue <n> [-Draft] -DryRun` | `../tools/github/update_issue.ps1 -Issue <n> -SummaryFile <file> -DryRun` |
+   | GitHub | bash | `../tools/github/update_pr.sh <file> [--semantic-diff <file>] --title <title> --issue <n> [--draft] --dry-run` | `../tools/github/update_issue.sh <n> <file> --dry-run` |
+   | Azure DevOps | PowerShell | `../tools/azure_devops/update_pr.ps1 -SummaryFile <file> [-SemanticDiffFile <file>] -Title <title> -Issue <id> [-Draft] -DryRun` | `../tools/azure_devops/update_issue.ps1 -Issue <id> -SummaryFile <file> -DryRun` |
+   | Azure DevOps | bash | `../tools/azure_devops/update_pr.sh <file> [--semantic-diff <file>] --title <title> --issue <id> [--draft] --dry-run` | `../tools/azure_devops/update_issue.sh <id> <file> --dry-run` |
 
 6. **After the user confirms:**
    1. Push the branch (`git push -u origin <branch>` the first time, `git push` after).
@@ -85,5 +90,6 @@ generated kit (`.specs/kit/pr/`).
 
 - Merge, close, or force-push.
 - Change the spec, except its Stage log.
-- Change text outside the `spec-summary` blocks of the pull request or the issue.
+- Change text outside the `spec-summary` and `semantic-diff` blocks of the pull request, or
+  outside the `spec-summary` block of the issue.
 - Put secrets, tokens, internal URLs or personal data into a summary.

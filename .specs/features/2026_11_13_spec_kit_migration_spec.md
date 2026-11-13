@@ -13,7 +13,7 @@
 |------|-------|---------|-------|------|
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written from the migration plan (M1–M12) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written: one Step per M item |
-| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–6 done |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–7 done |
 
 ---
 
@@ -117,7 +117,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | **4** | New project spec (M6) | ✅ Done | [→ Step 4](#step-4--new-project-spec-m6) |
 | **5** | Company layer (M11) | ✅ Done | [→ Step 5](#step-5--company-layer-m11) |
 | **6** | Documentation stage (M3) | ✅ Done | [→ Step 6](#step-6--documentation-stage-m3) |
-| **7** | Review stage and semantic-diff block (M4) | ⬜ Not started | [→ Step 7](#step-7--review-stage-m4) |
+| **7** | Review stage and semantic-diff block (M4) | ✅ Done | [→ Step 7](#step-7--review-stage-m4) |
 | **8** | Improvement stage (M5) | ⬜ Not started | [→ Step 8](#step-8--improvement-stage-m5) |
 | **9** | UI stage (M7) | ⬜ Not started | [→ Step 9](#step-9--ui-stage-m7) |
 | **10** | Agent permissions (M9) | ⬜ Not started | [→ Step 10](#step-10--agent-permissions-m9) |
@@ -298,13 +298,21 @@ command shows a diff for existing project documents.
 `REVIEW:` with the semantic diff, `CODE REVIEW:`, and the `semantic-diff` block in the pull-request scripts (S9, S14).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/review/prompt.md`, `semantic_diff.md` (rules), `code_review.md` (checklist), `change_record.yaml`, `change_record.schema.json`; `stages/skills/reviewer.md`.
-- [ ] `update_pr.ps1` / `.sh` for GitHub and Azure DevOps: optional semantic-diff file; tools README; pr stage passes it when the kit has review.
-- [ ] Check: PowerShell parse + ASCII, `bash -n`; dry run of the block replacement on a sample description.
+- [x] Record the start time in Notes below.
+- [x] `stages/review/prompt.md`, `semantic_diff.md` (rules), `code_review.md` (checklist), `change_record.yaml`, `change_record.schema.json`; `stages/skills/reviewer.md`.
+- [x] `update_pr.ps1` / `.sh` for GitHub and Azure DevOps: optional semantic-diff file; tools README; pr stage passes it when the kit has review.
+- [x] Check: PowerShell parse + ASCII, `bash -n`; dry run of the block replacement on a sample description.
 
 ### Notes
+Started: 2026-11-13 09:46
 
+**Done (2026-11-13 · ~26m · Claude Opus 5.5)** — review stage (`REVIEW:` record → Before | After
+→ checks C1–C9 → `review.md` → `semantic_diff.md`; `CODE REVIEW:` four layers, findings routed
+to fix now / `IMPROVE:` / new spec / `ADR:`), new kind `command`, reviewer skill; marker helpers
+generalised (`Set-MarkedBlock` / `set_marked_block`) and the four `update_pr` scripts take an
+optional semantic-diff file. Checks: 6 PowerShell files parse and are ASCII, 6 bash files pass
+`bash -n`; block test in both shells replaces both blocks once and keeps the hand-written text;
+the example record validates against the schema.
 ---
 
 ## Step 8 — Improvement stage (M5)

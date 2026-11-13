@@ -1,12 +1,16 @@
 <#
 .SYNOPSIS
   Put a spec summary into the spec-summary block of the Azure DevOps pull request of the current
-  branch; creates the pull request if there is none (needs -Title). Text outside the block is kept.
+  branch; creates the pull request if there is none (needs -Title). With -SemanticDiffFile, also
+  puts that text into the semantic-diff block. Text outside the blocks is kept.
 .EXAMPLE
   ./update_pr.ps1 -SummaryFile summary.md -Title "Login page" -Issue 123 -Draft -DryRun
+.EXAMPLE
+  ./update_pr.ps1 -SummaryFile summary.md -SemanticDiffFile semantic_diff.md -DryRun
 #>
 param(
     [Parameter(Mandatory)] [string] $SummaryFile,
+    [string] $SemanticDiffFile,
     [string] $Title,
     [int] $Issue,
     [switch] $Draft,
@@ -39,6 +43,7 @@ if ($pr) {
     $kind = if ($Draft) { 'draft pull request' } else { 'pull request' }
     $target = "a new $kind '$Title' from '$branch'"
 }
+if ($SemanticDiffFile) { $new = Set-SemanticDiff -Body $new -Text (Read-Utf8 $SemanticDiffFile) }
 if ($new.Length -gt $MaxDescription) { throw "The description has $($new.Length) characters; Azure DevOps allows $MaxDescription. Shorten the summary." }
 
 if ($DryRun) {

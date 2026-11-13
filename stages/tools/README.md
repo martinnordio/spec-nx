@@ -13,6 +13,10 @@ writes it to a file; the script puts that text into the description, between the
 Text outside the markers (written by hand) is kept. Without markers, the block is added at the
 end. Every script has a dry run that prints the new description and changes nothing.
 
+The pull-request scripts also fill a second block, `<!-- semantic-diff:start -->` …
+`<!-- semantic-diff:end -->`, when they get a semantic-diff file (`-SemanticDiffFile` /
+`--semantic-diff`), written by the review stage. Without it, that block is left as it is.
+
 | Host | Script (PowerShell / bash) | Does |
 |------|----------------------------|------|
 | GitHub | `github/update_issue.ps1` / `.sh` | Issue description |
@@ -32,6 +36,9 @@ bash stages/tools/github/update_issue.sh 12 summary.md --dry-run
 
 pwsh stages/tools/github/update_pr.ps1 -SummaryFile summary.md -Title "Login page (#12)" -Issue 12 -Draft
 bash stages/tools/github/update_pr.sh summary.md --title "Login page (#12)" --issue 12 --draft
+
+pwsh stages/tools/github/update_pr.ps1 -SummaryFile summary.md -SemanticDiffFile semantic_diff.md -DryRun
+bash stages/tools/github/update_pr.sh summary.md --semantic-diff semantic_diff.md --dry-run
 ```
 
 ## The summary
