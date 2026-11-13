@@ -13,7 +13,7 @@
 |------|-------|---------|-------|------|
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written from the migration plan (M1–M12) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written: one Step per M item |
-| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–5 done |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–6 done |
 
 ---
 
@@ -116,7 +116,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | **3** | Guidelines (M2) | ✅ Done | [→ Step 3](#step-3--guidelines-m2) |
 | **4** | New project spec (M6) | ✅ Done | [→ Step 4](#step-4--new-project-spec-m6) |
 | **5** | Company layer (M11) | ✅ Done | [→ Step 5](#step-5--company-layer-m11) |
-| **6** | Documentation stage (M3) | ⬜ Not started | [→ Step 6](#step-6--documentation-stage-m3) |
+| **6** | Documentation stage (M3) | ✅ Done | [→ Step 6](#step-6--documentation-stage-m3) |
 | **7** | Review stage and semantic-diff block (M4) | ⬜ Not started | [→ Step 7](#step-7--review-stage-m4) |
 | **8** | Improvement stage (M5) | ⬜ Not started | [→ Step 8](#step-8--improvement-stage-m5) |
 | **9** | UI stage (M7) | ⬜ Not started | [→ Step 9](#step-9--ui-stage-m7) |
@@ -278,13 +278,18 @@ setup, and reports them. Check: both JSON examples parse; the example names no c
 `DOCS:`, `ARCHITECTURE`, `ADR:` and the document templates (S8).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/documentation/prompt.md`; templates `architecture.md`, `adr.md`, `data_model.md`, `api_contracts.md`, `glossary.md`, `runbook.md`.
-- [ ] Architect skill: owns architecture and ADRs.
-- [ ] Check: paths exist; project files are never overwritten.
+- [x] Record the start time in Notes below.
+- [x] `stages/documentation/prompt.md`; templates `architecture.md`, `adr.md`, `data_model.md`, `api_contracts.md`, `glossary.md`, `runbook.md`.
+- [x] Architect skill: owns architecture and ADRs.
+- [x] Check: paths exist; project files are never overwritten.
 
 ### Notes
+Started: 2026-11-13 09:44
 
+**Done (2026-11-13 · ~1m · Claude Opus 5.5)** — documentation stage (`DOCS:`, `ARCHITECTURE`,
+`ADR:` also from a plan decision), six templates, architect owns the documents; generator
+copies a stage's other files with its prompt. Check: the six `templates/` paths exist; every
+command shows a diff for existing project documents.
 ---
 
 ## Step 7 — Review stage (M4)
