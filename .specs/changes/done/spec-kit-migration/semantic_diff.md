@@ -1,7 +1,7 @@
 ### Semantic diff
 New stages, questions, company layer and agent permissions; nothing existing changes meaning · checks 4 pass · 4 n/a · 1 fail · findings 4
 
-**Review here first:** [review page](https://github.com/martinnordio/spec-nx/blob/feature/spec-kit-migration/.specs/changes/done/spec-kit-migration/review.md) · after the merge: [on main](https://github.com/martinnordio/spec-nx/blob/main/.specs/changes/done/spec-kit-migration/review.md)
+**Review here first:** [review page](https://github.com/martinnordio/spec-nx/blob/feature/spec-kit-migration/.specs/changes/done/spec-kit-migration/review.md) · full report with Before | After and tooltips: [review.html](https://github.com/martinnordio/spec-nx/raw/feature/spec-kit-migration/.specs/changes/done/spec-kit-migration/review.html) (download, open in a browser)
 
 | Kind | Object | Change | Statements |
 |------|--------|--------|------------|
@@ -16,5 +16,6 @@ New stages, questions, company layer and agent permissions; nothing existing cha
 | command | `IMPROVE:`, `SETUP TOOLING:`, `SETUP MACHINE`, `LOOK:`, `UI CATALOG` | added | S10, S11, S13 |
 | command | `update_pr` (4 scripts): optional semantic-diff file | modified | S9, S14 |
 | data-format | Pull-request description: `semantic-diff` block | modified | S9 |
+| data-format | HTML review page `review.html` + `.specs/changes/index.html` | added | S17 |
 
 **Top findings:** (1) Should-fix — `GENERATE KIT` with the new questions not yet tried end to end in a scratch project (deferred); (2) Nit — no committed tests for the changed scripts (C7, deferred); (3) Nit — placeholder links in templates.

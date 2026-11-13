@@ -1,7 +1,7 @@
 # Spec-Kit Migration Spec
 
 > **Author:** Martin Nordio
-> **Status:** ✅ Complete — closed on `feature/spec-kit-migration`; pull request not opened yet
+> **Status:** 🔄 Reopened for Steps 13–14 (HTML review page; remove the migration plan)
 > **Created:** 2026-11-13
 > **Last updated:** 2026-11-13
 > **Branch:** `feature/spec-kit-migration` (all Steps; one pull request at the end)
@@ -18,6 +18,8 @@
 | 2026-11-13 | review | `CODE REVIEW:` | Claude Opus 5.5 | Approve; 1 Should-fix, 3 Nits deferred |
 | 2026-11-13 | implementation | `CLOSE:` | Claude Opus 5.5 | spec closed |
 | 2026-11-13 | pr | `PR:` | Claude Opus 5.5 | pull request and issue prepared (dry run); waiting for the author's approval |
+| 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 revised: S17 HTML review page (author's request) |
+| 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | re-planned: Steps 13–14 added |
 
 ---
 
@@ -99,6 +101,11 @@ questions Q0, Q0b, Q0c, Q1b, Q5, Q6.
 - **S16 — Used on itself:** this spec is implemented with the implementation stage's protocol,
   reviewed with `REVIEW:` (semantic diff) and published with the pr stage, which also creates
   and updates its issue.
+- **S17 — HTML review page (M4, added at the author's request):** `REVIEW:` also writes a
+  self-contained HTML report — no external files, readable without JavaScript, light and dark —
+  with Before | After side by side and the changed lines shaded, the highlights as coloured
+  diffs with concept tooltips, the findings, a reviewer checklist and machine-readable
+  metadata; an index lists all review pages; the pull-request text links to the report.
 
 ### Open questions
 
@@ -143,6 +150,8 @@ skills); `stages/tools/` (`spec_summary.*`, `update_pr.*`); `README.md`;
 | **10** | Agent permissions (M9) | ✅ Done | [→ Step 10](#step-10--agent-permissions-m9) |
 | **11** | Setup tooling (M12) | ✅ Done | [→ Step 11](#step-11--setup-tooling-m12) |
 | **12** | README, checks, semantic diff, close | ✅ Done | [→ Step 12](#step-12--readme-checks-semantic-diff-close) |
+| **13** | HTML review page (S17) | ✅ Done | [→ Step 13](#step-13--html-review-page-s17) |
+| **14** | Remove the migration plan and its template | ⬜ Not started | [→ Step 14](#step-14--remove-the-migration-plan-and-its-template) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
@@ -163,7 +172,7 @@ skills); `stages/tools/` (`spec_summary.*`, `update_pr.*`); `README.md`;
 | D2 | On-demand stages get their own key `on_demand` (Q1b); `stages` keeps its six values | P3: an existing key never changes meaning |
 | D3 | Guidelines are a building block `stages/guidelines/` (prompt + baselines), copied to `.specs/kit/guidelines/` when `languages` is set — not a Q1 stage | Every stage that writes code needs them; they are not a step of the method |
 | D4 | New questions: Q0 `project`, Q0b `languages`, Q0c `project_spec`, Q1b `on_demand`, Q5 `layer`, Q6 `agent`. They are **asked** in the order of the question table; Q5 comes first because the layer's defaults feed every suggestion | Numbers stay stable (P3); the order is what the user sees |
-| D5 | The review stage writes `.specs/changes/<name>/` (`change_record.yaml`, `review.md`, `semantic_diff.md`); `update_pr.*` gets an optional `-SemanticDiffFile` / `--semantic-diff` that replaces the `semantic-diff` block. HTML page and card images are deferred | Markdown works on both hosts without attachments; optional parameter keeps old calls working (S14) |
+| D5 | The review stage writes `.specs/changes/<name>/` (`change_record.yaml`, `review.html`, `review.md`, `semantic_diff.md`) and `.specs/changes/index.html`; `update_pr.*` gets an optional `-SemanticDiffFile` / `--semantic-diff` that replaces the `semantic-diff` block. Card images are deferred | The HTML page is the full report (side by side, tooltips); the Markdown copy can be read on the git host without downloading; the optional parameter keeps old calls working (S14) |
 | D6 | Agent permissions: Claude Code → `.claude/settings.json` (`permissions` allow / ask / deny); VS Code Copilot → `.vscode/settings.json` (`chat.tools.terminal.autoApprove`). Both are project files: created if missing, otherwise a proposed diff | The two agents the author uses; project files survive `--update` (P2) |
 | D7 | Prompts cannot be unit-tested; each Step is checked by: every `../` path in the prompts exists, PowerShell files parse and are ASCII, bash files pass `bash -n`, and a read-through against the statements | The checks the generator itself runs (generator step 6) |
 
@@ -436,13 +445,52 @@ the record (14 blocks, schema-valid after one fix), 17 Before | After pairs prod
 `3cae701` and the head, the review page and the pull-request text; `CODE REVIEW:` approved
 with 1 Should-fix and 3 Nits (deferred). Spec closed; pull request and issue prepared as a dry
 run — nothing pushed.
+
+---
+
+## Step 13 — HTML review page (S17)
+
+### Goal
+The review stage writes the HTML report, and this branch has one (S17).
+
+### Tasks
+- [x] Record the start time in Notes below.
+- [x] `stages/review/review_page.html`: template (styles, light / dark, sections, Before | After side by side, diff table, CSS tooltips, `review-meta`).
+- [x] Review prompt: write `review.html` and `review.md`, tooltips, `.specs/changes/index.html`; the pull-request text links the HTML page; `semantic_diff.md` files list; generator contract; README.
+- [x] Write `review.html` for this branch and the index; add the `review-page` block to the record.
+- [x] Check: the page opens in a browser with no external requests and no horizontal overflow; tooltips show on hover; the record is valid.
+
+### Notes
+Started: 2026-11-13 11:29
+
+**Done (2026-11-13 · ~5m · Claude Opus 5.5)** — HTML template and review-stage rules;
+`review.html` (15 change cards, 18 Before | After pairs, 4 highlights from the real diff with 6
+concept tooltips) and `.specs/changes/index.html` for this branch; the pull-request text links
+the report. Checks in the browser: no external requests, no horizontal overflow at 733 and 1 400
+px, tooltip shows on hover, code ligatures off; the record (15 blocks) passes the schema.
+
+---
+
+## Step 14 — Remove the migration plan and its template
+
+### Goal
+The migration is done, so its plan and the plan template leave the repository; nothing links to them.
+
+### Tasks
+- [ ] Record the start time in Notes below.
+- [ ] Delete `.specs/migrations/` and `.specs/migration_template.md`; update `.specs/README.md`.
+- [ ] Replace links to the plan with a note (it stays in the git history); close the spec again.
+- [ ] Check: the link check finds only the known template placeholders.
+
+### Notes
+
 ---
 
 ## Deferred Items
 
 | Task | Reason | Target Spec |
 |------|--------|-------------|
-| HTML review page and card images (`render_cards`) | Markdown first (D5) | a later review spec |
+| Card images of the semantic diff for the pull request (`render_cards`, needs Node + Playwright) | The HTML page and the Markdown table cover the review (D5) | a later review spec |
 | Command-line generator | Out of scope of the migration | later |
 | Example kits in `examples/` | After the stages settle | later |
 | Try `GENERATE KIT` end to end in `testing/`: an empty repository (Q0c) and an existing one, with and without a layer | Code review finding 2; prompts cannot run in this repository | before the first project switches |

@@ -10,7 +10,7 @@ why: |
   private company layer and agent permissions — as building blocks, with no company content.
 spec:
   path: .specs/features/done/2026_11_13_spec_kit_migration_spec.md
-  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16]
+  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17]
 changes:
   - id: question-table
     kind: config
@@ -156,6 +156,16 @@ changes:
         input: |
           body "Hand text" + an old spec-summary block; Set-SpecSummary "NEW SUMMARY",
           then (after only) Set-SemanticDiff "SEMANTIC DIFF"
+  - id: review-page
+    kind: data-format
+    change: added
+    object: .specs/changes/<name>/review.html — the HTML review report
+    note: Self-contained page; Before | After side by side, coloured diffs with concept tooltips, findings, metadata.
+    statements: [S17]
+    examples:
+      - name: sections
+        input: |
+          the sections of stages/review/review_page.html
 breaking: none — existing settings files, commands, markers and script calls keep working.
 review:
   - question: Why one spec for twelve migration items instead of one spec each?
