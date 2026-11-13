@@ -26,6 +26,7 @@ The questions are **asked in the order of this table**:
 | Q2b | Keep each spec in sync with an issue / backlog item? | project | `link_issues` | `true` if there is a git host |
 | Q3 | Which shell do you run the kit's scripts in? | developer | `shell` | from the operating system |
 | Q4 | Share the kit with the team, or keep it personal? | project | `kit` | `"shared"` |
+| Q6 | AI agent permissions — for which agents? | project | `agent` | the agents found |
 
 New questions get the next number and their own key; existing keys never change meaning.
 
@@ -276,6 +277,28 @@ Either way the specs in `.specs/features/` and the project settings are shared.
 
 ---
 
+## Q6 · AI agent permissions
+
+**Ask:** *Should I write the permissions of your AI agent, so it runs tests and linters
+without asking, asks before deleting or installing, and never commits or pushes?*
+
+| Option | `agent` |
+|--------|---------|
+| Claude Code | `["claude_code"]` |
+| VS Code Copilot | `["copilot"]` |
+| Both | `["claude_code", "copilot"]` |
+| None | `[]` |
+
+**Suggest from the repository:** the agents whose settings exist (`.claude/` →
+`claude_code`; `.vscode/settings.json` with `chat.` keys → `copilot`); otherwise the editor
+you are running in.
+
+**Effect:** the generator writes or proposes each agent's permissions file, following
+`stages/agent/permissions.md`. These are project files: never overwritten, only extended
+after the user agrees.
+
+---
+
 ## `.specs/spec-nx.json` (project)
 
 Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the project.
@@ -294,6 +317,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
   "link_issues": true,
   "shells": ["powershell", "bash"],
   "kit": "shared",
+  "agent": ["copilot"],
   "model": "<AI model that generated the kit>"
 }
 ```
@@ -313,6 +337,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `link_issues` | Answer to Q2b. |
 | `shells` | Shells the kit's scripts are generated for: every developer's Q3 answer. |
 | `kit` | Answer to Q4. |
+| `agent` | Answer to Q6: the AI agents whose permissions the generator writes. |
 | `model` | AI model that generated the shared kit (only when `kit` is `"shared"`). |
 
 ## `.specs/spec-nx.local.json` (developer)
