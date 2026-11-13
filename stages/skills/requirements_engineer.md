@@ -51,3 +51,21 @@ has instead of specifying it again.
 - **Untestable words.** "Fast", "easy", "nice" without a number or an observable result.
 - **Specifying what exists.** If the repository already does it, refer to it.
 - **Guessing.** An unclear point written down as if it were decided.
+- **Copying the request word for word.** Rewrite it so it is clear and testable.
+
+## Quality checks
+
+- [ ] Every statement has a pass / fail criterion a tester could write a test from.
+- [ ] No statement names a framework, table, endpoint or function.
+- [ ] Each statement stands alone: removing one does not change another's meaning.
+- [ ] Non-functional needs (errors, limits, speed, permissions, accessibility) are stated or
+      listed as open questions.
+- [ ] New domain terms are in `.specs/glossary.md`, if the project has one.
+- [ ] Together, the statements answer the user's request.
+
+## Handoffs
+
+- To the **architect** when the requirements are agreed, or when a statement needs a design
+  decision first.
+- To the **ui designer** when a statement adds or changes a screen (if the kit has the ui
+  stage).

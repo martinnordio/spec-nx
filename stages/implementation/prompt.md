@@ -1,0 +1,129 @@
+# Stage: Implementation
+
+Do the Steps of a planned spec **one at a time**, keeping the spec true while you work, and
+**close** the spec when every Step is done.
+
+## Commands
+
+```
+IMPLEMENT: <spec file> [Step <n>]
+```
+Does one Step: the one named, or the first Step that is not ✅ Done. Run it again for the next
+Step.
+
+```
+CLOSE: <spec file>
+```
+Checks that the work is complete, writes what was built, and moves the spec to
+`.specs/features/done/`.
+
+## Skills to load
+
+Always: `../skills/developer.md` — the role you take in this stage.
+
+## Files this stage uses
+
+Paths are relative to this file, so they work both inside spec-nx (`stages/implementation/`)
+and in a generated kit (`.specs/kit/implementation/`).
+
+| File | Use |
+|------|-----|
+| `../skills/developer.md` | Your role while implementing |
+| `../guidelines/<language>.md` | Baseline coding rules of each language the Step touches (if the kit has them) |
+| `.specs/guidelines/<language>.md` | The project's own rules; they win over the baseline |
+| `.specs/architecture.md` | Module boundaries, if the project has it |
+| `../spec_template.md` | The Step completion protocol and the Definition of Done |
+| `.specs/spec-nx.json` | `stages` (which Definition of Done lines apply) |
+
+---
+
+## IMPLEMENT
+
+1. **Pick the Step.** The one named, or the first Step not ✅ Done in **2 · Spec Overview**.
+   Stop and say so if:
+   - Part 2 has no Steps (run the plan stage first);
+   - an earlier Step is not done and the user did not name this Step on purpose;
+   - the Step's tasks are unclear — ask; never guess.
+
+2. **Check the branch.** The current branch is the spec's **Branch** (header). If you are on
+   the default branch and the feature branch does not exist yet, offer to create it
+   (`git checkout -b <branch>`); otherwise stop and say so.
+
+3. **Start.** Tick the first task and write `Started: YYYY-MM-DD HH:MM` (the real clock time)
+   in the Step's **Notes**. Set the Step's row to `🔄 In progress` and the header **Status** to
+   `🔄 In progress`.
+
+4. **Read before writing.** The Step's goal and the statements it names; the code it touches;
+   the guidelines of the languages it touches (`.specs/guidelines/<language>.md` first, then
+   `../guidelines/<language>.md`); `.specs/architecture.md` if there is one.
+
+5. **Do the tasks, in order.** The smallest change that does the task. After each task, run
+   the project's checks that apply (tests, linter, type checker, build) and tick the task only
+   when they pass. Work outside the Step goes into **Deferred Items**, not into the code.
+
+6. **Check the Step.** Run the check named in its last task. If it fails, fix it within the
+   Step, or stop and tell the user why — the Step stays `🔄 In progress`.
+
+7. **Finish, in one edit** (the template's *Step completion protocol*):
+   - all tasks ticked; the Step's row `✅ Done`;
+   - a Done line in its Notes: `**Done (YYYY-MM-DD · ~<duration> · <model>)** — <summary>.
+     <check and its result>`, with the exact name of the AI model you are;
+   - **Last updated** today; a **Stage log** row: today, `implementation`, `IMPLEMENT:`, your
+     model, `Step <n> done`.
+
+8. **Report and suggest the commit.** What changed (files), the check result, anything
+   deferred, and a commit message:
+
+   ```
+   Step <n>: <Step description> (#<issue>)
+   ```
+
+   (`AB#<id>` for an Azure DevOps backlog item; no reference if the spec has none.) The user
+   commits. Then the next step: `IMPLEMENT: <spec file>` for the next Step, or
+   `CLOSE: <spec file>` when all Steps are done.
+
+## CLOSE
+
+1. **Check that the spec can be closed.** Every Step is ✅ Done or `🔜 Deferred` (its open
+   tasks moved to **Deferred Items**). Otherwise stop and list what is open.
+
+2. **Write what was built.** Directly under `# Part 2 · Plan`, add:
+
+   ```
+   ## Closing summary
+
+   **Built:** <one paragraph: what the feature does now>
+   **Differs from the plan:** <what changed while implementing, and why — or "nothing">
+   **Files:** <main files created or changed>
+   ```
+
+   Do not delete Steps, Notes or decisions — the history stays.
+
+3. **Requirements discovered while implementing** go into Part 1 as new statements at the end
+   (numbers stay stable), each marked `(added while implementing)`.
+
+4. **Definition of Done.** Tick the lines that are true; leave the pull-request line for the
+   pr stage. Never tick a line that is not true — report it instead.
+
+5. **Deferred items.** For each one whose target spec does not exist, offer
+   `REQUIREMENTS: <name> — <deferred task>`.
+
+6. **Move the spec.**
+   - Header: **Status** `✅ Complete — closed on <branch>`; **Last updated** today.
+   - A **Stage log** row: today, `implementation`, `CLOSE:`, your model, `spec closed`.
+   - `git mv` the spec to `.specs/features/done/` (the name stays the same).
+   - Relative links in the spec are one level deeper now: change `../` to `../../` and check
+     that every link resolves. Fix links **to** the spec from other files.
+   - If the review stage wrote `.specs/changes/<name>/`, `git mv` it to
+     `.specs/changes/done/<name>/` and fix the links.
+
+7. **Report** and suggest the commit `Close the spec (#<issue>)`. If the kit has the pr
+   stage, the next step is `PR: <spec file>` — the closed spec ships in the same pull request.
+
+## Never
+
+- Work on more than one Step per `IMPLEMENT:`, or start the next Step on your own.
+- Change Part 1 while implementing (only `CLOSE` adds discovered statements); if Part 1 is
+  wrong, stop and suggest `REQUIREMENTS: <spec file> — …`.
+- Tick a task whose check fails, or write a Done line for a Step that is not done.
+- Commit, push or merge — the user does that.
