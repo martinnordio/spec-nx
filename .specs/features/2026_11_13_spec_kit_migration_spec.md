@@ -111,7 +111,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 |------|-------------|--------|--------|
 | **0** | Branch, migration plan, this spec | ✅ Done | [→ Step 0](#step-0--branch-migration-plan-this-spec) |
 | **1** | Generator questions (M10) | ✅ Done | [→ Step 1](#step-1--generator-questions-m10) |
-| **2** | Implementation stage, developer skill, kit README (M1) | ⬜ Not started | [→ Step 2](#step-2--implementation-stage-m1) |
+| **2** | Implementation stage, developer skill, kit README (M1) | ✅ Done | [→ Step 2](#step-2--implementation-stage-m1) |
 | **3** | Guidelines (M2) | ⬜ Not started | [→ Step 3](#step-3--guidelines-m2) |
 | **4** | New project spec (M6) | ⬜ Not started | [→ Step 4](#step-4--new-project-spec-m6) |
 | **5** | Company layer (M11) | ⬜ Not started | [→ Step 5](#step-5--company-layer-m11) |
@@ -161,9 +161,9 @@ Start the feature branch with the migration plan, the Stage log work and this sp
 - [x] Check: search for company names and local paths finds nothing; commit.
 
 ### Notes
-Started: 2026-11-13 09:40
+Started: 2026-11-13 09:25
 
-**Done (2026-11-13 · ~20m · Claude Opus 5.5)** — branch created; migration plan made generic
+**Done (2026-11-13 · ~13m · Claude Opus 5.5)** — branch created; migration plan made generic
 (no company names or local paths) and its open questions answered; this spec written. Search
 for company names and local paths: no match.
 
@@ -181,9 +181,9 @@ The generator asks Q0, Q0b, Q1 (Simple / Full / Custom) and Q1b (S1, S14).
 - [x] Check: every key in the example JSON is in the key table and has a question.
 
 ### Notes
-Started: 2026-11-13 10:00
+Started: 2026-11-13 09:38
 
-**Done (2026-11-13 · ~15m · Claude Opus 5.5)** — Q0, Q0b, Q1 (Simple / Full / Custom), Q1b
+**Done (2026-11-13 · ~2m · Claude Opus 5.5)** — Q0, Q0b, Q1 (Simple / Full / Custom), Q1b
 written; question table shows the asking order; generator scans for an empty repository.
 Check: the 12 keys of the example JSON are all in the key table.
 ---
@@ -194,14 +194,20 @@ Check: the 12 keys of the example JSON are all in the key table.
 `IMPLEMENT:` and `CLOSE:`, the developer skill, the skill shape and the kit README (S2, S3, S4).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/implementation/prompt.md` with `IMPLEMENT:` and `CLOSE:`.
-- [ ] `stages/skills/developer.md`; `stages/skills/README.md` (skill shape, handoffs); the original's quality checks in `requirements_engineer.md`.
-- [ ] `stages/kit_readme.md` (building block of `.specs/kit/README.md`); generator writes it.
-- [ ] Check: paths in the new prompt exist; the generator contract lists the new commands.
+- [x] Record the start time in Notes below.
+- [x] `stages/implementation/prompt.md` with `IMPLEMENT:` and `CLOSE:`.
+- [x] `stages/skills/developer.md`; `stages/skills/README.md` (skill shape, handoffs); the original's quality checks in `requirements_engineer.md`.
+- [x] `stages/kit_readme.md` (building block of `.specs/kit/README.md`); generator writes it.
+- [x] Check: paths in the new prompt exist; the generator contract lists the new commands.
 
 ### Notes
+Started: 2026-11-13 09:39
 
+**Done (2026-11-13 · ~3m · Claude Opus 5.5)** — implementation stage (`IMPLEMENT:`, `CLOSE:`),
+developer skill, skill shape with quality checks and handoffs (also added to the requirements
+engineer and architect), kit README building block written by the generator. Check: every
+`../` path in `stages/` resolves (guidelines follow in Step 3); contract lists `IMPLEMENT:`,
+`CLOSE:`.
 ---
 
 ## Step 3 — Guidelines (M2)

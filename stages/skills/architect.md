@@ -53,3 +53,15 @@ chosen, so a reader months later understands the trade-off.
 - **Steps without a check.** If nobody can tell when a Step is done, it is not a Step.
 - **Changing the requirements.** If Part 1 is wrong or incomplete, raise it — do not fix it
   silently in the plan.
+
+## Quality checks
+
+- [ ] Every statement S… is covered by at least one Step.
+- [ ] Every Step has a goal, tasks and a check, and leaves the project working.
+- [ ] Every new dependency, file format or module is a decision with its reason.
+- [ ] The last Step checks that what worked before still works.
+
+## Handoffs
+
+- To the **requirements engineer** when Part 1 is unclear or incomplete.
+- To the **developer** when the plan is ready.

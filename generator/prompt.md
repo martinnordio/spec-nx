@@ -29,6 +29,7 @@ This file is `<spec-nx>/generator/prompt.md`, where `<spec-nx>` is spec-nx in th
 | `stages/<stage>/prompt.md` | Reference prompt of each stage (`requirements`, `plan`, `pr`, …) |
 | `stages/skills/<role>.md` | Reference roles the stage prompts load |
 | `stages/spec_template.md` | Reference spec template |
+| `stages/kit_readme.md` | Reference README of the kit (workflow and commands) |
 | `stages/tools/` | Reference git-host scripts (PowerShell and bash) and their README |
 
 | In the project | What |
@@ -44,14 +45,16 @@ The kit is the model's adaptation of the building blocks, so it can differ in wo
 examples from project to project. These must stay exactly as in spec-nx, so that kits stay
 compatible with updates and with each other:
 
-- The **commands**: `REQUIREMENTS:`, `UPDATE ISSUE:`, `PLAN:`, `PR:` and their arguments.
+- The **commands**: `REQUIREMENTS:`, `UPDATE ISSUE:`, `PLAN:`, `IMPLEMENT:`, `CLOSE:`, `PR:`
+  and their arguments.
 - The **spec file**: name `yyyy_mm_dd_<name>_spec.md`; the Stage log (date, stage, command,
   model) above Part 1 · Requirements, the marker line `<!-- spec-nx:plan -->`, Part 2 · Plan;
   statements `S<n>`, Steps, decisions `D<n>`. Every stage that writes to the spec adds a
   Stage log row with the model it ran on.
 - The **summary block** markers `<!-- spec-summary:start -->` / `<!-- spec-summary:end -->`.
 - The **scripts**: names, parameters, `-DryRun` / `--dry-run`, and what they change.
-- The **layout** of the kit: `<stage>/prompt.md`, `skills/`, `spec_template.md`, `tools/`
+- The **layout** of the kit: `README.md`, `<stage>/prompt.md`, `skills/`, `spec_template.md`,
+  `tools/`
   (the stage prompts use paths relative to themselves).
 - The **settings keys** in `generator/questions.md`.
 
@@ -91,6 +94,7 @@ compatible with updates and with each other:
    - `<stage>/prompt.md` from `stages/<stage>/prompt.md`;
    - the skills those prompts list under *Skills to load*, into `skills/`;
    - `spec_template.md`;
+   - `README.md` from `stages/kit_readme.md`: only the rows of the kit's stages;
    - `tools/README.md`, `tools/spec_summary.*` and `tools/<git_host>/` — only the scripts for
      the shells in `shells` — when the kit has the `pr` stage or `link_issues` is `true`.
 
@@ -116,7 +120,8 @@ compatible with updates and with each other:
    `.gitkeep`) if they do not exist. Never change files already there.
 
 8. **Report:** the answers, the kit's files, what was adapted (one line per file), the checks,
-   and how to start: `Load .specs/kit/requirements/prompt.md` → `REQUIREMENTS: <name> — <request>`.
+   and how to start: `Load .specs/kit/requirements/prompt.md` → `REQUIREMENTS: <name> — <request>`
+   (the whole workflow is in `.specs/kit/README.md`).
    Remind the user to commit `.specs/spec-nx.json` (and `.specs/kit/` when shared).
 
 ## GENERATE KIT --update
