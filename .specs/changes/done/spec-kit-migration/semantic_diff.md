@@ -1,7 +1,7 @@
 ### Semantic diff
 New stages, questions, company layer and agent permissions; nothing existing changes meaning · checks 4 pass · 4 n/a · 1 fail · findings 4
 
-**Review here first:** [review page](https://github.com/martinnordio/spec-nx/blob/feature/spec-kit-migration/.specs/changes/done/spec-kit-migration/review.md)
+**Review here first:** [review page](https://github.com/martinnordio/spec-nx/blob/feature/spec-kit-migration/.specs/changes/done/spec-kit-migration/review.md) · after the merge: [on main](https://github.com/martinnordio/spec-nx/blob/main/.specs/changes/done/spec-kit-migration/review.md)
 
 | Kind | Object | Change | Statements |
 |------|--------|--------|------------|

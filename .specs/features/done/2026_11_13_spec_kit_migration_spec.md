@@ -17,6 +17,7 @@
 | 2026-11-13 | review | `REVIEW:` | Claude Opus 5.5 | semantic diff written |
 | 2026-11-13 | review | `CODE REVIEW:` | Claude Opus 5.5 | Approve; 1 Should-fix, 3 Nits deferred |
 | 2026-11-13 | implementation | `CLOSE:` | Claude Opus 5.5 | spec closed |
+| 2026-11-13 | pr | `PR:` | Claude Opus 5.5 | pull request and issue prepared (dry run); waiting for the author's approval |
 
 ---
 
