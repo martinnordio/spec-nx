@@ -35,7 +35,11 @@ generated kit (`.specs/kit/pr/`).
 
 1. **Check the branch.**
    - The current branch is the spec's **Branch** (header). If not, stop and say so.
-   - No uncommitted changes (`git status`); otherwise ask the user to commit first.
+   - Add a **Stage log** row to the spec: today, `pr`, `PR:`, the exact name of the AI model
+     you are, `pull request opened` or `pull request updated` (add the section from the
+     template above Part 1 if the spec has none).
+   - No uncommitted changes (`git status`) apart from that row; otherwise ask the user to
+     commit first. Ask the user to commit the row with the rest.
    - The spec has Part 1 (statements) — a pull request needs at least the requirements.
 
 2. **Find the git host and shell.** `git_host` from `.specs/spec-nx.json`, otherwise from
@@ -80,5 +84,6 @@ generated kit (`.specs/kit/pr/`).
 ## Never
 
 - Merge, close, or force-push.
+- Change the spec, except its Stage log.
 - Change text outside the `spec-summary` blocks of the pull request or the issue.
 - Put secrets, tokens, internal URLs or personal data into a summary.
