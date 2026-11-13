@@ -17,14 +17,14 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot '..\spec_summary.ps1')
 . (Join-Path $PSScriptRoot 'ado.ps1')
 
-$ado = Get-AdoRepo
+$items = Get-AdoWorkItemsBase
 $body = Set-SpecSummary -Body '' -Summary (Read-Utf8 $SummaryFile)
 if ($Parent) {
-    $parentItem = Invoke-Ado -Method Get -Uri "$($ado.Base)/_apis/wit/workitems/$($Parent)?fields=System.Title&api-version=7.1"
+    $parentItem = Invoke-Ado -Method Get -Uri "$items/_apis/wit/workitems/$($Parent)?fields=System.Title&api-version=7.1"
 }
 if ($DryRun) {
     $under = if ($Parent) { " under $Parent '$($parentItem.fields.'System.Title')'" } else { '' }
-    Write-Output "Would create $Type '$Title'$under with:"
+    Write-Output "Would create $Type '$Title'$under in $items with:"
     Write-Output $body
     return
 }
@@ -37,5 +37,5 @@ if ($Parent) {
     $patch += @{ op = 'add'; path = '/relations/-'; value = @{ rel = 'System.LinkTypes.Hierarchy-Reverse'; url = $parentItem.url } }
 }
 $typePath = [uri]::EscapeDataString($Type)
-$created = Invoke-Ado -Method Post -Uri "$($ado.Base)/_apis/wit/workitems/`$$($typePath)?api-version=7.1" -Body $patch -ContentType 'application/json-patch+json'
+$created = Invoke-Ado -Method Post -Uri "$items/_apis/wit/workitems/`$$($typePath)?api-version=7.1" -Body $patch -ContentType 'application/json-patch+json'
 Write-Output $created.id

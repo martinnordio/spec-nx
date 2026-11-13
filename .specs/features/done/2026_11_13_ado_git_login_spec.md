@@ -1,4 +1,4 @@
-# Azure DevOps Git Login Spec
+# Azure DevOps Git Login and Backlog Project Spec
 
 > **Author:** Martin Nordio
 > **Status:** ✅ Complete — on `main` (small change, no pull request)
@@ -13,6 +13,8 @@
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written |
 | 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Step 1 done; spec closed |
+| 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 revised: S5–S6 backlog project (author's request) |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Step 2 done; spec closed again |
 
 ---
 
@@ -33,7 +35,13 @@ project and repository from the `origin` remote; REST calls with the token).
 - **S2 — Token still wins:** when `AZURE_DEVOPS_EXT_PAT` is set, it is used (e.g. in CI).
 - **S3 — Clear failure:** without either, the scripts stop with "run git fetch once to sign in,
   or set AZURE_DEVOPS_EXT_PAT"; credentials are never printed.
-- **S4 — No new setting:** organisation and project still come from the `origin` remote.
+- **S4 — No new setting for sign-in:** organisation and project of the repository still come
+  from the `origin` remote.
+- **S5 — Backlog project (added at the author's request):** the generator asks in which
+  Azure DevOps project the backlog items are (default: the repository's) and saves it as
+  `work_items` in `.specs/spec-nx.json`; `CREATE ISSUE` / `UPDATE ISSUE` use that project, and
+  the dry run names it.
+- **S6 — Older settings keep working:** without `work_items`, the repository's project is used.
 
 ### Open questions
 
@@ -50,6 +58,7 @@ _None open._
 | Step | Description | Status | Detail |
 |------|-------------|--------|--------|
 | **1** | Git login in `ado.ps1` / `ado.sh`; docs | ✅ Done | [→ Step 1](#step-1--git-login-in-adops1--adosh-docs) |
+| **2** | Backlog project: Q2d `work_items`, scripts (S5, S6) | ✅ Done | [→ Step 2](#step-2--backlog-project-q2d-work_items-scripts-s5-s6) |
 
 ### Decisions
 
@@ -77,6 +86,28 @@ Started: 2026-11-13 13:10
 **Done (2026-11-13 · ~10m · Claude Opus 5.5)** — both shells use the git login when no token
 is set. Check: without `AZURE_DEVOPS_EXT_PAT`, reading the work item types of an Azure DevOps
 project succeeded in PowerShell and in bash; all scripts parse.
+
+---
+
+## Step 2 — Backlog project: Q2d `work_items`, scripts (S5, S6)
+
+### Goal
+Backlog items can live in another Azure DevOps project than the repository (S5, S6).
+
+### Tasks
+- [x] Record the start time in Notes below.
+- [x] Q2d in `generator/questions.md`: question, suggestion from `origin`, key `work_items`.
+- [x] `Get-AdoWorkItemsBase` / `ado_items`; `create_issue` and `update_issue` (both shells) use it; the dry run names the project.
+- [x] Requirements stage: `CREATE ISSUE` names the project.
+- [x] Check: dry runs in a scratch repository without settings and with `work_items` pointing to another project.
+
+### Notes
+Started: 2026-11-13 13:25
+
+**Done (2026-11-13 · ~10m · Claude Opus 5.5)** — PowerShell dry runs: without settings the
+item goes to the repository's project; with `work_items` to `Other%20Project` (encoded). The
+bash version passes `bash -n`; it could not be run here because `jq` is not installed — to be
+tried with the real other-project case.
 
 ---
 

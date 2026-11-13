@@ -21,16 +21,16 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-ado_repo
+ado_items
 body="$(set_spec_summary '' "$(cat "$summary_file")")"
 parent_json='null'
 if [[ -n "$parent" ]]; then
-  parent_json="$(ado GET "$ADO_BASE/_apis/wit/workitems/$parent?fields=System.Title&api-version=7.1")"
+  parent_json="$(ado GET "$ADO_ITEMS/_apis/wit/workitems/$parent?fields=System.Title&api-version=7.1")"
 fi
 if [[ -n "$dry_run" ]]; then
   under=''
   [[ -n "$parent" ]] && under=" under $parent '$(jq -r '.fields["System.Title"]' <<< "$parent_json")'"
-  printf "Would create %s '%s'%s with:\n%s\n" "$type" "$title" "$under" "$body"
+  printf "Would create %s '%s'%s in %s with:\n%s\n" "$type" "$title" "$under" "$ADO_ITEMS" "$body"
   exit 0
 fi
 patch="$(jq -n --arg t "$title" --arg d "$body" --argjson p "$parent_json" '[
@@ -40,4 +40,4 @@ patch="$(jq -n --arg t "$title" --arg d "$body" --argjson p "$parent_json" '[
   + (if $p == null then [] else [{op: "add", path: "/relations/-",
        value: {rel: "System.LinkTypes.Hierarchy-Reverse", url: $p.url}}] end)')"
 type_path="$(jq -rn --arg t "$type" '$t | @uri')"
-ado POST "$ADO_BASE/_apis/wit/workitems/\$$type_path?api-version=7.1" "$patch" 'application/json-patch+json' | jq -r .id
+ado POST "$ADO_ITEMS/_apis/wit/workitems/\$$type_path?api-version=7.1" "$patch" 'application/json-patch+json' | jq -r .id

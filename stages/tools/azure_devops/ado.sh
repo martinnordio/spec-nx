@@ -22,6 +22,22 @@ ado_repo() {
   fi
 }
 
+# ado_items  ->  sets ADO_ITEMS: the project that holds the backlog items (work_items in
+# .specs/spec-nx.json, otherwise the repository's project)
+ado_items() {
+  ado_repo || return 1
+  local settings org='' project=''
+  settings="$(git rev-parse --show-toplevel)/.specs/spec-nx.json"
+  ADO_ITEMS="$ADO_BASE"
+  if [[ -f "$settings" ]]; then
+    org="$(jq -r '.work_items.org // empty | @uri' "$settings")"
+    project="$(jq -r '.work_items.project // empty | @uri' "$settings")"
+  fi
+  if [[ -n "$org" && -n "$project" ]]; then
+    ADO_ITEMS="https://dev.azure.com/$org/$project"
+  fi
+}
+
 # ado_auth  ->  sets ADO_USERPASS (user:password for curl -u), once
 ado_auth() {
   [[ -n "${ADO_USERPASS:-}" ]] && return 0

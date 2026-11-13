@@ -25,6 +25,7 @@ The questions are **asked in the order of this table**:
 | Q2 | Git host — where is the repository? | project | `git_host` | from the `origin` remote |
 | Q2b | Keep each spec in sync with an issue / backlog item? | project | `link_issues` | `true` if there is a git host |
 | Q2c | Azure DevOps: which work item type for a spec? | project | `work_item_type` | `"Product Backlog Item"` |
+| Q2d | Azure DevOps: in which project are the backlog items? | project | `work_items` | the repository's organisation and project |
 | Q3 | Which shell do you run the kit's scripts in? | developer | `shell` | from the operating system |
 | Q4 | Share the kit with the team, or keep it personal? | project | `kit` | `"shared"` |
 | Q6 | AI agent permissions — for which agents? | project | `agent` | the agents found |
@@ -262,6 +263,28 @@ is asked per spec, not here.
 
 ---
 
+## Q2d · Backlog project (Azure DevOps)
+
+Asked only when `git_host` is `"azure_devops"` and `link_issues` is `true`.
+
+**Ask:** *The repository is in `<org>/<project>`. Are the backlog items in the same project, or
+in another one?*
+
+| Option | `work_items` |
+|--------|--------------|
+| Same project (default) | `{ "org": "<org of origin>", "project": "<project of origin>" }` |
+| Another project | `{ "org": "<org>", "project": "<project>" }` — ask for both |
+
+**Suggest from the repository:** the organisation and project of `git remote get-url origin`
+(for example `https://dev.azure.com/<org>/<project>/_git/<repo>` → `<org>`, `<project>`).
+
+**Effect:** `CREATE ISSUE:` and `UPDATE ISSUE:` read and create the backlog items in this
+project; pull requests stay in the repository's project and still link the item by its id
+(ids are unique in the organisation). Without the key (older settings), the repository's
+project is used. Signing in to another organisation needs a login or token for it.
+
+---
+
 ## Q3 · Your shell (developer)
 
 Asked when the kit has tools (a git host is set). Each developer answers it on their own
@@ -361,6 +384,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `git_host` | Answer to Q2. |
 | `link_issues` | Answer to Q2b. |
 | `work_item_type` | Answer to Q2c (Azure DevOps only). |
+| `work_items` | Answer to Q2d (Azure DevOps only): `{ "org", "project" }` of the backlog items. |
 | `shells` | Shells the kit's scripts are generated for: every developer's Q3 answer. |
 | `kit` | Answer to Q4. |
 | `agent` | Answer to Q6: the AI agents whose permissions the generator writes. |

@@ -15,8 +15,7 @@ $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot '..\spec_summary.ps1')
 . (Join-Path $PSScriptRoot 'ado.ps1')
 
-$ado = Get-AdoRepo
-$uri = "$($ado.Base)/_apis/wit/workitems/$($Issue)?api-version=7.1"
+$uri = "$(Get-AdoWorkItemsBase)/_apis/wit/workitems/$($Issue)?api-version=7.1"
 $item = Invoke-Ado -Method Get -Uri "$uri&fields=System.Description"
 $body = [string]$item.fields.'System.Description'
 $new = Set-SpecSummary -Body $body.TrimEnd() -Summary (Read-Utf8 $SummaryFile)

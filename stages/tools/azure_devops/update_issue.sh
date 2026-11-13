@@ -12,8 +12,8 @@ issue="${1:?$usage}"
 summary_file="${2:?$usage}"
 dry_run="${3:-}"
 
-ado_repo
-uri="$ADO_BASE/_apis/wit/workitems/$issue?api-version=7.1"
+ado_items
+uri="$ADO_ITEMS/_apis/wit/workitems/$issue?api-version=7.1"
 body="$(ado GET "$uri&fields=System.Description" | jq -r '.fields["System.Description"] // ""')"
 new="$(set_spec_summary "$body" "$(cat "$summary_file")")"
 

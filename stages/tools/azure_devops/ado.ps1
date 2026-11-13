@@ -22,6 +22,20 @@ function Get-AdoRepo {
     throw "origin is not an Azure DevOps repository: $url"
 }
 
+# The project that holds the backlog items: work_items in .specs/spec-nx.json, otherwise the
+# repository's project.
+function Get-AdoWorkItemsBase {
+    $repo = Get-AdoRepo
+    $settings = Join-Path (git rev-parse --show-toplevel | Out-String).Trim() '.specs/spec-nx.json'
+    if (Test-Path $settings) {
+        $items = ([IO.File]::ReadAllText($settings, [Text.Encoding]::UTF8) | ConvertFrom-Json).work_items
+        if ($items -and $items.org -and $items.project) {
+            return "https://dev.azure.com/$([uri]::EscapeDataString($items.org))/$([uri]::EscapeDataString($items.project))"
+        }
+    }
+    return $repo.Base
+}
+
 function Get-AdoAuthorization {
     if ($env:AZURE_DEVOPS_EXT_PAT) {
         return 'Basic ' + [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$env:AZURE_DEVOPS_EXT_PAT"))

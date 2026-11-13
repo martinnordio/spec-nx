@@ -43,7 +43,7 @@ and in a generated kit (`.specs/kit/requirements/`).
 | `../skills/requirements_engineer.md` | Your role: how to think and what to avoid |
 | `../spec_template.md` | The spec template (Part 1 · Requirements, marker, Part 2 · Plan) |
 | `../tools/README.md` | The summary format and the git-host scripts |
-| `.specs/spec-nx.json` | Project settings: `git_host`, `link_issues`, `work_item_type` (if the project has them) |
+| `.specs/spec-nx.json` | Project settings: `git_host`, `link_issues`, `work_item_type`, `work_items` (if the project has them) |
 | `.specs/spec-nx.local.json` | Developer settings: `shell` (if the project has it) |
 
 ---
@@ -143,7 +143,9 @@ and in a generated kit (`.specs/kit/requirements/`).
    the parent. Azure DevOps: the new backlog item gets the parent as its **Parent** link.
 3. **Title and type.** Title: the spec title without the trailing "Spec". Azure DevOps type:
    `work_item_type` from `.specs/spec-nx.json`, otherwise ask (Product Backlog Item, User
-   Story, Requirement, Issue — depending on the project's process).
+   Story, Requirement, Issue — depending on the project's process). The item is created in the
+   project of `work_items` (Azure DevOps), otherwise in the repository's project; the dry run
+   names it — check it is the right one.
 4. **Summary** as in `UPDATE ISSUE` step 4, in a temporary file outside the repository.
 5. **Dry run** and show it:
 
