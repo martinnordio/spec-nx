@@ -50,8 +50,8 @@ examples from project to project. These must stay exactly as in spec-nx, so that
 compatible with updates and with each other:
 
 - The **commands**: `REQUIREMENTS:`, `UPDATE ISSUE:`, `PLAN:`, `IMPLEMENT:`, `CLOSE:`,
-  `GUIDELINES:`, `DOCS:`, `ARCHITECTURE`, `ADR:`, `REVIEW:`, `CODE REVIEW:`, `PR:` and their
-  arguments.
+  `GUIDELINES:`, `DOCS:`, `ARCHITECTURE`, `ADR:`, `REVIEW:`, `CODE REVIEW:`, `IMPROVE:`, `PR:`
+  and their arguments.
 - The **spec file**: name `yyyy_mm_dd_<name>_spec.md`; the Stage log (date, stage, command,
   model) above Part 1 · Requirements, the marker line `<!-- spec-nx:plan -->`, Part 2 · Plan;
   statements `S<n>`, Steps, decisions `D<n>`. Every stage that writes to the spec adds a

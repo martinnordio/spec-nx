@@ -13,7 +13,7 @@
 |------|-------|---------|-------|------|
 | 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 written from the migration plan (M1–M12) |
 | 2026-11-13 | plan | `PLAN:` | Claude Opus 5.5 | Part 2 written: one Step per M item |
-| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–7 done |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 0–8 done |
 
 ---
 
@@ -118,7 +118,7 @@ _None open._ The plan's open questions were answered on 2026-11-13 (see the migr
 | **5** | Company layer (M11) | ✅ Done | [→ Step 5](#step-5--company-layer-m11) |
 | **6** | Documentation stage (M3) | ✅ Done | [→ Step 6](#step-6--documentation-stage-m3) |
 | **7** | Review stage and semantic-diff block (M4) | ✅ Done | [→ Step 7](#step-7--review-stage-m4) |
-| **8** | Improvement stage (M5) | ⬜ Not started | [→ Step 8](#step-8--improvement-stage-m5) |
+| **8** | Improvement stage (M5) | ✅ Done | [→ Step 8](#step-8--improvement-stage-m5) |
 | **9** | UI stage (M7) | ⬜ Not started | [→ Step 9](#step-9--ui-stage-m7) |
 | **10** | Agent permissions (M9) | ⬜ Not started | [→ Step 10](#step-10--agent-permissions-m9) |
 | **11** | Setup tooling (M12) | ⬜ Not started | [→ Step 11](#step-11--setup-tooling-m12) |
@@ -321,12 +321,17 @@ the example record validates against the schema.
 `IMPROVE:` writes a behaviour-preserving spec (S10).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/improvement/prompt.md`; `stages/skills/refactorer.md`.
-- [ ] Check: paths exist; the prompt forbids behaviour changes.
+- [x] Record the start time in Notes below.
+- [x] `stages/improvement/prompt.md`; `stages/skills/refactorer.md`.
+- [x] Check: paths exist; the prompt forbids behaviour changes.
 
 ### Notes
+Started: 2026-11-13 10:10
 
+**Done (2026-11-13 · ~2m · Claude Opus 5.5)** — `IMPROVE: <scope> [--dry-run]` writes a normal
+spec (nine finding classes, ranked by impact ÷ cost, one Step per class, statement "Behaviour
+unchanged"; behaviour changes deferred to a new spec); refactorer skill. Check: `../` paths
+resolve; behaviour changes are excluded in step 3 and under Never.
 ---
 
 ## Step 9 — UI stage (M7)
