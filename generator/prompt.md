@@ -31,6 +31,7 @@ This file is `<spec-nx>/generator/prompt.md`, where `<spec-nx>` is spec-nx in th
 | `stages/spec_template.md` | Reference spec template |
 | `stages/kit_readme.md` | Reference README of the kit (workflow and commands) |
 | `stages/guidelines/` | `GUIDELINES:` prompt and the baseline coding rules per language |
+| `stages/setup/project_spec.md` | How to write the project setup spec of a new project (Q0c) |
 | `stages/tools/` | Reference git-host scripts (PowerShell and bash) and their README |
 
 | In the project | What |
@@ -123,9 +124,14 @@ compatible with updates and with each other:
 7. **Prepare the specs folder.** Create `.specs/features/` and `.specs/features/done/` (with a
    `.gitkeep`) if they do not exist. Never change files already there.
 
-8. **Report:** the answers, the kit's files, what was adapted (one line per file), the checks,
+8. **Project setup spec** (only when Q0c was answered yes in this run): follow
+   `stages/setup/project_spec.md` — ask per language, then write the spec as a **new** file in
+   `.specs/features/` (stop if it exists). Save its file name as `project_spec`.
+
+9. **Report:** the answers, the kit's files, what was adapted (one line per file), the checks,
    and how to start: `Load .specs/kit/requirements/prompt.md` → `REQUIREMENTS: <name> — <request>`
-   (the whole workflow is in `.specs/kit/README.md`).
+   (the whole workflow is in `.specs/kit/README.md`). With a project setup spec, start with
+   `Load .specs/kit/implementation/prompt.md` → `IMPLEMENT: <project spec>` instead.
    Remind the user to commit `.specs/spec-nx.json` (and `.specs/kit/` when shared).
 
 ## GENERATE KIT --update
@@ -143,6 +149,7 @@ compatible with updates and with each other:
 
 ## Never
 
-- Change, move or delete anything in `.specs/features/`.
+- Change, move or delete anything in `.specs/features/` (the generator only **adds** the
+  project setup spec, Q0c).
 - Write tokens, passwords or personal data into the settings or the kit.
 - Commit or push — the user does that.

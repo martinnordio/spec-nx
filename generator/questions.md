@@ -18,6 +18,7 @@ The questions are **asked in the order of this table**:
 |---|----------|-------|-----|---------|
 | Q0 | Project start — a new (empty) project or an existing one? | project | `project` | from the scan |
 | Q0b | Languages — which programming languages? | project | `languages` | from the scan |
+| Q0c | Write a project setup spec? (new projects only) | project | `project_spec` | yes |
 | Q1 | Workflow — which stages do you use? | project | `stages` | Simple: `["requirements", "plan", "implementation", "pr"]` |
 | Q1b | On-demand stages — which extra commands do you want? | project | `on_demand` | `[]` |
 | Q2 | Git host — where is the repository? | project | `git_host` | from the `origin` remote |
@@ -65,6 +66,26 @@ by the project setup spec.
 
 **Selects:** `stages/guidelines/prompt.md` and the baselines `stages/guidelines/<language>.md`
 → `.specs/kit/guidelines/`, for each language that has one.
+
+---
+
+## Q0c · Project setup spec
+
+Asked only when `project` is `"new"`.
+
+**Ask:** *Should I write a first spec that sets up the project — a skeleton in your languages
+that runs and has one passing test?*
+
+| Option | `project_spec` |
+|--------|----------------|
+| Yes | the file name of the spec, once written |
+| No | `false` |
+
+**Suggest:** yes.
+
+**Effect:** after the kit is generated, the generator asks the framework, package manager and
+test tools per language and writes the spec, following `stages/setup/project_spec.md`. The
+answer is saved so `--update` never asks again or writes a second spec.
 
 ---
 
@@ -261,6 +282,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `generated` | Date of the last `GENERATE KIT` or `--update`. |
 | `project` | Answer to Q0. |
 | `languages` | Answer to Q0b. |
+| `project_spec` | Answer to Q0c: the project setup spec's file name, or `false` (only when `project` is `"new"`). |
 | `stages` | Answer to Q1 (only when `kit` is `"shared"`). |
 | `on_demand` | Answer to Q1b (only when `kit` is `"shared"`). |
 | `git_host` | Answer to Q2. |
