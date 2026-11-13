@@ -13,8 +13,9 @@ Give the reviewer what to read first, and review the change against its spec.
 ```
 REVIEW: <spec file>
 ```
-Writes the change record, the review page and the pull-request text of the semantic diff. Run
-it again after more Steps or review fixes: hand-written parts of the record are kept.
+Writes the change record, the HTML review page (with the index of all review pages) and the
+pull-request text of the semantic diff. Run it again after more Steps or review fixes:
+hand-written parts of the record are kept, and the page is rewritten.
 
 ```
 CODE REVIEW: <spec file>
@@ -37,11 +38,20 @@ generated kit (`.specs/kit/review/`).
 | `change_record.schema.json` | Schema the record must pass |
 | `code_review.md` | The layered checklist and the finding table |
 | `review_page.html` | Template of the HTML review page (styles, sections, tooltips, metadata) |
+| `index_page.html` | Template of the index of all review pages |
 | `../guidelines/<language>.md`, `.specs/guidelines/<language>.md` | Coding rules of the languages changed |
 | `.specs/architecture.md` | Module boundaries, if the project has it |
 
-**Output folder:** `.specs/changes/<name>/`, where `<name>` is the branch without `feature/`
-(`/` → `-`); `.specs/changes/done/<name>/` once the spec is closed.
+**Output:**
+
+| Where | What |
+|-------|------|
+| `.specs/review/<yyyy-mm-dd>_<branch-slug>.html` | The **review page** — the HTML report reviewers open first |
+| `.specs/review/index.html` | All review pages, newest first |
+| `.specs/changes/<name>/` | The change record, `before/`, `after/` and `semantic_diff.md` (the pull-request text); `.specs/changes/done/<name>/` once the spec is closed |
+
+`<branch-slug>` is the branch with `/` → `-` (`feature-login-page`); `<name>` is the branch
+without `feature/` (`login-page`).
 
 ---
 
@@ -72,45 +82,46 @@ generated kit (`.specs/kit/review/`).
 4. **Checks.** Run the checks of `semantic_diff.md` (C1–C9): `pass`, `fail` or `n/a`. Each
    failure is a finding.
 
-5. **Review page**, in two forms with the same content:
-   - **`review.html`** — the full report, from `review_page.html`: Before | After side by
-     side with the changed lines shaded, the highlights as coloured diffs with **concept
-     tooltips**, the findings, a reviewer checklist and the `review-meta` data. One
-     self-contained file: no external files (images as `data:` URIs while it stays under
-     ~5 MB), works without JavaScript, every code character escaped, relative links only.
-   - **`review.md`** — the same sections in Markdown, so the page can also be read on the
-     git host without downloading anything.
+5. **Previous reviews.** Read the `review-meta` block of earlier pages in `.specs/review/` for
+   this branch: hunks already covered are not explained again unless they changed; their
+   findings get a status (resolved / partially / still open) under **Previously reviewed**.
 
-   Sections, in this order:
-   1. **Header** — branch, base..head, date, commits, files, `+/-` lines.
-   2. **Summary** — three to five bullets in plain words.
-   3. **Spec** — link, statements covered, Steps.
+6. **Review page** `.specs/review/<yyyy-mm-dd>_<branch-slug>.html` (a re-run on the same day
+   overwrites it; on another day, a new page), from `review_page.html`. One self-contained
+   file: no external files (images as `data:` URIs while it stays under ~5 MB), works without
+   JavaScript, every code character escaped, relative links only. Sections, in this order:
+   1. **Header** — title, branch, base, head, target, date, commits, files, `+/-` lines; a
+      table of contents with one entry per change card and per highlight.
+   2. **Summary** — a short paragraph and three to five bullets in plain words, and the
+      recommendation (Approve / Approve with follow-ups / Request changes).
+   3. **Spec context** — link, statements covered, Steps.
    4. **Semantic diff** — `why`, `breaking`, the checks; then one card per block:
-      `<KIND> · <object> — <change>`, the note, the example input, and Before | After.
-   5. **Highlights** — at most 12 real diff hunks (≤ 40 lines each, with line numbers, never
+      `<KIND> · <object> — <change>`, the note, the example input, and Before | After side by
+      side with the changed lines shaded; the author Q&A.
+   5. **Previously reviewed** — see step 5.
+   6. **Highlights** — at most 12 real diff hunks (≤ 40 lines each, with line numbers, never
       reformatted or invented), most relevant first: public interfaces, non-trivial logic,
       security, statements' acceptance; for each: what changed, why it matters, what to
-      check. In the HTML page, 2–5 **concept tooltips** per hunk: the concept in one
-      sentence, then why it is used on that line (≤ 40 words), correct for the versions in
-      use; each concept also once in **Concepts**.
-   6. **Findings** — the table of `code_review.md` (failed checks included).
-   7. **Not covered** — what was left out (lock files, generated files, renames, formatting),
+      check, and 2–5 **concept tooltips**: the concept in one sentence, then why it is used
+      on that line (≤ 40 words), correct for the versions in use.
+   7. **Findings** — the table of `code_review.md` (failed checks included).
+   8. **Not covered** — what was left out (lock files, generated files, renames, formatting),
       with the reason.
-   8. **Concepts** and **Reviewer checklist** (HTML page only).
+   9. **Concepts glossary** — every concept of the tooltips once.
+   10. **Reviewer checklist**, and the `review-meta` data (commits, covered hunks, findings).
 
-   Then add the page to **`.specs/changes/index.html`** (create it if missing): one row per
-   review page, newest first — date, branch, spec, checks, open findings, link.
+   Then **`.specs/review/index.html`**: create it from `index_page.html` if missing; add a row
+   for the page (or update the branch's row), newest first.
 
-6. **Pull-request text** `semantic_diff.md` (at most ~2 000 characters, so the description
-   stays under the Azure DevOps limit together with the spec summary):
+7. **Pull-request text** `.specs/changes/<name>/semantic_diff.md` (at most ~2 000 characters,
+   so the description stays under the Azure DevOps limit together with the spec summary):
 
    ```markdown
    ### Semantic diff
    <why, one line> · checks <n pass · n n/a · n fail> · findings <n>
 
-   **Review here first:** [review page](<full URL of review.md on the branch>) · full report
-   with Before | After and tooltips: [review.html](<URL to download review.html>) (open it in
-   a browser)
+   **Review here first:** [review page](<URL of the page file on the branch>) — download it
+   and open it in a browser (GitHub: the raw file; Azure DevOps: the file's download link)
 
    | Kind | Object | Change | Statements |
    |------|--------|--------|------------|
@@ -119,13 +130,14 @@ generated kit (`.specs/kit/review/`).
    **Top findings:** <up to three, one line each, or "none">
    ```
 
-   The pr stage puts it into the pull request's `semantic-diff` block.
+   The pr stage puts it into the pull request's `semantic-diff` block. The page must be
+   committed and pushed for the link to work.
 
-7. **In the spec:** tick the *Review* line of the Definition of Done when the page exists; add
+8. **In the spec:** tick the *Review* line of the Definition of Done when the page exists; add
    a Review Log row (today, the AI model, `semantic diff`, `—`, link to the page) and a
    **Stage log** row (today, `review`, `REVIEW:`, your model, `semantic diff written`).
 
-8. **Report:** the record's blocks per kind, the checks, the page, the top findings, and the
+9. **Report:** the record's blocks per kind, the checks, the page, the top findings, and the
    next step (`CODE REVIEW:`, `CLOSE:`, or `PR:` to publish).
 
 ## CODE REVIEW
@@ -149,7 +161,8 @@ generated kit (`.specs/kit/review/`).
 
 ## Never
 
-- Change code — this stage writes only `.specs/changes/` and the spec's logs.
+- Change code — this stage writes only `.specs/review/`, `.specs/changes/` and the spec's
+  logs.
 - Write Before | After by hand without marking it `manual` with the reason.
 - Invent code, line numbers or output.
 - Put secrets, tokens, internal URLs or personal data into the record, the page or the pull

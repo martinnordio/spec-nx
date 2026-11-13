@@ -117,7 +117,8 @@ and in a generated kit (`.specs/kit/implementation/`).
    - Relative links in the spec are one level deeper now: change `../` to `../../` and check
      that every link resolves. Fix links **to** the spec from other files.
    - If the review stage wrote `.specs/changes/<name>/`, `git mv` it to
-     `.specs/changes/done/<name>/` and fix the links (also in `.specs/changes/index.html`).
+     `.specs/changes/done/<name>/` and fix the links (the review pages in `.specs/review/` stay
+     where they are).
 
 7. **Report** and suggest the commit `Close the spec (#<issue>)`. If the kit has the pr
    stage, the next step is `PR: <spec file>` — the closed spec ships in the same pull request.

@@ -1,7 +1,7 @@
 ### Semantic diff
 New stages, questions, company layer and agent permissions; nothing existing changes meaning · checks 4 pass · 4 n/a · 1 fail · findings 4
 
-**Review here first:** [review page](https://github.com/martinnordio/spec-nx/blob/feature/spec-kit-migration/.specs/changes/done/spec-kit-migration/review.md) · full report with Before | After and tooltips: [review.html](https://github.com/martinnordio/spec-nx/raw/feature/spec-kit-migration/.specs/changes/done/spec-kit-migration/review.html) (download, open in a browser)
+**Review here first:** [review page](https://github.com/martinnordio/spec-nx/raw/feature/spec-kit-migration/.specs/review/2026-11-13_feature-spec-kit-migration.html) — download it and open it in a browser ([all review pages](https://github.com/martinnordio/spec-nx/raw/feature/spec-kit-migration/.specs/review/index.html))
 
 | Kind | Object | Change | Statements |
 |------|--------|--------|------------|
@@ -16,7 +16,7 @@ New stages, questions, company layer and agent permissions; nothing existing cha
 | command | `IMPROVE:`, `SETUP TOOLING:`, `SETUP MACHINE`, `LOOK:`, `UI CATALOG` | added | S10, S11, S13 |
 | command | `update_pr` (4 scripts): optional semantic-diff file | modified | S9, S14 |
 | data-format | Pull-request description: `semantic-diff` block | modified | S9 |
-| data-format | HTML review page `review.html` + `.specs/changes/index.html` | added | S17 |
+| data-format | HTML review pages in `.specs/review/` + `index.html` | added | S17 |
 | command | `CREATE ISSUE:` (optional parent) + `create_issue` scripts | added | S18, S19 |
 | data-format | Commit message: always the `#<n>` / `AB#<id>` reference | added | S20 |
 

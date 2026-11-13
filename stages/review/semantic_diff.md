@@ -18,10 +18,10 @@ diff ([rescript#8908](https://github.com/rescript-lang/rescript/pull/8908)).
   change_record.yaml          judgement: why, objects, examples, breaking, Q&A
   before/<id>/<example>.<ext>  produced, never edited by hand
   after/<id>/<example>.<ext>   produced, never edited by hand
-  review.html                 the review page: the full HTML report (from review_page.html)
-  review.md                   the same page in Markdown, readable on the git host
   semantic_diff.md            the text for the pull request's semantic-diff block
-.specs/changes/index.html     all review pages, newest first
+.specs/review/
+  <yyyy-mm-dd>_<branch-slug>.html   the review page: the HTML report (from review_page.html)
+  index.html                        all review pages, newest first (from index_page.html)
 ```
 
 `<name>` = the branch without `feature/`, `/` → `-`. Moved to `.specs/changes/done/<name>/`
