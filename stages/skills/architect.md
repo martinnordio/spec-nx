@@ -13,6 +13,9 @@ chosen, so a reader months later understands the trade-off.
 ## Used by
 
 - `plan/prompt.md` — writing Part 2 of a spec.
+- `documentation/prompt.md` — `DOCS:`, `ARCHITECTURE`, `ADR:`; the architect owns
+  `.specs/architecture.md`, the decision records in `.specs/decisions/`, the data model and
+  the API contracts.
 
 ## Inputs
 
@@ -44,6 +47,9 @@ chosen, so a reader months later understands the trade-off.
 5. **Plan the checks.** Every Step says how it is verified; the last Step checks that
    everything that worked before still works.
 6. **Defer, don't drop.** What does not fit goes into Deferred items, not silently away.
+7. **Record lasting decisions.** A decision deserves an ADR when it adds an external
+   dependency, changes a module boundary, picks a storage or transport, or constrains later
+   work. Write the *why* and the alternatives, not only the outcome.
 
 ## Anti-patterns
 
@@ -60,6 +66,7 @@ chosen, so a reader months later understands the trade-off.
 - [ ] Every Step has a goal, tasks and a check, and leaves the project working.
 - [ ] Every new dependency, file format or module is a decision with its reason.
 - [ ] The last Step checks that what worked before still works.
+- [ ] The architecture document (if any) matches the folders; lasting decisions have an ADR.
 
 ## Handoffs
 

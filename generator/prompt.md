@@ -50,7 +50,7 @@ examples from project to project. These must stay exactly as in spec-nx, so that
 compatible with updates and with each other:
 
 - The **commands**: `REQUIREMENTS:`, `UPDATE ISSUE:`, `PLAN:`, `IMPLEMENT:`, `CLOSE:`,
-  `GUIDELINES:`, `PR:` and their arguments.
+  `GUIDELINES:`, `DOCS:`, `ARCHITECTURE`, `ADR:`, `PR:` and their arguments.
 - The **spec file**: name `yyyy_mm_dd_<name>_spec.md`; the Stage log (date, stage, command,
   model) above Part 1 · Requirements, the marker line `<!-- spec-nx:plan -->`, Part 2 · Plan;
   statements `S<n>`, Steps, decisions `D<n>`. Every stage that writes to the spec adds a
@@ -99,7 +99,8 @@ compatible with updates and with each other:
 
 5. **Generate `.specs/kit/`.** Delete the old `.specs/kit/` if there is one, then for the
    stages in `stages` and `on_demand`:
-   - `<stage>/prompt.md` from `stages/<stage>/prompt.md`;
+   - `<stage>/prompt.md` from `stages/<stage>/prompt.md`, with the other files of the stage
+     folder (templates, rules);
    - the skills those prompts list under *Skills to load*, into `skills/`;
    - `spec_template.md`;
    - `README.md` from `stages/kit_readme.md`: only the rows of the kit's stages;
