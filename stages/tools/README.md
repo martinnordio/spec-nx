@@ -5,16 +5,22 @@ not read the spec: the stage prompt (the AI assistant) builds the **summary** fr
 writes it to a file; the script puts that text into the description, between the markers
 
 ```
-<!-- spec-summary:start -->
+[//]: # (spec-summary:start)
+
 …
-<!-- spec-summary:end -->
+
+[//]: # (spec-summary:end)
 ```
+
+The markers are Markdown comment lines: they are not shown, and Azure DevOps keeps them in a
+work item's description (it removes HTML comments). Blocks between the older markers
+`<!-- spec-summary:start -->` … `<!-- spec-summary:end -->` are still found and replaced.
 
 Text outside the markers (written by hand) is kept. Without markers, the block is added at the
 end. Every script has a dry run that prints the new description and changes nothing.
 
-The pull-request scripts also fill a second block, `<!-- semantic-diff:start -->` …
-`<!-- semantic-diff:end -->`, when they get a semantic-diff file (`-SemanticDiffFile` /
+The pull-request scripts also fill a second block, `[//]: # (semantic-diff:start)` …
+`[//]: # (semantic-diff:end)`, when they get a semantic-diff file (`-SemanticDiffFile` /
 `--semantic-diff`), written by the review stage. Without it, that block is left as it is.
 
 | Host | Script (PowerShell / bash) | Does |

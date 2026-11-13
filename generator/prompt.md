@@ -60,8 +60,8 @@ compatible with updates and with each other:
   model) above Part 1 · Requirements, the marker line `<!-- spec-nx:plan -->`, Part 2 · Plan;
   statements `S<n>`, Steps, decisions `D<n>`. Every stage that writes to the spec adds a
   Stage log row with the model it ran on.
-- The **summary block** markers `<!-- spec-summary:start -->` / `<!-- spec-summary:end -->`,
-  and the `<!-- semantic-diff:start -->` / `<!-- semantic-diff:end -->` block of the review
+- The **summary block** markers `[//]: # (spec-summary:start)` / `[//]: # (spec-summary:end)`,
+  and the `[//]: # (semantic-diff:start)` / `[//]: # (semantic-diff:end)` block of the review
   stage; the change record format (`review/change_record.schema.json`) and the review pages
   (`.specs/review/<yyyy-mm-dd>_<branch-slug>.html` and `.specs/review/index.html`).
 - The **scripts**: names, parameters, `-DryRun` / `--dry-run`, and what they change.
