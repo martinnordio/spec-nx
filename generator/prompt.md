@@ -50,7 +50,7 @@ The kit is the model's adaptation of the building blocks, so it can differ in wo
 examples from project to project. These must stay exactly as in spec-nx, so that kits stay
 compatible with updates and with each other:
 
-- The **commands**: `REQUIREMENTS:`, `UPDATE ISSUE:`, `PLAN:`, `IMPLEMENT:`, `CLOSE:`,
+- The **commands**: `REQUIREMENTS:`, `CREATE ISSUE:`, `UPDATE ISSUE:`, `PLAN:`, `IMPLEMENT:`, `CLOSE:`,
   `GUIDELINES:`, `DOCS:`, `ARCHITECTURE`, `ADR:`, `REVIEW:`, `CODE REVIEW:`, `IMPROVE:`,
   `LOOK:`, `UI CATALOG`, `SETUP TOOLING:`, `SETUP MACHINE`, `PR:` and their arguments.
 - The **spec file**: name `yyyy_mm_dd_<name>_spec.md`; the Stage log (date, stage, command,
@@ -109,7 +109,8 @@ compatible with updates and with each other:
    - the skills those prompts list under *Skills to load*, into `skills/`;
    - `spec_template.md`;
    - `README.md` from `stages/kit_readme.md`: only the rows of the kit's stages;
-   - `guidelines/prompt.md` and, for each language in `languages` that has one, the baseline
+   - `guidelines/prompt.md`, `guidelines/commits.md` (always) and, for each language in
+     `languages` that has one, the baseline
      `guidelines/<language>.md` — adapted to the project's versions and tools (never copy
      rules its linter configuration contradicts);
    - `tools/README.md`, `tools/spec_summary.*` and `tools/<git_host>/` — only the scripts for

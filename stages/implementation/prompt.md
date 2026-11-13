@@ -30,6 +30,7 @@ and in a generated kit (`.specs/kit/implementation/`).
 |------|-----|
 | `../skills/developer.md` | Your role while implementing |
 | `../guidelines/<language>.md` | Baseline coding rules of each language the Step touches (if the kit has them) |
+| `../guidelines/commits.md` | How commit messages are written, with the issue / backlog item reference |
 | `.specs/guidelines/<language>.md` | The project's own rules; they win over the baseline |
 | `.specs/architecture.md` | Module boundaries, if the project has it |
 | `../spec_template.md` | The Step completion protocol and the Definition of Done |
@@ -78,8 +79,9 @@ and in a generated kit (`.specs/kit/implementation/`).
    Step <n>: <Step description> (#<issue>)
    ```
 
-   (`AB#<id>` for an Azure DevOps backlog item; no reference if the spec has none.) The user
-   commits. Then the next step: `IMPLEMENT: <spec file>` for the next Step, or
+   (`AB#<id>` for an Azure DevOps backlog item, following `../guidelines/commits.md`). If the
+   spec has no issue yet, say so and offer `CREATE ISSUE:` (requirements stage) before the
+   first commit. The user commits. Then the next step: `IMPLEMENT: <spec file>` for the next Step, or
    `CLOSE: <spec file>` when all Steps are done.
 
 ## CLOSE

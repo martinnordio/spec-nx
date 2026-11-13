@@ -29,7 +29,7 @@
 ## Spec
 
 [2026_11_13_spec_kit_migration_spec.md](../../../features/done/2026_11_13_spec_kit_migration_spec.md) —
-statements S1–S17, Steps 0–14. The migration plan it came from was removed in Step 14 (in the
+statements S1–S20, Steps 0–15. The migration plan it came from was removed in Step 14 (in the
 git history).
 
 ## Semantic diff
@@ -42,8 +42,8 @@ original hand-written spec-kit with a generated kit. **Breaking:** none.
 |---|-------|--------|
 | C1 | Record exists | pass |
 | C2 | Record passes the schema | pass (first run failed on the example name `spec-nx.json`; fixed) |
-| C3 | Every `S<n>` exists in the spec | pass (S1–S17) |
-| C4 | Every block differs Before / After | pass (18 pairs) |
+| C3 | Every `S<n>` exists in the spec | pass (S1–S20) |
+| C4 | Every block differs Before / After | pass (20 pairs) |
 | C5 | Detectable changes have a block | pass (all 13 new commands, the new settings keys) |
 | C6 | API / schema changes with API contracts / data model | n/a (the project has neither) |
 | C7 | Command changes of code come with test changes | **fail** — see finding 1 |
@@ -265,6 +265,18 @@ After — its sections ([after/review-page/sections.txt](after/review-page/secti
 #concepts  Concepts
 #checklist  Reviewer checklist
 ```
+
+### COMMAND · `CREATE ISSUE:` and `create_issue` scripts — added
+
+Offered when the requirements are finished (S18); a parent makes the GitHub issue a sub-issue
+and gives the Azure DevOps backlog item its Parent link (S19). Before: absent. After:
+[after/create-issue/command.md](after/create-issue/command.md).
+
+### DATA-FORMAT · suggested commit message — added
+
+Always with the reference (`#<n>` / `AB#<id>`), following `guidelines/commits.md`; without an
+issue, `CREATE ISSUE:` is offered first (S20). After:
+[after/commit-message/rule.md](after/commit-message/rule.md).
 
 ### Questions a reviewer will ask
 

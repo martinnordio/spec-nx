@@ -5,7 +5,7 @@
 > **Created:** 2026-11-13
 > **Last updated:** 2026-11-13
 > **Branch:** `feature/spec-kit-migration` (all Steps; one pull request at the end)
-> **Issue:** _created with the pull request_
+> **Issue:** #3
 
 ## Stage log
 
@@ -23,6 +23,10 @@
 | 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Steps 13–14 done |
 | 2026-11-13 | review | `REVIEW:` | Claude Opus 5.5 | semantic diff updated: HTML report, review-page block |
 | 2026-11-13 | implementation | `CLOSE:` | Claude Opus 5.5 | spec closed again |
+| 2026-11-13 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | Part 1 revised: S18–S20 (author's request) |
+| 2026-11-13 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | Step 15 done |
+| 2026-11-13 | review | `REVIEW:` | Claude Opus 5.5 | semantic diff updated: create-issue, commit-message |
+| 2026-11-13 | requirements | `CREATE ISSUE:` | Claude Opus 5.5 | issue #3 created (no parent) |
 
 ---
 
@@ -110,6 +114,16 @@ questions Q0, Q0b, Q0c, Q1b, Q5, Q6.
   with Before | After side by side and the changed lines shaded, the highlights as coloured
   diffs with concept tooltips, the findings, a reviewer checklist and machine-readable
   metadata; an index lists all review pages; the pull-request text links to the report.
+- **S18 — Create the item when the requirements are finished (added at the author's
+  request):** when a spec has no open questions left and no issue yet, the requirements stage
+  asks whether to create the issue (GitHub) or backlog item (Azure DevOps), and `CREATE ISSUE:`
+  creates it with the spec summary after a dry run, writing its number into the header.
+- **S19 — Parent (added at the author's request):** the spec header can name a parent; the
+  created Azure DevOps backlog item gets it as its Parent link, the GitHub issue becomes its
+  sub-issue. The Azure DevOps work item type is a setting (Q2c).
+- **S20 — Commit references (added at the author's request):** every suggested commit message
+  carries the reference of the spec's item (`#<n>` / `AB#<id>`), following a commit guideline
+  that also binds an AI agent allowed to commit; the pr stage lists commits without it.
 
 ### Open questions
 
@@ -158,6 +172,7 @@ skills); `stages/tools/` (`spec_summary.*`, `update_pr.*`); `README.md`;
 | **12** | README, checks, semantic diff, close | ✅ Done | [→ Step 12](#step-12--readme-checks-semantic-diff-close) |
 | **13** | HTML review page (S17) | ✅ Done | [→ Step 13](#step-13--html-review-page-s17) |
 | **14** | Remove the migration plan and its template | ✅ Done | [→ Step 14](#step-14--remove-the-migration-plan-and-its-template) |
+| **15** | Create the issue with a parent; commit references (S18–S20) | ✅ Done | [→ Step 15](#step-15--create-the-issue-with-a-parent-commit-references-s18s20) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
@@ -494,6 +509,32 @@ Started: 2026-11-13 11:34
 **Done (2026-11-13 · ~1m · Claude Opus 5.5)** — plan and template removed; the spec and the
 review page point to the last version in the git history; spec closed again. Link check: only
 the 4 known template placeholders.
+
+---
+
+## Step 15 — Create the issue with a parent; commit references (S18–S20)
+
+### Goal
+The item is created from the spec when the requirements are finished, under a parent if given,
+and every commit names it (S18, S19, S20).
+
+### Tasks
+- [x] Record the start time in Notes below.
+- [x] `create_issue.ps1` / `.sh` for GitHub (sub-issue of a parent) and Azure DevOps (type, Parent link), with dry runs.
+- [x] Requirements stage: `CREATE ISSUE:`, offered when Part 1 is finished; `Parent:` in the header; Q2c `work_item_type`.
+- [x] `stages/guidelines/commits.md`; implementation and pr stages, kit README, tools README, generator.
+- [x] Check: PowerShell parse + ASCII, `bash -n`; dry runs on GitHub in both shells; record valid; then create this spec's issue with the new script.
+
+### Notes
+Started: 2026-11-13 11:40
+
+**Done (2026-11-13 · ~10m · Claude Opus 5.5)** — four `create_issue` scripts; `CREATE ISSUE:`
+with parent (GitHub sub-issue via the sub-issues API, Azure DevOps `Hierarchy-Reverse` link);
+Q2c; commit guideline used by implementation, pr and the kit README. Checks: 8 PowerShell
+files parse and are ASCII, 8 bash files pass `bash -n`; GitHub dry runs in PowerShell (with a
+parent) and bash; the Azure DevOps scripts are only syntax-checked (no Azure DevOps repository
+here) — deferred to the trial run. This spec's issue #3 was created with the new GitHub
+script.
 ---
 
 ## Deferred Items
@@ -504,6 +545,7 @@ the 4 known template placeholders.
 | Command-line generator | Out of scope of the migration | later |
 | Example kits in `examples/` | After the stages settle | later |
 | Try `GENERATE KIT` end to end in `testing/`: an empty repository (Q0c) and an existing one, with and without a layer | Code review finding 2; prompts cannot run in this repository | before the first project switches |
+| Run the Azure DevOps `create_issue` scripts against a real project (type, parent) | Only syntax-checked here | the trial run, in an Azure DevOps project |
 | Committed tests for the git-host scripts (block replacement, parameters) | Code review finding 1 (C7) | a later spec for script tests |
 
 ---

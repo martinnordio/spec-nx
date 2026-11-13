@@ -17,5 +17,7 @@ New stages, questions, company layer and agent permissions; nothing existing cha
 | command | `update_pr` (4 scripts): optional semantic-diff file | modified | S9, S14 |
 | data-format | Pull-request description: `semantic-diff` block | modified | S9 |
 | data-format | HTML review page `review.html` + `.specs/changes/index.html` | added | S17 |
+| command | `CREATE ISSUE:` (optional parent) + `create_issue` scripts | added | S18, S19 |
+| data-format | Commit message: always the `#<n>` / `AB#<id>` reference | added | S20 |
 
 **Top findings:** (1) Should-fix — `GENERATE KIT` with the new questions not yet tried end to end in a scratch project (deferred); (2) Nit — no committed tests for the changed scripts (C7, deferred); (3) Nit — placeholder links in templates.

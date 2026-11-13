@@ -24,6 +24,7 @@ The questions are **asked in the order of this table**:
 | Q1b | On-demand stages — which extra commands do you want? | project | `on_demand` | `[]` |
 | Q2 | Git host — where is the repository? | project | `git_host` | from the `origin` remote |
 | Q2b | Keep each spec in sync with an issue / backlog item? | project | `link_issues` | `true` if there is a git host |
+| Q2c | Azure DevOps: which work item type for a spec? | project | `work_item_type` | `"Product Backlog Item"` |
 | Q3 | Which shell do you run the kit's scripts in? | developer | `shell` | from the operating system |
 | Q4 | Share the kit with the team, or keep it personal? | project | `kit` | `"shared"` |
 | Q6 | AI agent permissions — for which agents? | project | `agent` | the agents found |
@@ -231,9 +232,31 @@ its description kept in sync with the spec?*
 
 **Effect**
 
-- The spec template gets an `Issue:` line in its header.
-- The requirements stage offers `UPDATE ISSUE: <spec file>` (on request).
+- The spec header gets an `Issue:` / `Backlog item:` line, and optionally a `Parent:` line.
+- When the requirements of a spec are finished, the requirements stage asks whether to create
+  the issue / backlog item (`CREATE ISSUE:`, optionally under a parent); `UPDATE ISSUE:` on
+  request.
+- Commit messages carry the reference (`#<n>` / `AB#<id>`, `guidelines/commits.md`).
 - The pr stage always updates the issue / backlog item together with the pull request.
+
+---
+
+## Q2c · Backlog item type (Azure DevOps)
+
+Asked only when `git_host` is `"azure_devops"` and `link_issues` is `true`.
+
+**Ask:** *Which work item type should `CREATE ISSUE` create for a spec?*
+
+| Option | `work_item_type` | Process |
+|--------|------------------|---------|
+| Product Backlog Item | `"Product Backlog Item"` | Scrum |
+| User Story | `"User Story"` | Agile |
+| Requirement | `"Requirement"` | CMMI |
+| Issue | `"Issue"` | Basic |
+
+**Suggest:** the type of the existing backlog items the commit messages refer to (`AB#<id>`),
+if the token can read them; otherwise `"Product Backlog Item"`. The parent (a Feature or Epic)
+is asked per spec, not here.
 
 ---
 
@@ -335,6 +358,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `on_demand` | Answer to Q1b (only when `kit` is `"shared"`). |
 | `git_host` | Answer to Q2. |
 | `link_issues` | Answer to Q2b. |
+| `work_item_type` | Answer to Q2c (Azure DevOps only). |
 | `shells` | Shells the kit's scripts are generated for: every developer's Q3 answer. |
 | `kit` | Answer to Q4. |
 | `agent` | Answer to Q6: the AI agents whose permissions the generator writes. |

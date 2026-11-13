@@ -148,7 +148,7 @@ A kit is made of **stages**. You choose which ones you use (setup question Q1):
 
 | Stage | Commands | What it does | Output |
 |-------|----------|--------------|--------|
-| **requirements** | `REQUIREMENTS:`, `UPDATE ISSUE:` | Writes the requirements of a feature (S1, S2, …) after checking what already exists in the repository | Part 1 of the spec file |
+| **requirements** | `REQUIREMENTS:`, `CREATE ISSUE:`, `UPDATE ISSUE:` | Writes the requirements of a feature (S1, S2, …) after checking what already exists in the repository; when they are finished, offers to create the issue / backlog item, optionally under a parent | Part 1 of the spec file |
 | **plan** | `PLAN:` | Turns agreed requirements into Steps with goals and tasks | Part 2 of the same spec file |
 | **implementation** | `IMPLEMENT:`, `CLOSE:` | Does the Steps one by one, ticking tasks and recording when each is done and with which model; closes the spec | Code + updated spec |
 | **documentation** | `DOCS:`, `ARCHITECTURE`, `ADR:` | Updates the documents the change affects; architecture and decision records | README, architecture, ADRs, … |

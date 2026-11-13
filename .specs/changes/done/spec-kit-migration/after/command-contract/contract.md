@@ -1,3 +1,3 @@
-- The **commands**: `REQUIREMENTS:`, `UPDATE ISSUE:`, `PLAN:`, `IMPLEMENT:`, `CLOSE:`,
+- The **commands**: `REQUIREMENTS:`, `CREATE ISSUE:`, `UPDATE ISSUE:`, `PLAN:`, `IMPLEMENT:`, `CLOSE:`,
   `GUIDELINES:`, `DOCS:`, `ARCHITECTURE`, `ADR:`, `REVIEW:`, `CODE REVIEW:`, `IMPROVE:`,
   `LOOK:`, `UI CATALOG`, `SETUP TOOLING:`, `SETUP MACHINE`, `PR:` and their arguments.

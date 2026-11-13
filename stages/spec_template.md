@@ -9,6 +9,10 @@
 <!-- File name: .specs/features/yyyy_mm_dd_<name>_spec.md — the date the spec is created.
      The name never changes, also when the spec moves to .specs/features/done/.
 
+     Linked to a git host, the header also gets (requirements stage, CREATE ISSUE):
+       > **Issue:** #<n>          (GitHub)   or   > **Backlog item:** <id>   (Azure DevOps)
+       > **Parent:** #<n> / <id>  (optional: parent issue, or parent Feature / Epic)
+
      One file, two parts:
        Part 1 · Requirements — written first by the requirements stage (what, not how).
        Part 2 · Plan         — added by the plan stage once Part 1 is agreed (how, in Steps).
