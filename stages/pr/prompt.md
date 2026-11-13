@@ -41,6 +41,9 @@ generated kit (`.specs/kit/pr/`).
    - No uncommitted changes (`git status`) apart from that row; otherwise ask the user to
      commit first. Ask the user to commit the row with the rest.
    - The spec has Part 1 (statements) — a pull request needs at least the requirements.
+   - **Commit references:** `git log <default branch>..HEAD --oneline` — list the commits
+     without the spec's reference (`#<n>` / `AB#<id>`, see `../guidelines/commits.md`) and tell
+     the user; never rewrite commits on your own.
 
 2. **Find the git host and shell.** `git_host` from `.specs/spec-nx.json`, otherwise from
    `git remote get-url origin` (`github.com` → GitHub; `dev.azure.com` or `visualstudio.com`

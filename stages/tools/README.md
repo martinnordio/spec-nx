@@ -19,8 +19,10 @@ The pull-request scripts also fill a second block, `<!-- semantic-diff:start -->
 
 | Host | Script (PowerShell / bash) | Does |
 |------|----------------------------|------|
+| GitHub | `github/create_issue.ps1` / `.sh` | Creates an issue with the summary; optionally a sub-issue of a parent issue; prints its number |
 | GitHub | `github/update_issue.ps1` / `.sh` | Issue description |
 | GitHub | `github/update_pr.ps1` / `.sh` | Pull request of the current branch; creates it (draft allowed, `Closes #<issue>`) if there is none |
+| Azure DevOps | `azure_devops/create_issue.ps1` / `.sh` | Creates a backlog item (type from `work_item_type`) with the summary; optionally under a parent work item; prints its id |
 | Azure DevOps | `azure_devops/update_issue.ps1` / `.sh` | Backlog item (work item) description, stored as Markdown |
 | Azure DevOps | `azure_devops/update_pr.ps1` / `.sh` | Pull request of the current branch; creates it (draft allowed, linked to the backlog item) if there is none |
 

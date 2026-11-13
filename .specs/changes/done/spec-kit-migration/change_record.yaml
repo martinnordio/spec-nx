@@ -10,7 +10,7 @@ why: |
   private company layer and agent permissions — as building blocks, with no company content.
 spec:
   path: .specs/features/done/2026_11_13_spec_kit_migration_spec.md
-  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17]
+  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20]
 changes:
   - id: question-table
     kind: config
@@ -166,6 +166,26 @@ changes:
       - name: sections
         input: |
           the sections of stages/review/review_page.html
+  - id: create-issue
+    kind: command
+    change: added
+    object: "CREATE ISSUE: <spec file> [parent <n>] and create_issue.ps1 / .sh (GitHub, Azure DevOps)"
+    note: Offered when the requirements are finished; GitHub parent = sub-issue, Azure DevOps parent = Parent link.
+    statements: [S18, S19]
+    examples:
+      - name: command
+        input: |
+          the CREATE ISSUE command block of stages/requirements/prompt.md
+  - id: commit-message
+    kind: data-format
+    change: added
+    object: suggested commit message
+    note: Always carries the reference; offers CREATE ISSUE when the spec has none; rules in guidelines/commits.md.
+    statements: [S20]
+    examples:
+      - name: rule
+        input: |
+          step 8 of IMPLEMENT in stages/implementation/prompt.md
 breaking: none — existing settings files, commands, markers and script calls keep working.
 review:
   - question: Why one spec for twelve migration items instead of one spec each?

@@ -21,7 +21,9 @@ Load .specs/kit/<stage>/prompt.md.
 
 ## The workflow
 
-One feature = one spec = one branch `feature/<name>` = one pull request.
+One feature = one spec = one branch `feature/<name>` = one pull request. Every commit message
+carries the reference of the spec's issue (`#<n>`) or backlog item (`AB#<id>`) —
+`guidelines/commits.md`.
 
 | # | Stage | Command | Result |
 |---|-------|---------|--------|
@@ -39,6 +41,7 @@ One feature = one spec = one branch `feature/<name>` = one pull request.
 
 | Command | Stage | Does |
 |---------|-------|------|
+| `CREATE ISSUE: <spec file> [parent <n>]` | requirements | Creates the issue / backlog item of the spec (optionally under a parent); offered when the requirements are finished |
 | `UPDATE ISSUE: <spec file>` | requirements | Summary of the spec into its issue / backlog item |
 | `GUIDELINES: <language>` | guidelines | Writes or updates `.specs/guidelines/<language>.md` |
 | `ARCHITECTURE`, `ADR: <title>` | documentation | Architecture document, decision records |
