@@ -203,8 +203,10 @@ they are not saved.
 **Needs**
 
 - GitHub: the GitHub CLI `gh`, logged in (`gh auth status`).
-- Azure DevOps: a personal access token in the environment variable `AZURE_DEVOPS_EXT_PAT`
-  (never written to a file); the bash scripts also need `curl` and `jq`.
+- Azure DevOps: an https `origin` remote and a git login (the one `git fetch` / `git push` use,
+  through Git Credential Manager) — no token to create. Optional: a personal access token in
+  `AZURE_DEVOPS_EXT_PAT` (never written to a file), used instead when set, e.g. in CI. The
+  bash scripts also need `curl` and `jq`.
 
 **Selects:** the tools for the host, `stages/tools/<git_host>/` → `.specs/kit/tools/<git_host>/`
 (with the shared `spec_summary` script and `README.md` in `.specs/kit/tools/`, the same layout as

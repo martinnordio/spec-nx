@@ -1,5 +1,6 @@
 # Shared by the Azure DevOps tools: organisation, project and repository from the origin remote,
-# and REST calls authenticated with the personal access token in AZURE_DEVOPS_EXT_PAT.
+# and REST calls authenticated with AZURE_DEVOPS_EXT_PAT if it is set, otherwise with the
+# developer's git login (Git Credential Manager). Credentials are never printed.
 # Needs curl and jq.
 
 ado_repo() {
@@ -21,10 +22,34 @@ ado_repo() {
   fi
 }
 
+# ado_auth  ->  sets ADO_USERPASS (user:password for curl -u), once
+ado_auth() {
+  [[ -n "${ADO_USERPASS:-}" ]] && return 0
+  if [[ -n "${AZURE_DEVOPS_EXT_PAT:-}" ]]; then
+    ADO_USERPASS=":$AZURE_DEVOPS_EXT_PAT"
+    return 0
+  fi
+  local remote host path user='' cred username password
+  remote="$(git remote get-url origin)"
+  if [[ ! "$remote" =~ ^https://(([^@/]+)@)?([^/]+)/(.*)$ ]]; then
+    echo 'origin is not an https remote: set AZURE_DEVOPS_EXT_PAT (Work Items and Code: read and write).' >&2
+    return 1
+  fi
+  user="${BASH_REMATCH[2]}" host="${BASH_REMATCH[3]}" path="${BASH_REMATCH[4]}"
+  cred="$(printf 'protocol=https\nhost=%s\npath=%s\n%s\n' "$host" "$path" "${user:+username=$user}" | git credential fill)"
+  username="$(sed -n 's/^username=//p' <<< "$cred")"
+  password="$(sed -n 's/^password=//p' <<< "$cred")"
+  if [[ -z "$password" ]]; then
+    echo 'No Azure DevOps login from git: run git fetch once to sign in, or set AZURE_DEVOPS_EXT_PAT.' >&2
+    return 1
+  fi
+  ADO_USERPASS="$username:$password"
+}
+
 # ado <method> <url> [json-body] [content-type]
 ado() {
-  [[ -n "${AZURE_DEVOPS_EXT_PAT:-}" ]] || { echo 'Set AZURE_DEVOPS_EXT_PAT to a personal access token (Work Items and Code: read and write).' >&2; return 1; }
-  local args=(-sS --fail-with-body -u ":$AZURE_DEVOPS_EXT_PAT" -X "$1" "$2")
+  ado_auth || return 1
+  local args=(-sS --fail-with-body -u "$ADO_USERPASS" -X "$1" "$2")
   if [[ $# -ge 3 ]]; then
     args+=(-H "Content-Type: ${4:-application/json}" --data-binary "$3")
   fi

@@ -26,9 +26,11 @@ The pull-request scripts also fill a second block, `<!-- semantic-diff:start -->
 | Azure DevOps | `azure_devops/update_issue.ps1` / `.sh` | Backlog item (work item) description, stored as Markdown |
 | Azure DevOps | `azure_devops/update_pr.ps1` / `.sh` | Pull request of the current branch; creates it (draft allowed, linked to the backlog item) if there is none |
 
-**Needs:** GitHub — the GitHub CLI `gh`, logged in. Azure DevOps — a personal access token in
-`AZURE_DEVOPS_EXT_PAT` (Work Items and Code: read and write); the bash scripts also need `curl`
-and `jq`. PowerShell scripts run in Windows PowerShell 5.1 and PowerShell 7.
+**Needs:** GitHub — the GitHub CLI `gh`, logged in. Azure DevOps — your git login (Git
+Credential Manager, the one `git fetch` uses; organisation and project come from the `origin`
+remote), or a personal access token in `AZURE_DEVOPS_EXT_PAT` (Work Items and Code: read and
+write), which wins when set; the bash scripts also need `curl` and `jq`. Credentials are never
+printed. PowerShell scripts run in Windows PowerShell 5.1 and PowerShell 7.
 
 ## Examples
 
