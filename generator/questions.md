@@ -5,7 +5,8 @@ project. For each question it first **scans the repository** (and, for developer
 the computer) and **suggests** an answer; the user confirms or changes it.
 
 Answers are saved at two levels, so `GENERATE KIT --update` never asks them again — only
-questions whose key is missing (questions added to spec-nx later):
+questions whose key is missing (questions added to spec-nx later). `GENERATE KIT --update
+--force` asks them all again, with the saved answers as suggestions:
 
 | Level | File | Shared? | Holds |
 |-------|------|---------|-------|

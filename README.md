@@ -128,6 +128,9 @@ follow).
 
    Your saved answers are reused, so nothing is asked again (only questions that are new in
    spec-nx). `.specs/kit/` is regenerated; your specs in `.specs/features/` are never touched.
+   To change answers (for example the stages or the git host), run
+   `GENERATE KIT --update --force`: every question is asked again, with your saved answer as the
+   suggestion.
 
 ### Project and developer settings
 

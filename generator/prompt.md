@@ -16,7 +16,14 @@ asked).
 ```
 GENERATE KIT --update
 ```
-Regenerate the kit from the saved answers; asks only questions that are new.
+Regenerate the kit from the saved answers in `.specs/spec-nx.json` and
+`.specs/spec-nx.local.json`; asks only questions that are new.
+
+```
+GENERATE KIT --update --force
+```
+Regenerate the kit, asking every question again with the saved answer as the suggestion — to
+change answers (stages, git host, languages, …).
 
 ## Where things are
 
@@ -181,13 +188,22 @@ compatible with updates and with each other:
    instead.
 2. Ask **only** the questions of `generator/questions.md` whose key is missing (questions added
    to spec-nx since), and stages the user chose earlier that now exist in `stages/`
-   (offer them; do not add them without asking).
+   (offer them; do not add them without asking). A question whose key has a saved value is
+   **not asked, not even to confirm** — the answer is used as it is and listed in the report.
+   A missing `.specs/spec-nx.local.json` (a new team member) only adds the developer questions.
+
+   **With `--force`:** ask every question of `generator/questions.md` again, in its order, as in
+   `GENERATE KIT` step 3, with the saved answer as the suggestion; where the scan of the
+   repository suggests something else, show both. Keep the answers the user confirms, save the
+   changed ones. Never write a second project setup spec (Q0c is not asked again when
+   `project_spec` names a file). A changed `kit_dir` removes the old kit's `kit_files` first.
 3. Update `spec_nx_version`, `generated` and `model`; keep every other answer. Read the company
    layer again (`layer`), if there is one: it may have changed with its repository.
 4. Regenerate `.specs/kit/` as in steps 5–6 above, from the current building blocks and with
    the current model.
 5. Report what changed in the kit compared to before (new or removed files, notable changes),
-   and the old and new `spec_nx_version` / `model`.
+   the old and new `spec_nx_version` / `model`, and the answers used (with `--force`: which
+   answers changed).
 
 ## Never
 
