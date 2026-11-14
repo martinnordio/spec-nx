@@ -30,7 +30,8 @@ If the file exists, stop and say so.
 
 **Header:** Author (`git config user.name`), Status `⬜ Not started — plan ready`, Created and
 Last updated today, Branch `feature/<name>-setup`. **Stage log:** two rows, today,
-`requirements` and `plan`, command `GENERATE KIT` (Q0c), your model, `project setup spec`.
+`requirements` and `plan`, command `GENERATE KIT` (Q0c), your model (the model that runs the
+generator now, as your runtime reports it — not copied from the settings), `project setup spec`.
 
 **Part 1 · Requirements**
 

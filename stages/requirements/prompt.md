@@ -33,6 +33,13 @@ first, then the real update after the user confirms.
 
 Always: `../skills/requirements_engineer.md` — the role you take in this stage.
 
+## Model name
+
+Wherever this prompt says *your model*, write the name of the model that runs this command
+now, as your runtime reports it. Never copy it from earlier rows, from `.specs/spec-nx.json`
+(its `model` is the model that generated the kit), from the kit's README or from examples. If
+you cannot tell, ask the user once; otherwise write `unknown model`.
+
 ## Files this stage uses
 
 Paths are relative to this file, so they work both inside spec-nx (`stages/requirements/`)
@@ -80,8 +87,8 @@ and in a generated kit (`.specs/kit/requirements/`).
      (`CREATE ISSUE`, step 7).
    - **Parent:** add `> **Parent:** #<n>` (GitHub parent issue) or `> **Parent:** <id>`
      (Azure DevOps, usually a Feature or Epic) if the user gave one.
-   - **Stage log:** replace the example row with today, `requirements`, `REQUIREMENTS:`, the
-     exact name of the AI model you are, and `Part 1 written`.
+   - **Stage log:** replace the example row with today, `requirements`, `REQUIREMENTS:`,
+     your model, and `Part 1 written`.
 
 5. **Fill Part 1:**
    - **Context:** two or three sentences — the problem and why it matters.

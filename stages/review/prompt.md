@@ -26,6 +26,13 @@ Reviews the branch's changes layer by layer and logs the findings in the spec.
 
 Always: `../skills/reviewer.md` — the role you take in this stage.
 
+## Model name
+
+Wherever this prompt says *your model*, write the name of the model that runs this command
+now, as your runtime reports it. Never copy it from earlier rows, from `.specs/spec-nx.json`
+(its `model` is the model that generated the kit), from the kit's README or from examples. If
+you cannot tell, ask the user once; otherwise write `unknown model`.
+
 ## Files this stage uses
 
 Paths are relative to this file, so they work both inside spec-nx (`stages/review/`) and in a
@@ -134,7 +141,7 @@ without `feature/` (`login-page`).
    committed and pushed for the link to work.
 
 8. **In the spec:** tick the *Review* line of the Definition of Done when the page exists; add
-   a Review Log row (today, the AI model, `semantic diff`, `—`, link to the page) and a
+   a Review Log row (today, your model, `semantic diff`, `—`, link to the page) and a
    **Stage log** row (today, `review`, `REVIEW:`, your model, `semantic diff written`).
 
 9. **Report:** the record's blocks per kind, the checks, the page, the top findings, and the
@@ -153,7 +160,7 @@ without `feature/` (`login-page`).
    - a change of behaviour that the spec does not ask for → *new spec*
      (`REQUIREMENTS: <name> — …`);
    - a missing decision → `ADR: <title>`.
-4. **In the spec:** under **Review Log**, add a row (today, `AI assistant (<model>)`, `diff`,
+4. **In the spec:** under **Review Log**, add a row (today, `AI assistant (<your model>)`, `diff`,
    the outcome, the number of findings per severity) and, below the table, a
    `### Code review YYYY-MM-DD` section with the finding table. Add a **Stage log** row
    (today, `review`, `CODE REVIEW:`, your model, the outcome).

@@ -16,6 +16,13 @@ changes (Steps done, spec closed): only the `spec-summary` blocks are rewritten.
 
 None — this stage is mechanical: it summarises the spec and runs the git-host tools.
 
+## Model name
+
+Wherever this prompt says *your model*, write the name of the model that runs this command
+now, as your runtime reports it. Never copy it from earlier rows, from `.specs/spec-nx.json`
+(its `model` is the model that generated the kit), from the kit's README or from examples. If
+you cannot tell, ask the user once; otherwise write `unknown model`.
+
 ## Files this stage uses
 
 Paths are relative to this file, so they work both inside spec-nx (`stages/pr/`) and in a
@@ -35,8 +42,8 @@ generated kit (`.specs/kit/pr/`).
 
 1. **Check the branch.**
    - The current branch is the spec's **Branch** (header). If not, stop and say so.
-   - Add a **Stage log** row to the spec: today, `pr`, `PR:`, the exact name of the AI model
-     you are, `pull request opened` or `pull request updated` (add the section from the
+   - Add a **Stage log** row to the spec: today, `pr`, `PR:`, your model,
+     `pull request opened` or `pull request updated` (add the section from the
      template above Part 1 if the spec has none).
    - No uncommitted changes (`git status`) apart from that row; otherwise ask the user to
      commit first. Ask the user to commit the row with the rest.

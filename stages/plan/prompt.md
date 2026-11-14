@@ -17,6 +17,13 @@ kept; the rest is re-planned.
 - Always: `../skills/architect.md` — the role you take in this stage.
 - Also: `../skills/requirements_engineer.md` — to check that Part 1 is ready (first step below).
 
+## Model name
+
+Wherever this prompt says *your model*, write the name of the model that runs this command
+now, as your runtime reports it. Never copy it from earlier rows, from `.specs/spec-nx.json`
+(its `model` is the model that generated the kit), from the kit's README or from examples. If
+you cannot tell, ask the user once; otherwise write `unknown model`.
+
 ## Files this stage uses
 
 Paths are relative to this file, so they work both inside spec-nx (`stages/plan/`) and in a
@@ -66,7 +73,7 @@ generated kit (`.specs/kit/plan/`).
      *Requirements* and *Plan*.
 
 4. **Update the header:** **Status** `⬜ Not started — plan ready`; **Last updated** today.
-   Add a **Stage log** row: today, `plan`, `PLAN:`, the exact name of the AI model you are,
+   Add a **Stage log** row: today, `plan`, `PLAN:`, your model,
    `Part 2 written` (add the section from the template above Part 1 if the spec has none).
 
 5. **Report to the user:** the Steps in one line each, the decisions, anything deferred, and

@@ -21,6 +21,13 @@ Checks that the work is complete, writes what was built, and moves the spec to
 
 Always: `../skills/developer.md` — the role you take in this stage.
 
+## Model name
+
+Wherever this prompt says *your model*, write the name of the model that runs this command
+now, as your runtime reports it. Never copy it from earlier rows, from `.specs/spec-nx.json`
+(its `model` is the model that generated the kit), from the kit's README or from examples. If
+you cannot tell, ask the user once; otherwise write `unknown model`.
+
 ## Files this stage uses
 
 Paths are relative to this file, so they work both inside spec-nx (`stages/implementation/`)
@@ -68,7 +75,7 @@ and in a generated kit (`.specs/kit/implementation/`).
 7. **Finish, in one edit** (the template's *Step completion protocol*):
    - all tasks ticked; the Step's row `✅ Done`;
    - a Done line in its Notes: `**Done (YYYY-MM-DD · ~<duration> · <model>)** — <summary>.
-     <check and its result>`, with the exact name of the AI model you are;
+     <check and its result>`, where `<model>` is your model;
    - **Last updated** today; a **Stage log** row: today, `implementation`, `IMPLEMENT:`, your
      model, `Step <n> done`.
 

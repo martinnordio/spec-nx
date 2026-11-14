@@ -59,7 +59,8 @@ compatible with updates and with each other:
 - The **spec file**: name `yyyy_mm_dd_<name>_spec.md`; the Stage log (date, stage, command,
   model) above Part 1 · Requirements, the marker line `<!-- spec-nx:plan -->`, Part 2 · Plan;
   statements `S<n>`, Steps, decisions `D<n>`. Every stage that writes to the spec adds a
-  Stage log row with the model it ran on.
+  Stage log row with the model it ran on — the model of that run, never one copied from the
+  settings, the kit's README or earlier rows (the **Model name** rule of each stage prompt).
 - The **summary block** markers `[//]: # (spec-summary:start)` / `[//]: # (spec-summary:end)`,
   and the `[//]: # (semantic-diff:start)` / `[//]: # (semantic-diff:end)` block of the review
   stage; the change record format (`review/change_record.schema.json`) and the review pages

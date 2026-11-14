@@ -19,6 +19,13 @@ The review stage sends out-of-scope findings here (`CODE REVIEW:` → target `IM
 Always: `../skills/refactorer.md`. Also `../skills/architect.md` when the scope has an
 architecture document or decision records.
 
+## Model name
+
+Wherever this prompt says *your model*, write the name of the model that runs this command
+now, as your runtime reports it. Never copy it from earlier rows, from `.specs/spec-nx.json`
+(its `model` is the model that generated the kit), from the kit's README or from examples. If
+you cannot tell, ask the user once; otherwise write `unknown model`.
+
 ## Files this stage uses
 
 Paths are relative to this file, so they work both inside spec-nx (`stages/improvement/`) and

@@ -435,7 +435,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `kit_ref` | Answer to Q4c (missing = `kit_dir`). |
 | `kit_files` | Top-level files and folders of the last generation, relative to `kit_dir` (only when `kit_dir` is not `".specs/kit"`). |
 | `agent` | Answer to Q6: the AI agents whose permissions the generator writes. |
-| `model` | AI model that generated the shared kit (only when `kit` is `"shared"`). |
+| `model` | AI model that generated the shared kit (only when `kit` is `"shared"`). Not the model of a stage run: the Stage log names the model that ran each command. |
 
 ## `.specs/spec-nx.local.json` (developer)
 
@@ -454,4 +454,4 @@ Written by `GENERATE KIT` on each developer's computer; never committed.
 | `shell` | Answer to Q3. |
 | `stages` | Answer to Q1 (only when the project's `kit` is `"personal"`). |
 | `on_demand` | Answer to Q1b (only when the project's `kit` is `"personal"`). |
-| `model` | AI model that generated your personal kit (only when `kit` is `"personal"`). |
+| `model` | AI model that generated your personal kit (only when `kit` is `"personal"`). Not the model of a stage run. |
