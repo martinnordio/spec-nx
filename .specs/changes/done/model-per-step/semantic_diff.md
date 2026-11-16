@@ -12,12 +12,12 @@ Model per stage and Step, tokens and cost of every stage; nothing changes withou
 | data-format | Spec Overview: **Model (suggested)** | modified | S4, S8 |
 | data-format | Stage log: **Tokens**, **Cost** | modified | S13, S14, S20 |
 | command | `IMPLEMENT:` Per-Step run | added | S6, S8, S10 |
-| command | `CLOSE:` cost summary + ledger | modified | S17, S21 |
+| command | `CLOSE:` cost summary (by stage, then by Step) + ledger | modified | S17, S21, S24 |
 | output | `usage.ps1` / `.sh` | added | S13–S16 |
-| output | `costs_ledger.ps1` / `.sh` → `.specs/costs.md` | added | S21 |
+| output | `costs_ledger.ps1` / `.sh` → `.specs/costs.md` (columns per stage) | added | S21, S24 |
 | message | `COSTS.md` disclaimer | added | S19, S20 |
 | data-format | `.specs/kit/`: `models.md`, `COSTS.md`, scripts | modified | S12, S19 |
 | message | README: the feature at the top | modified | S11 |
-| data-format | Issue / pull-request summary: `## Cost summary` before the plan | modified | S23 |
+| data-format | Issue / pull-request summary: `## Cost summary` (two tables) before the plan | modified | S23, S24 |
 
 **Top findings:** (1) Should-fix — VS Code transcript discovery is not per workspace (deferred); (2) Should-fix — `GENERATE KIT` with Q7 / cost not run end to end (deferred); (3) Nit — no committed tests for the new scripts (C7, deferred).
