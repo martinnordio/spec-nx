@@ -1,38 +1,73 @@
 # spec-nx
 
-**Software engineering for vibe coding.**
+**The speed of vibe coding, the discipline of software engineering — and you know what every
+feature cost.**
 
-spec-nx generates the spec kit your team needs to build software with AI the right way: clear
-requirements, a plan in small steps, and a pull request that shows the code does what was
-asked.
+spec-nx generates the spec kit your team uses to build software with AI: requirements checked
+against your repository, a plan in small Steps, and a pull request that shows the code does
+what was asked.
+
+- **Specs in the repository, not lost in a chat.** Requirements and plan live next to the
+  code; the issue, the spec and the pull request stay in sync.
+- **The right model for each Step.** A strong model where it matters, a cheaper one for
+  routine work — chosen by the plan, run as sub-agents.
+- **Know what it cost.** Tokens, GitHub AI credits and your currency for every stage and Step,
+  and a cost summary for every feature.
+- **A kit made for your project, by your AI model.** Your languages, folders and conventions —
+  and it gets better with every newer model.
+- **Reviews that make sense.** A semantic diff: Before / After of the commands, APIs and
+  screens that changed, linked to the requirements.
+- **Fits the way you work.** VS Code Copilot or Claude Code; GitHub, Azure DevOps or no host;
+  PowerShell or bash; one kit for the team or one per developer; your company's rules as a
+  layer.
 
 For anyone who builds software with AI: developers, students, scientists, and curious kids.
 
-## ⭐ The right model for each Step — and what it cost
+## ⭐ Key feature: the right model for each Step — and what it cost
 
-**spec-nx picks the AI model for every stage and Step, and tells you what each one cost.**
+**spec-nx chooses the AI model for every stage and Step, and records the tokens and the cost
+of each one.** How tokens and cost are counted, the prices and their sources:
+**[COSTS.md](stages/COSTS.md)**.
 
-- **The right model, automatically.** Requirements, plans and hard Steps (architecture,
-  security, tricky logic, graphics-heavy work) run on a strong *reasoning* model; routine Steps
-  on a *standard* one; renames and docs on a cheap *light* one. The plan chooses the cheapest
-  model that does each Step well and shows why; `IMPLEMENT:` asks **once** and then runs every
-  Step on its model — as a sub-agent in VS Code Copilot and Claude Code.
-- **Your choice per project:** a model per Step (default: Claude Opus 5.5 / Sonnet 5.5 /
-  Haiku 5.5), **one fixed model** for everything, or **none** — always the model selected in
-  your tool. Each developer can override it for themselves.
-- **Tokens and cost of every stage and Step,** written into the spec: measured in Claude Code,
-  estimated in VS Code Copilot — in tokens, GitHub AI credits, your currency (default CHF) and
-  % of your Copilot plan. Closing a spec adds a **cost summary**, and `.specs/costs.md` lists
-  every spec with its total. One switch turns it off.
-- **Every Step records the model it was meant for and the model that ran it**, so you can
+### The right model, automatically
+
+- **Three tiers** — *reasoning*, *standard* and *light* (default: Claude Opus 5.5, Claude
+  Sonnet 5.5, Claude Haiku 5.5). Requirements, plan, review and improvement run on
+  *reasoning*; documentation and `CLOSE:` on *standard*; `PR:` on *light*
+  ([stages/models.md](stages/models.md)).
+- **The plan picks the model of each Step:** the cheapest tier that does it well, with the
+  reason, in the spec's **Model (suggested)** column — *reasoning* for architecture, security,
+  tricky logic or graphics-heavy work, *standard* for code that follows a clear plan, *light*
+  for renames, copies and docs.
+- **`IMPLEMENT:` asks once,** then runs each Step as a **sub-agent on its model** and commits
+  it with its message. It stops at the first failing check or open question, and never pushes.
+  In a tool without sub-agents it tells you which model to switch to for the next Step.
+- **Every Step records the model it was meant for and the model that ran it,** so you can
   compare models on real work.
+- **Your choice** (setup question Q7): a model per Step (default), **one fixed model** for
+  everything, or **none** — always the model selected in your tool. Each developer can
+  override it in `.specs/spec-nx.local.json`.
 
-> Costs are **estimates and may be wrong** — see
-> [stages/COSTS.md](stages/COSTS.md). How to set it up:
-> [docs/configuration.md](docs/configuration.md).
+### What it cost
 
-> 🚧 **Work in progress.** spec-nx is built in the open, one spec at a time, using itself.
-> See [Status](#status) for what works today.
+- **Every stage and Step** records its tokens and their cost in the spec's Stage log and Done
+  lines: **measured** in Claude Code, **estimated** from the chat transcript in VS Code
+  Copilot.
+- **In the units you pay in:** tokens, GitHub AI credits (1 credit = $0.01), your currency
+  (default CHF) and the share of your plan's monthly credits (default: Copilot Business, $19
+  and 1,900 credits per seat).
+- **`CLOSE:` adds a cost summary** to the spec — one table by stage, one for the
+  implementation by Step — and `PR:` copies it into the issue and the pull request.
+- **`.specs/costs.md`** keeps one row per spec, by stage, with the total of the project.
+- **On in new kits** (the `cost` block in `.specs/spec-nx.json`); `GENERATE KIT --update` never
+  adds it, and without it — or with `"enabled": false` — nothing is calculated.
+
+For example, this feature itself — 24 requirements, 12 Steps — cost about 25.8 M tokens,
+CHF 7.82, or 936 credits: half of one Business seat's monthly credits
+([the spec](.specs/features/done/2026_11_14_model_per_step_spec.md)).
+
+> **Costs are estimates and may be wrong** — see [COSTS.md](stages/COSTS.md). How to set up
+> models and cost: [docs/configuration.md](docs/configuration.md).
 
 ---
 
@@ -134,7 +169,8 @@ follow).
    REQUIREMENTS: login page — users sign in with email and password
    ```
 
-   then `PLAN:` on the new spec, `IMPLEMENT:` once per Step, and `PR:` when the work is done.
+   then `PLAN:` on the new spec, `IMPLEMENT:` for the Steps (with a model per Step it asks
+   once and runs them all; otherwise once per Step), `CLOSE:` when they are done, and `PR:`.
    The kit's own `README.md` lists every command of your stages.
 
 5. **Update the kit** when spec-nx improves, or when you use a newer AI model:
@@ -162,11 +198,28 @@ Some answers are about **the team**, some about **you**:
 | | Project settings | Developer settings |
 |---|---|---|
 | File | `.specs/spec-nx.json` — committed, shared | `.specs/spec-nx.local.json` — not committed, one per developer |
-| Examples | stages, git host, issues | your shell: PowerShell 7 (Windows) or bash (macOS, Linux) |
+| Examples | stages, git host, issues, models, cost | your shell: PowerShell (Windows PowerShell 5.1 or 7) or bash (macOS, Linux, Git Bash); your own models or cost settings |
 
 The kit contains its scripts for every shell your team uses, so a Windows developer and a
 macOS developer share the same kit. A new team member runs `GENERATE KIT` once: the project
-answers are already there, so only the developer questions are asked.
+answers are already there and the shell comes from the operating system, so nothing is asked
+(with a personal kit: only the stages).
+
+## Tutorial
+
+Try spec-nx on a small, well-known app: **one full workflow** — requirements, plan,
+implementation with a model per Step, close with the cost summary — on your own computer, with
+no account needed.
+
+| Tutorial | You build | You need |
+|----------|-----------|----------|
+| [Angular](docs/tutorials/angular.md) | From Angular's *Tour of Heroes*: a hero list and a detail view to edit a hero's name | Node.js, git, VS Code with GitHub Copilot (or Claude Code) |
+| [Python](docs/tutorials/python.md) | From Flask's *Flaskr*: a list of blog posts and a form to write one, in SQLite | Python, uv, git, VS Code with GitHub Copilot (or Claude Code) |
+
+Each tutorial gives you the exact `REQUIREMENTS:` text, so you start from the same feature.
+**Optional, afterwards:** [connect GitHub or Azure DevOps](docs/tutorials/git-host.md) and
+build a second feature with an issue and a pull request — the repository has to exist on the
+host first.
 
 ## Stages
 
@@ -176,14 +229,14 @@ A kit is made of **stages**. You choose which ones you use (setup question Q1):
 |-------|----------|--------------|--------|
 | **requirements** | `REQUIREMENTS:`, `CREATE ISSUE:`, `UPDATE ISSUE:` | Writes the requirements of a feature (S1, S2, …) after checking what already exists in the repository; when they are finished, offers to create the issue / backlog item, optionally under a parent | Part 1 of the spec file |
 | **plan** | `PLAN:` | Turns agreed requirements into Steps with goals and tasks | Part 2 of the same spec file |
-| **implementation** | `IMPLEMENT:`, `CLOSE:` | Does the Steps one by one, ticking tasks and recording when each is done and with which model; closes the spec | Code + updated spec |
+| **implementation** | `IMPLEMENT:`, `CLOSE:` | Does the Steps one by one — each on its own model, as a sub-agent, when the plan sets one — ticking tasks and recording when each is done, with which model and at what cost; closes the spec with a cost summary | Code + updated spec |
 | **documentation** | `DOCS:`, `ARCHITECTURE`, `ADR:` | Updates the documents the change affects; architecture and decision records | README, architecture, ADRs, … |
 | **review** | `REVIEW:`, `CODE REVIEW:` | Builds a *semantic diff*: Before / After of the commands, APIs, outputs and screens that changed, linked to the requirements; a layered code review | HTML review page in `.specs/review/` (with an index) + pull-request text; findings in the spec |
 | **pr** | `PR:` | Pushes the branch and opens or updates the pull request with a summary of the spec (and the semantic diff) | Pull request on GitHub or Azure DevOps |
 
 Workflows:
 
-- **Simple** (the default, e.g. for data science): requirements → plan → implementation → pr
+- **Simple** (the default): requirements → plan → implementation → pr
 - **Full:** requirements → plan → implementation → documentation → review → pr
 - **Custom:** you answer yes / no for each stage.
 
@@ -255,26 +308,39 @@ spec-nx uses the usual names of your git host; it adds no new ones.
 
 ## Setup questions
 
-The generator starts with a short list of questions:
+The generator asks these questions in this order. For each one it **suggests** an answer —
+from your repository, your computer or your AI tool — and you confirm or change it. Questions
+that do not apply are skipped.
 
-| # | Question | Can be read from the repository? |
-|---|----------|----------------------------------|
-| Q5 | **Company layer** — use your company's defaults and rules? (asked first, only if one is found) | Yes (a folder with `layer.json`) |
-| Q0 | **Project start** — a new, empty project or an existing one? | Yes (what files exist) |
-| Q0b | **Languages** — which programming languages? | Yes for an existing project |
-| Q0c | **Project setup spec** — write a first spec that sets up the project? (new projects) | — |
-| Q1 | **Workflow** — Simple, Full or Custom? | Partly (existing documents) |
-| Q1b | **On-demand stages** — improvement, setup, ui? | Partly (a UI framework, a new project) |
-| Q2 | **Git host** — none, GitHub or Azure DevOps? | Yes (the `origin` remote) |
-| Q3 | **Your shell** — PowerShell or bash? (per developer) | Yes (the operating system) |
-| Q4 | **Shared or personal kit** — one kit for the team, or one per contributor? | Partly (is `.specs/kit/` committed or ignored?) |
-| Q4b | **Kit folder** — `.specs/kit/` or, for a repository that *is* a shared kit, e.g. the root? | From a company layer |
-| Q4c | **Kit used from other repositories** — under which submodule folder? (only for another kit folder) | From a company layer |
-| Q6 | **AI agent permissions** — for Claude Code, VS Code Copilot, both or none? | Partly (existing agent settings) |
-| Q7 | **Model per Step** — a model per Step (suggested mapping or your own), one fixed model, or always your tool's model? | Partly (the tool's model list) |
+| # | Question | Default | Suggested from |
+|---|----------|---------|----------------|
+| Q0b | **Languages** — which programming languages? (several allowed) | from the scan | an existing project: a scan of the source and build files (`pyproject.toml` → python, `package.json` + `.ts` → typescript, `.svelte`, `*.ps1`, `*.sh` …), most used first; a new project: asked openly |
+| Q0c | **Project setup spec** — write a first spec that sets up the project? (new projects only) | yes | — |
+| Q1 | **Workflow** — which [stages](#stages) for every feature? **Simple:** requirements → plan → implementation → pr. **Full:** adds documentation and review (semantic diff) before the pr. **Custom:** yes / no per stage. | Simple | an existing `.specs/spec-nx.json`; Full if there is `.specs/architecture.md` or `.specs/decisions/` |
+| Q1b | **On-demand stages** — extra commands used now and then: **improvement** (`IMPROVE:`, a clean-up spec), **setup** (`SETUP TOOLING:`, `SETUP MACHINE`), **ui** (`LOOK:`, `UI CATALOG`)? | none | ui for a UI framework (`.svelte`, `.tsx`, `.vue`, HTML templates); setup for a new project; improvement with the review stage |
+| Q2 | **Git host** — GitHub, Azure DevOps or none? | from the remote | the `origin` remote (`github.com`, `dev.azure.com`, none) |
+| Q2b | **Issues** — keep each spec in sync with an issue / backlog item? (with a git host) | yes | commit messages that mention issues (`#<n>`, `AB#<n>`) |
+| Q4 | **Shared or personal kit** — one kit for the team, or one per contributor? | shared | `.specs/kit/` committed → shared; in `.gitignore` → personal |
+| Q6 | **AI agent permissions** — for Claude Code, VS Code Copilot, both or none? | the agents found | existing agent settings (`.claude/`, `chat.` keys in `.vscode/settings.json`), otherwise the editor you run in |
+| Q7 | **Model per Step** — a model per Step, one fixed model, or always your tool's model? | per Step: Claude Opus 5.5 / Sonnet 5.5 / Haiku 5.5 | your tool's model list (each default checked, the nearest enabled model offered); fixed: the model you run on |
 
-Not asked: the **`cost` block** — tokens and cost of every stage, on by default in new kits,
-changed by hand.
+Only for a company's shared rules or kit: the questions in
+[Your company's rules](#your-companys-rules-a-layer).
+
+Not asked, taken as defaults and changed by hand for special cases
+([docs/configuration.md](docs/configuration.md)):
+
+- **New or existing project** — from the files in the repository (only a README and licence
+  → new). The generator says what it found; correct it with one word if it is wrong.
+- **Your shell** — from the operating system: Windows → PowerShell, macOS / Linux → bash.
+  For Git Bash on Windows, set `"shell": "bash"` in `.specs/spec-nx.local.json`.
+- **Backlog item type** (Azure DevOps) — Product Backlog Item (Scrum). For another process,
+  set `work_item_type` in `.specs/spec-nx.json` (User Story, Requirement or Issue).
+- **Backlog project** (Azure DevOps) — the repository's project. For backlog items in another
+  project, add `work_items` to `.specs/spec-nx.json`.
+- **Cost tracking** (the `cost` block) — the first `GENERATE KIT` writes it, switched on, with
+  Copilot Business ($19, 1,900 credits per month) and CHF at the ECB rate.
+  `GENERATE KIT --update` never adds it.
 
 All questions, options and the configuration files: [generator/questions.md](generator/questions.md);
 how to configure models, cost and the rest: [docs/configuration.md](docs/configuration.md).
@@ -286,17 +352,28 @@ stage is part of your kit, the pull request also gets the semantic diff.
 
 ## Your company's rules: a layer
 
-A company or team can keep its own defaults and rules — its stack for new projects, its
-coding rules, its brand Looks, its agent permissions — in a private **layer** next to
-spec-nx, without forking it. The generator reads the layer after spec-nx's building blocks;
-the project's own rules still win. The format: [generator/layer.md](generator/layer.md).
+Only useful when many repositories should follow the same rules. A company or team can keep
+its own defaults and rules — its stack for new projects, its coding rules, its brand Looks,
+its agent permissions — in a private **layer**, without forking spec-nx. The project's own
+rules still win.
+
+- **Using a layer:** when the repository contains one (a folder with a `layer.json`, e.g. in
+  a submodule), the generator first asks whether to use it; its defaults become the
+  suggestions of the other questions.
+- **One kit for all projects:** the company's private repository can hold the generated kit
+  itself, and projects only add it as a submodule. Generating it there asks two more
+  questions: the kit folder (instead of `.specs/kit/`, e.g. the repository root) and the
+  submodule folder the projects use (e.g. `.my-kit`), so the paths in the kit's prompts work
+  in those projects.
+
+The format and an example: [generator/layer.md](generator/layer.md).
 
 ## Repository layout
 
 ```
 spec-nx/
   README.md          this file
-  docs/              how to configure spec-nx (configuration.md)
+  docs/              how to configure spec-nx (configuration.md) and the tutorials (tutorials/)
   generator/         setup questions, the generator prompt, the company-layer format
   stages/            the building blocks: one folder per stage (prompt, templates, rules)
     spec_template.md the spec file template, shared by all stages
@@ -307,27 +384,10 @@ spec-nx/
     guidelines/      coding-rule baselines per language and GUIDELINES:
     agent/           how the AI agent's permissions are written
     tools/           git-host scripts (GitHub, Azure DevOps) and the token / cost scripts
-  examples/          generated kits, e.g. a "requirements → plan → pr" kit
+  examples/          generated example kits (planned)
   testing/           local trial runs (not pushed; see testing/README.md)
   .specs/            spec-nx's own specs — spec-nx is built with itself
 ```
-
-## Status
-
-Done:
-
-- [x] [requirements → plan → pr](.specs/features/done/2026_11_09_spec_plan_pr_spec.md): the
-  first three stages, the git-host tools and the generator.
-- [x] [Spec-kit migration](.specs/features/done/2026_11_13_spec_kit_migration_spec.md): the
-  implementation, documentation and review stages; the on-demand stages improvement, setup
-  and ui; guidelines; the new-project spec; the company layer; agent permissions; questions
-  Q0, Q0b, Q0c, Q1b, Q5, Q6.
-- [x] [The right model and cost for each Step](.specs/features/done/2026_11_14_model_per_step_spec.md):
-  question Q7, model per stage and Step with sub-agents, tokens and cost of every stage, the
-  cost summary and `.specs/costs.md`.
-
-Later: a command-line tool, card images of the semantic diff for pull requests, and example
-kits.
 
 ## License
 

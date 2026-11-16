@@ -116,9 +116,10 @@ pwsh .specs/kit/tools/usage.ps1 -Since "2026-11-16 08:55" -Model "Claude Opus 5.
 |-----|------|--------|
 | `stages`, `on_demand` | Which stages and on-demand commands the kit has | Q1, Q1b |
 | `git_host`, `link_issues` | GitHub / Azure DevOps, and whether each spec has an issue | Q2, Q2b |
-| `work_item_type`, `work_items` | Azure DevOps backlog item type and project | Q2c, Q2d |
+| `work_item_type` | Azure DevOps backlog item type, only for another process than Scrum: `"User Story"` (Agile), `"Requirement"` (CMMI), `"Issue"` (Basic); missing = `"Product Backlog Item"` | by hand |
+| `work_items` | Azure DevOps: the project of the backlog items, only when it is not the repository's: `{ "org": "<org>", "project": "<project>" }` | by hand |
 | `parent` | Default parent issue / work item of `CREATE ISSUE` | by hand |
-| `shells` / `shell` | Shells the kit's scripts are written for / yours | Q3 |
+| `shells` / `shell` | Shells the kit's scripts are written for / yours — taken from the operating system; for Git Bash on Windows set `"shell": "bash"` in the local file and run `GENERATE KIT --update` | not asked |
 | `kit`, `kit_dir`, `kit_ref` | Shared or personal kit, where it lives, how other repositories refer to it | Q4, Q4b, Q4c |
 | `layer` | Your company's layer of defaults and rules | Q5 |
 | `agent` | AI agents whose permissions were written | Q6 |

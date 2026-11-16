@@ -75,7 +75,7 @@ carries the reference of the spec's issue (`#<n>`) or backlog item (`AB#<id>`) �
 ## Settings
 
 - `.specs/spec-nx.json` — the team's answers (committed).
-- `.specs/spec-nx.local.json` — your answers, e.g. your shell (not committed).
+- `.specs/spec-nx.local.json` — your settings, e.g. your shell (not committed).
 - Update the kit: `git submodule update --remote .spec-nx`, then load
   `.spec-nx/generator/prompt.md` and run `GENERATE KIT --update`.
 

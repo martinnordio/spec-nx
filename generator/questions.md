@@ -1,8 +1,8 @@
 # Setup questions
 
 The generator (`GENERATE KIT`) asks these questions to decide which kit to write into a
-project. For each question it first **scans the repository** (and, for developer questions,
-the computer) and **suggests** an answer; the user confirms or changes it.
+project. For each question it first **scans the repository** (and the computer) and
+**suggests** an answer; the user confirms or changes it.
 
 Answers are saved at two levels, so `GENERATE KIT --update` never asks them again — only
 questions whose key is missing (questions added to spec-nx later). `GENERATE KIT --update
@@ -18,16 +18,12 @@ The questions are **asked in the order of this table**:
 | # | Question | Level | Key | Default |
 |---|----------|-------|-----|---------|
 | Q5 | Company layer — use one? (asked first: its defaults feed every suggestion) | project | `layer` | the layer found, or `null` |
-| Q0 | Project start — a new (empty) project or an existing one? | project | `project` | from the scan |
 | Q0b | Languages — which programming languages? | project | `languages` | from the scan |
 | Q0c | Write a project setup spec? (new projects only) | project | `project_spec` | yes |
 | Q1 | Workflow — which stages do you use? | project | `stages` | Simple: `["requirements", "plan", "implementation", "pr"]` |
 | Q1b | On-demand stages — which extra commands do you want? | project | `on_demand` | `[]` |
 | Q2 | Git host — where is the repository? | project | `git_host` | from the `origin` remote |
 | Q2b | Keep each spec in sync with an issue / backlog item? | project | `link_issues` | `true` if there is a git host |
-| Q2c | Azure DevOps: which work item type for a spec? | project | `work_item_type` | `"Product Backlog Item"` |
-| Q2d | Azure DevOps: in which project are the backlog items? | project | `work_items` | the repository's organisation and project |
-| Q3 | Which shell do you run the kit's scripts in? | developer | `shell` | from the operating system |
 | Q4 | Share the kit with the team, or keep it personal? | project | `kit` | `"shared"` |
 | Q4b | Kit folder — where should the kit go? | project | `kit_dir` | `".specs/kit"` |
 | Q4c | Kit used from other repositories — under which folder? (only when `kit_dir` is not the default) | project | `kit_ref` | `kit_dir` |
@@ -36,6 +32,11 @@ The questions are **asked in the order of this table**:
 
 Not a question: the **`cost` block** (tokens and price of every stage) is written with its
 defaults by the first `GENERATE KIT` and changed by hand — see [The `cost` block](#the-cost-block).
+
+Not asked either, taken from the repository or the computer and changed by hand for special
+cases: [new or existing project](#q0--project-start-not-asked), [your shell](#your-shell-developer-not-asked), and on Azure DevOps the
+[backlog item type](#backlog-item-type-azure-devops-not-asked) and the
+[backlog project](#backlog-project-azure-devops-not-asked).
 
 New questions get the next number and their own key; existing keys never change meaning.
 
@@ -64,22 +65,21 @@ the kit.
 
 ---
 
-## Q0 · Project start
+## Q0 · Project start (not asked)
 
-**Ask:** *Is this a new, empty project, or a project that already has code?*
+The generator decides from the scan and **states it** in its scan summary, without asking:
+*"Only README and LICENSE found: treating this as a new project — say 'existing' if not."*
+The user can still correct it before the questions start.
 
-| Option | `project` |
-|--------|-----------|
-| New (empty) | `"new"` |
-| Existing | `"existing"` |
+| Found | `project` |
+|-------|-----------|
+| Nothing but a README, LICENSE, `.git*` files, `.specs/` and git submodules (such as `.spec-nx/`) | `"new"` |
+| Anything else ("Python package in `src/`, 40 files") | `"existing"` |
 
-**Suggest from the repository:** `"new"` when the repository holds nothing but a README,
-LICENSE, `.git*` files, `.specs/` and git submodules (such as `.spec-nx/`); otherwise
-`"existing"`. Tell the user what you found ("only README and LICENSE" / "Python package in
-`src/`, 40 files").
+Saved in `.specs/spec-nx.json`; to change it later, edit `project` by hand.
 
-**Effect:** with `"new"`, Q0b is asked openly and the project setup spec is offered after the
-kit is generated (see the generator).
+**Effect:** with `"new"`, Q0b is asked openly and the project setup spec (Q0c) is offered
+after the kit is generated (see the generator).
 
 ---
 
@@ -221,7 +221,7 @@ they are not saved.
 **Selects:** the tools for the host, `stages/tools/<git_host>/` → `.specs/kit/tools/<git_host>/`
 (with the shared `spec_summary` script and `README.md` in `.specs/kit/tools/`, the same layout as
 in spec-nx, so the stage prompts' relative paths work in both), in
-every shell listed in the project's `shells` (see Q3), when `pr` is in `stages` or
+every shell listed in the project's `shells` (see [Your shell](#your-shell-developer-not-asked)), when `pr` is in `stages` or
 `link_issues` is `true`. With `"none"`, the `pr` stage only explains the manual steps and no
 tools are copied.
 
@@ -253,68 +253,67 @@ its description kept in sync with the spec?*
 
 ---
 
-## Q2c · Backlog item type (Azure DevOps)
+## Backlog item type (Azure DevOps, not asked)
 
-Asked only when `git_host` is `"azure_devops"` and `link_issues` is `true`.
+`CREATE ISSUE:` creates a **Product Backlog Item** (the Scrum process). Nothing is asked and
+nothing is saved. The parent (a Feature or Epic) is asked per spec, not here.
 
-**Ask:** *Which work item type should `CREATE ISSUE` create for a spec?*
+**Special case — another process:** add `work_item_type` to `.specs/spec-nx.json` by hand:
 
-| Option | `work_item_type` | Process |
-|--------|------------------|---------|
-| Product Backlog Item | `"Product Backlog Item"` | Scrum |
-| User Story | `"User Story"` | Agile |
-| Requirement | `"Requirement"` | CMMI |
-| Issue | `"Issue"` | Basic |
+| Process | `work_item_type` |
+|---------|------------------|
+| Scrum (default) | `"Product Backlog Item"` |
+| Agile | `"User Story"` |
+| CMMI | `"Requirement"` |
+| Basic | `"Issue"` |
 
-**Suggest:** the type of the existing backlog items the commit messages refer to (`AB#<id>`),
-if the token can read them; otherwise `"Product Backlog Item"`. The parent (a Feature or Epic)
-is asked per spec, not here.
+The dry run of `CREATE ISSUE:` names the type. If Azure DevOps rejects it, the requirements
+stage asks for the right one and offers to save it as `work_item_type`.
 
 ---
 
-## Q2d · Backlog project (Azure DevOps)
+## Backlog project (Azure DevOps, not asked)
 
-Asked only when `git_host` is `"azure_devops"` and `link_issues` is `true`.
+The backlog items are created and read in the repository's own organisation and project (from
+`git remote get-url origin`, e.g. `https://dev.azure.com/<org>/<project>/_git/<repo>`).
+Nothing is asked and nothing is saved.
 
-**Ask:** *The repository is in `<org>/<project>`. Are the backlog items in the same project, or
-in another one?*
+**Special case — backlog items in another project:** add `work_items` to
+`.specs/spec-nx.json` by hand:
 
-| Option | `work_items` |
-|--------|--------------|
-| Same project (default) | `{ "org": "<org of origin>", "project": "<project of origin>" }` |
-| Another project | `{ "org": "<org>", "project": "<project>" }` — ask for both |
-
-**Suggest from the repository:** the organisation and project of `git remote get-url origin`
-(for example `https://dev.azure.com/<org>/<project>/_git/<repo>` → `<org>`, `<project>`).
+```json
+"work_items": { "org": "<org>", "project": "<project>" }
+```
 
 **Effect:** `CREATE ISSUE:` and `UPDATE ISSUE:` read and create the backlog items in this
 project; pull requests stay in the repository's project and still link the item by its id
-(ids are unique in the organisation). Without the key (older settings), the repository's
-project is used. Signing in to another organisation needs a login or token for it.
+(ids are unique in the organisation). Without the key, the repository's project is used. Signing
+in to another organisation needs a login or token for it. No regeneration needed: the scripts
+read the key each time they run.
 
 ---
 
-## Q3 · Your shell (developer)
+## Your shell (developer, not asked)
 
-Asked when the kit has tools (a git host is set). Each developer answers it on their own
-computer.
+The generator takes it from the operating system: Windows → `"powershell"` (Windows
+PowerShell 5.1 or PowerShell 7); macOS or Linux → `"bash"` (bash or zsh). Nothing is asked.
 
-**Ask:** *Which shell do you run the kit's scripts in?*
+| `shell` | Runs in |
+|---------|---------|
+| `"powershell"` | Windows PowerShell 5.1 or PowerShell 7; Windows, also macOS / Linux |
+| `"bash"` | bash or zsh: macOS, Linux, Git Bash on Windows |
 
-| Option | `shell` |
-|--------|---------|
-| PowerShell (Windows PowerShell 5.1 or PowerShell 7; Windows, also macOS / Linux) | `"powershell"` |
-| bash or zsh (macOS, Linux, Git Bash on Windows) | `"bash"` |
-
-**Suggest from the computer:** Windows → `"powershell"`; macOS or Linux → `"bash"`.
+**Special case — another shell** (for example Git Bash on Windows): set `"shell": "bash"` in
+`.specs/spec-nx.local.json` and run `GENERATE KIT --update`, so the kit also gets the scripts
+for that shell.
 
 **Effect**
 
-- Saved in `.specs/spec-nx.local.json` (developer level); the generator adds that file to the
-  project's `.gitignore`.
-- The answer is also added to the project's `shells` list (if not there yet), so the kit
-  contains the scripts for every shell the team uses. The stage prompts call the script for
-  the developer's own `shell`.
+- Saved in `.specs/spec-nx.local.json` (developer level), unless it is already there; the
+  generator adds that file to the project's `.gitignore`.
+- It is also added to the project's `shells` list (if not there yet), so the kit contains the
+  scripts for every shell the team uses. The stage prompts call the script for the
+  developer's own `shell`.
 
 ---
 
@@ -505,17 +504,17 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `spec_nx_version` | spec-nx commit (short hash) or tag the kit was generated from. |
 | `generated` | Date of the last `GENERATE KIT` or `--update`. |
 | `layer` | Answer to Q5: path of the company layer, or `null`. |
-| `project` | Answer to Q0. |
+| `project` | `"new"` or `"existing"`, from the scan (Q0, not asked). |
 | `languages` | Answer to Q0b. |
 | `project_spec` | Answer to Q0c: the project setup spec's file name, or `false` (only when `project` is `"new"`). |
 | `stages` | Answer to Q1 (only when `kit` is `"shared"`). |
 | `on_demand` | Answer to Q1b (only when `kit` is `"shared"`). |
 | `git_host` | Answer to Q2. |
 | `link_issues` | Answer to Q2b. |
-| `work_item_type` | Answer to Q2c (Azure DevOps only). |
-| `work_items` | Answer to Q2d (Azure DevOps only): `{ "org", "project" }` of the backlog items. |
+| `work_item_type` | Optional, set by hand (Azure DevOps only): the backlog item type for another process than Scrum (missing = `"Product Backlog Item"`). |
+| `work_items` | Optional, set by hand (Azure DevOps only): `{ "org", "project" }` of the backlog items when they are not in the repository's project. |
 | `parent` | Optional, set by hand: the default parent (issue number / work item id) of `CREATE ISSUE`, used when neither the command nor the spec header names one. |
-| `shells` | Shells the kit's scripts are generated for: every developer's Q3 answer. |
+| `shells` | Shells the kit's scripts are generated for: every developer's `shell`. |
 | `kit` | Answer to Q4. |
 | `kit_dir` | Answer to Q4b (missing = `".specs/kit"`). |
 | `kit_ref` | Answer to Q4c (missing = `kit_dir`). |
@@ -539,7 +538,7 @@ Written by `GENERATE KIT` on each developer's computer; never committed.
 | Key | Meaning |
 |-----|---------|
 | `version` | Format of this file (1). |
-| `shell` | Answer to Q3. |
+| `shell` | From the operating system (not asked): `"powershell"` or `"bash"`; change it by hand. |
 | `stages` | Answer to Q1 (only when the project's `kit` is `"personal"`). |
 | `on_demand` | Answer to Q1b (only when the project's `kit` is `"personal"`). |
 | `model` | AI model that generated your personal kit (only when `kit` is `"personal"`). Not the model of a stage run. |

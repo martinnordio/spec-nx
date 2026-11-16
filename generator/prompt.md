@@ -98,20 +98,24 @@ compatible with updates and with each other:
      test folders);
    - existing `.specs/` content, a pull-request template, `.gitignore`.
 
-   Tell the user in a few lines what you found.
+   Tell the user in a few lines what you found, including whether this is a **new or an
+   existing project** (Q0 in `generator/questions.md`): state it, do not ask; the user may
+   correct it.
 
 3. **Ask the questions** of `generator/questions.md` that have no answer yet, in the order of
    its question table, one short message each, with your **suggestion** and the options.
    Respect the rules there (for example Q2b only with a git host; Custom in Q1 one stage at a
-   time; Q1 and Q1b at developer level for a personal kit). If a chosen stage does not exist
+   time; Q1 and Q1b at developer level for a personal kit). Do not ask for the shell, the
+   backlog item type or the backlog project: they are not questions. If a chosen stage does not exist
    yet in `stages/`, say so and leave it out.
 
 4. **Save the answers.**
    - `.specs/spec-nx.json`: `version`, `spec_nx_version` (`git -C <spec-nx> rev-parse --short
      HEAD`), `generated` (today), and the project answers; add the developer's `shell` to
      `shells`; `model` (the name of the model you are) when the kit is shared.
-   - `.specs/spec-nx.local.json`: `version`, `shell`; `stages`, `on_demand` and `model` when
-     the kit is personal.
+   - `.specs/spec-nx.local.json`: `version`, `shell` (keep the saved one; otherwise from the
+     operating system: Windows → `"powershell"`, macOS / Linux → `"bash"`); `stages`,
+     `on_demand` and `model` when the kit is personal.
    - `models` (Q7) in `.specs/spec-nx.json`; never overwrite a developer's `models` in the
      local file.
    - The `cost` block with its defaults (`generator/questions.md`, *The `cost` block*) — only
