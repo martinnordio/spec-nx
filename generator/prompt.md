@@ -131,8 +131,8 @@ compatible with updates and with each other:
    - `spec_template.md`;
    - `models.md` from `stages/models.md` (always — with no `models` setting it tells the
      stages to do nothing);
-   - `COSTS.md` from `stages/COSTS.md`, and `tools/usage.*` for the shells in `shells`, when
-     the project has a `cost` block;
+   - `COSTS.md` from `stages/COSTS.md`, and `tools/usage.*` and `tools/costs_ledger.*` for
+     the shells in `shells`, when the project has a `cost` block;
    - `README.md` from `stages/kit_readme.md`: only the rows of the kit's stages;
    - `guidelines/prompt.md`, `guidelines/commits.md` (always) and, for each language in
      `languages` that has one, the baseline

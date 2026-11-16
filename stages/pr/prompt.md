@@ -70,6 +70,9 @@ generated kit (`.specs/kit/pr/`).
    statements (one line each) and — if Part 2 has Steps — the Plan table with each Step's
    status. Write it to a temporary file outside the repository.
 
+   **Cost:** if the spec has a **Cost summary** (closed with cost tracking on, `../COSTS.md`),
+   add its first sentence, with its link, as the summary's last line.
+
    **Semantic diff:** if the review stage wrote `semantic_diff.md` for this branch
    (`.specs/changes/<name>/` or `.specs/changes/done/<name>/`), pass it to the pull-request
    script too (`-SemanticDiffFile <file>` / `--semantic-diff <file>`); it fills the

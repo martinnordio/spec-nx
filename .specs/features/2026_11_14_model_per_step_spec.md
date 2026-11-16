@@ -202,7 +202,7 @@ at the start of stages, tracking of suggested vs. actual model.
 | **4** | Implementation: one confirmation, sub-agents, tracking | reasoning (Claude Opus 5.5) — commits, stops, sub-agents | ✅ Done | [→ Step 4](#step-4--implementation-one-confirmation-sub-agents-tracking) |
 | **5** | Usage script: tokens and price | reasoning (Claude Opus 5.5) — transcript parsing, two shells | ✅ Done | [→ Step 5](#step-5--usage-script-tokens-and-price) |
 | **6** | COSTS.md and token columns in every stage | standard (Claude Sonnet 5.5) — text in known places | ✅ Done | [→ Step 6](#step-6--costsmd-and-token-columns-in-every-stage) |
-| **7** | CLOSE: cost summary and ledger | standard (Claude Sonnet 5.5) — script follows Step 5 | ⬜ Not started | [→ Step 7](#step-7--close-cost-summary-and-ledger) |
+| **7** | CLOSE: cost summary and ledger | standard (Claude Sonnet 5.5) — script follows Step 5 | ✅ Done | [→ Step 7](#step-7--close-cost-summary-and-ledger) |
 | **8** | README, kit README, regression check | light (Claude Haiku 5.5) — docs and running checks | ⬜ Not started | [→ Step 8](#step-8--readme-kit-readme-regression-check) |
 | **9** | spec-nx on its own settings, same spec format | standard (Claude Sonnet 5.5) — settings and a format check | ⬜ Not started | [→ Step 9](#step-9--spec-nx-on-its-own-settings-same-spec-format) |
 | **10** | Reminder: hack_star cost comparison | light (Claude Haiku 5.5) — no code | ⬜ Not started | [→ Step 10](#step-10--reminder-hack_star-cost-comparison) |
@@ -447,17 +447,31 @@ cost: Step 9
 Closing a spec writes its cost summary and rebuilds the ledger of all specs (S17, S21).
 
 ### Tasks
-- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
-- [ ] `stages/implementation/prompt.md` CLOSE: with cost enabled, a **Cost summary** before
+- [x] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [x] `stages/implementation/prompt.md` CLOSE: with cost enabled, a **Cost summary** before
       Part 1 — one sentence (total tokens, local currency, link) and a table per stage and Step
       with a Total row.
-- [ ] `stages/tools/costs_ledger.ps1` / `.sh` (D8): one row per spec (open and done), per
+- [x] `stages/tools/costs_ledger.ps1` / `.sh` (D8): one row per spec (open and done), per
       stage and Step totals, a total for all; `N/A` where a spec has no numbers.
-- [ ] `stages/pr/prompt.md`: the pull request repeats the summary sentence.
-- [ ] Check: run the ledger on this repository (older specs show `N/A`, this spec its POC
+- [x] `stages/pr/prompt.md`: the pull request repeats the summary sentence.
+- [x] Check: run the ledger on this repository (older specs show `N/A`, this spec its POC
       numbers); scripts parse, ASCII, `bash -n`.
 
 ### Notes
+Started: 2026-11-16 09:58
+
+**Done (2026-11-16 · ~15m · Claude Opus 5.5)** — CLOSE writes its own Stage log row, then a
+**Cost summary** above Part 1 (sentence with link; table per stage and Step with tokens, cost,
+share of the plan, and a Total row) and runs `costs_ledger`; the pr stage adds the sentence to
+the summary. `costs_ledger.ps1` / `.sh`: every `*_spec.md` in `features/` and `done/`, sums of
+the Tokens / Cost columns per stage and per implementation Step, a total of all specs, `N/A`
+for specs without the columns; the COSTS.md link follows `kit_dir`. Checks on a copy of this
+repository: both shells print the same file (diff empty) — 8 older specs `N/A`, this spec
+~3.86 M / ~CHF 1.65 requirements, ~2.92 M / ~CHF 0.91 plan; with a test implementation row
+the *Implementation by Step* table appears in both; `check_all.ps1`: 4 known placeholders.
+Fixed while testing: Python now prints UTF-8 on Windows; the PowerShell path is relative to
+`.specs/` also with short (8.3) folder names. · suggested: standard (Claude Sonnet 5.5) ·
+ran: Claude Opus 5.5 · tokens and cost: Step 9
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---
