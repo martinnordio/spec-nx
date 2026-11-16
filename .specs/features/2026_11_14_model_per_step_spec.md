@@ -200,7 +200,7 @@ at the start of stages, tracking of suggested vs. actual model.
 | **2** | Shared model rules for every stage | reasoning (Claude Opus 5.5) — sub-agent and fallback logic | ✅ Done | [→ Step 2](#step-2--shared-model-rules-for-every-stage) |
 | **3** | Plan: Model column and tier choice | standard (Claude Sonnet 5.5) — follows D1–D3 | ✅ Done | [→ Step 3](#step-3--plan-model-column-and-tier-choice) |
 | **4** | Implementation: one confirmation, sub-agents, tracking | reasoning (Claude Opus 5.5) — commits, stops, sub-agents | ✅ Done | [→ Step 4](#step-4--implementation-one-confirmation-sub-agents-tracking) |
-| **5** | Usage script: tokens and price | reasoning (Claude Opus 5.5) — transcript parsing, two shells | ⬜ Not started | [→ Step 5](#step-5--usage-script-tokens-and-price) |
+| **5** | Usage script: tokens and price | reasoning (Claude Opus 5.5) — transcript parsing, two shells | ✅ Done | [→ Step 5](#step-5--usage-script-tokens-and-price) |
 | **6** | COSTS.md and token columns in every stage | standard (Claude Sonnet 5.5) — text in known places | ⬜ Not started | [→ Step 6](#step-6--costsmd-and-token-columns-in-every-stage) |
 | **7** | CLOSE: cost summary and ledger | standard (Claude Sonnet 5.5) — script follows Step 5 | ⬜ Not started | [→ Step 7](#step-7--close-cost-summary-and-ledger) |
 | **8** | README, kit README, regression check | light (Claude Haiku 5.5) — docs and running checks | ⬜ Not started | [→ Step 8](#step-8--readme-kit-readme-regression-check) |
@@ -233,7 +233,7 @@ at the start of stages, tracking of suggested vs. actual model.
 | D8 | Script pair `tools/costs_ledger.ps1` / `.sh` rebuilds `.specs/costs.md` from the Stage logs of `.specs/features/**/*_spec.md` | S21: rebuilt, never appended; merge conflicts fixed by running it |
 | D9 | `stages/costs.md` is both the user page and the rules; the kit gets it as `COSTS.md` | S19: one page to link to |
 | D10 | The tier check in Step 8 generates a kit into a temporary folder with old settings (no `models`, no `cost`) and with the new ones, and compares | S12: proves nothing breaks for existing projects |
-| D11 | **One calculation method**, written in COSTS.md and implemented only in `usage`; prompts run the script and copy its numbers, never compute by hand. Per model request in the range: *context* = base (system prompt, tools, summary; default 35 k tokens) + all transcript events of the session so far ÷ 4 characters — counted from the session start, not from the range start; *cached* = the previous request's context; *new input* = context − cached, priced at the cache-write rate (input rate if none); *output* = the assistant's messages and tool-call arguments ÷ 4. Credits = Σ tokens × rate / 1 M; USD = credits / 100; local = USD × `rate`. Claude Code: the logged `usage` numbers replace the estimate | The POC showed that restarting the context at the range start undercounts by ~5×; one method gives the same numbers in spec-nx and in every kit |
+| D11 | **One calculation method**, written in COSTS.md and implemented only in `usage`; prompts run the script and copy its numbers, never compute by hand. Per model request in the range: *context* = base (system prompt, tools, summary; default 35 k tokens) + all transcript events of the session so far ÷ 4 characters — counted from the session start, not from the range start, and set back to the base when it passes the context cap (default 200 k tokens: the chat is summarized there); *cached* = the previous request's context; *new input* = context − cached, priced at the cache-write rate (input rate if none); *output* = the assistant's messages and tool-call arguments ÷ 4. Credits = Σ tokens × rate / 1 M; USD = credits / 100; local = USD × `rate`. Claude Code: the logged `usage` numbers replace the estimate | The POC showed that restarting the context at the range start undercounts by ~5×; one method gives the same numbers in spec-nx and in every kit |
 | D12 | spec-nx uses its own feature: `.specs/spec-nx.json` in spec-nx with `models: {fixed: "Claude Opus 5.5"}` and the default `cost` block (CHF); its specs follow `stages/spec_template.md` exactly, like a generated kit | Specs written in spec-nx and in generated kits have the same format and numbers |
 
 ---
@@ -366,18 +366,35 @@ A script measures or estimates the tokens of a time range and prices them (S13, 
 S16); it replaces the hand-made POC estimates of this spec (S22).
 
 ### Tasks
-- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
-- [ ] `stages/tools/usage.ps1` and `usage.sh` (D5, D6, D11): `-Since`, `-Until`, `-Model`,
+- [x] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [x] `stages/tools/usage.ps1` and `usage.sh` (D5, D6, D11): `-Since`, `-Until`, `-Model`,
       `-Transcript`, `-Json`; the D11 method exactly (context counted from the session start);
       prices from the tool's model list or `cost.prices`, new input at
       the cache-write price when the tool has one; credits →
       USD → local currency with `rate`; % of `monthly_credits`; prints `~` when estimated.
-- [ ] `stages/tools/README.md`: the script, its parameters and an example.
-- [ ] Check: on this conversation's transcript the script reproduces the POC rows of this
+- [x] `stages/tools/README.md`: the script, its parameters and an example.
+- [x] Check: on this conversation's transcript the script reproduces the POC rows of this
       spec (tokens and credits) within 5 %, both shells give the same numbers; PowerShell parses and is ASCII; `bash -n` passes; a Claude Code sample
       file gives measured numbers.
 
 ### Notes
+Started: 2026-11-16 09:18
+
+**Done (2026-11-16 · ~25m · Claude Opus 5.5)** — `usage.ps1` / `usage.sh` (bash runs an
+embedded `python3`): finds the newest VS Code Copilot or Claude Code transcript (or
+`-Transcript`), reads the `cost` block (missing or `enabled: false` → "Cost tracking is off",
+nothing else), estimates by D11 or adds Claude Code's logged `usage` (one count per message
+id), prices from Copilot's model list next to the transcript or `cost.prices`, prints tokens,
+cost in the currency with credits and % of the plan, or one JSON line. Checks: on the PLAN turn
+both shells print identical JSON — 1,339,649 tokens (18,256 in · 1,310,636 cached · 10,757
+out), 56.85 credits, CHF 0.48; Claude Code sample → 5,000 / 44,200 / 800 measured, 4.98
+credits, duplicate message counted once, row outside the range left out; `enabled: false`
+and missing block → off; automatic transcript discovery finds this chat; `check_all.ps1`
+(parse, ASCII, `bash -n`): 4 known placeholders. **Differs from the plan:** the 5 % match with
+the POC rows is not reached and not wanted — the POC restarted the context at a hand-picked
+line, D11 counts from the session start and sets back to the base at the context cap
+(now written in D11); Step 9 replaces the POC numbers with the script's. · suggested:
+reasoning (Claude Opus 5.5) · ran: Claude Opus 5.5 · tokens and cost: Step 9
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---

@@ -51,6 +51,37 @@ pwsh stages/tools/github/update_pr.ps1 -SummaryFile summary.md -SemanticDiffFile
 bash stages/tools/github/update_pr.sh summary.md --semantic-diff semantic_diff.md --dry-run
 ```
 
+## Tokens and cost
+
+`usage.ps1` / `usage.sh` measure (Claude Code) or estimate (VS Code Copilot) the tokens of a
+time range of the AI chat and price them, by the method of the kit's COSTS.md (`costs.md` in
+spec-nx). They read the `cost` block of `.specs/spec-nx.json` (and `.local.json`); without it,
+or with `enabled: false`, they print that cost tracking is off and do nothing. They change no
+file. The bash script needs `python3`.
+
+| Parameter (PowerShell / bash) | Meaning |
+|-------------------------------|---------|
+| `-Since` / `--since` | Start of the range: the stage's or Step's start time (local time or ISO with `Z`) |
+| `-Until` / `--until` | End of the range (default: now) |
+| `-Model` / `--model` | The model that ran, as named in the tool's model list or in `cost.prices` |
+| `-Transcript` / `--transcript` | The chat transcript (default: the newest one of VS Code Copilot or of Claude Code for this project) |
+| `-Root` / `--root` | The project root (default: the current folder) |
+| `-ContextCap` / `--context-cap` | Context size at which the chat is assumed to be summarized (default 200000) |
+| `-Json` / `--json` | One JSON line instead of the three text lines |
+
+```
+pwsh stages/tools/usage.ps1 -Since "2026-11-16 08:55" -Model "Claude Opus 5.5"
+bash stages/tools/usage.sh --since "2026-11-16 08:55" --model "Claude Opus 5.5" --json
+```
+
+Output (`~` = estimated):
+
+```
+Tokens: ~1.34 M (18 k in · 1.31 M cached · 11 k out)
+Cost: ~CHF 0.48 (57 credits, 3.0 % of Copilot Business)
+Source: estimated from <transcript> · 17 requests
+```
+
 ## The summary
 
 Built by the stage prompt from the spec file, in this form:
