@@ -90,7 +90,8 @@ Clear, testable statements: each describes WHAT the system does, not HOW.
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
 > 2. Append a **`**Done (YYYY-MM-DD · ~<duration> · <model>)**`** line to that Step's
 >    **Notes**: date, time it took, the AI model that did the work, a one-line summary and
->    the verifying test/command result.
+>    the verifying test/command result. With per-Step models, end it with
+>    `suggested: <tier> (<model>) · ran: <model>`.
 >
 > The table and the Step sections must **always agree**.
 

@@ -199,7 +199,7 @@ at the start of stages, tracking of suggested vs. actual model.
 | **1** | Settings: Q7 `models`, the `cost` block | reasoning (Claude Opus 5.5) — settings contract | ✅ Done | [→ Step 1](#step-1--settings-q7-models-the-cost-block) |
 | **2** | Shared model rules for every stage | reasoning (Claude Opus 5.5) — sub-agent and fallback logic | ✅ Done | [→ Step 2](#step-2--shared-model-rules-for-every-stage) |
 | **3** | Plan: Model column and tier choice | standard (Claude Sonnet 5.5) — follows D1–D3 | ✅ Done | [→ Step 3](#step-3--plan-model-column-and-tier-choice) |
-| **4** | Implementation: one confirmation, sub-agents, tracking | reasoning (Claude Opus 5.5) — commits, stops, sub-agents | ⬜ Not started | [→ Step 4](#step-4--implementation-one-confirmation-sub-agents-tracking) |
+| **4** | Implementation: one confirmation, sub-agents, tracking | reasoning (Claude Opus 5.5) — commits, stops, sub-agents | ✅ Done | [→ Step 4](#step-4--implementation-one-confirmation-sub-agents-tracking) |
 | **5** | Usage script: tokens and price | reasoning (Claude Opus 5.5) — transcript parsing, two shells | ⬜ Not started | [→ Step 5](#step-5--usage-script-tokens-and-price) |
 | **6** | COSTS.md and token columns in every stage | standard (Claude Sonnet 5.5) — text in known places | ⬜ Not started | [→ Step 6](#step-6--costsmd-and-token-columns-in-every-stage) |
 | **7** | CLOSE: cost summary and ledger | standard (Claude Sonnet 5.5) — script follows Step 5 | ⬜ Not started | [→ Step 7](#step-7--close-cost-summary-and-ledger) |
@@ -332,18 +332,29 @@ sub-agent switch before Step 4 exists) · tokens and cost: Step 9
 `IMPLEMENT:` runs each Step on its model and records what ran (S6, S8, S10).
 
 ### Tasks
-- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
-- [ ] `stages/implementation/prompt.md`: with per Step, one question at the start (yes /
+- [x] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [x] `stages/implementation/prompt.md`: with per Step, one question at the start (yes /
       only this Step / no); with yes and commit permission (`stages/agent/permissions.md`),
       each Step as a sub-agent on its model, commit per Step, stop at the first failing
       check, never push; without commit permission one Step per `IMPLEMENT:`; elsewhere the
       reminder of the next Step's model.
-- [ ] Done line and Stage log: `suggested: <tier> (<model>) · ran: <model>`
+- [x] Done line and Stage log: `suggested: <tier> (<model>) · ran: <model>`
       (template comment too).
-- [ ] Check: walk through Steps 5–7 of this spec on paper with the new text (who asks, who
+- [x] Check: walk through Steps 5–7 of this spec on paper with the new text (who asks, who
       commits, what is written); `check_all.ps1` passes.
 
 ### Notes
+Started: 2026-11-16 09:12
+
+**Done (2026-11-16 · ~6m · Claude Opus 5.5)** — New section *Per-Step run* in the
+implementation prompt: one question (yes / only Step n / no), each Step as a sub-agent on its
+model, commit per Step with the suggested message, stop at the first failure, never push;
+falls back to one Step when commits are denied or the tool has no model choice; reminder of
+the next Step's model elsewhere. Done lines end with `suggested · ran` (prompt and template);
+*Never* names the two exceptions. Walk-through of Steps 5–7: the question would list Sonnet
+/ Opus / Sonnet, each sub-agent ticks its Step, the parent checks the Done line and commits
+`Step <n>: … (#5)`, stop on a failing `bash -n`. `check_all.ps1`: 4 known placeholders. ·
+suggested: reasoning (Claude Opus 5.5) · ran: Claude Opus 5.5 · tokens and cost: Step 9
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---

@@ -9,7 +9,8 @@ Do the Steps of a planned spec **one at a time**, keeping the spec true while yo
 IMPLEMENT: <spec file> [Step <n>]
 ```
 Does one Step: the one named, or the first Step that is not ✅ Done. Run it again for the next
-Step.
+Step. With per-Step models (`../models.md`) it can run the remaining Steps one after the
+other, each on its own model, after one confirmation (*Per-Step run* below).
 
 ```
 CLOSE: <spec file>
@@ -79,6 +80,8 @@ and in a generated kit (`.specs/kit/implementation/`).
    - all tasks ticked; the Step's row `✅ Done`;
    - a Done line in its Notes: `**Done (YYYY-MM-DD · ~<duration> · <model>)** — <summary>.
      <check and its result>`, where `<model>` is your model;
+   - a **Model (suggested)** line: `suggested: <tier> (<model>) · ran: <your model>` at the
+     end of the Done line, when `models` is set (`../models.md`);
    - **Last updated** today; a **Stage log** row: today, `implementation`, `IMPLEMENT:`, your
      model, `Step <n> done`.
 
@@ -93,6 +96,28 @@ and in a generated kit (`.specs/kit/implementation/`).
    spec has no issue yet, say so and offer `CREATE ISSUE:` (requirements stage) before the
    first commit. The user commits. Then the next step: `IMPLEMENT: <spec file>` for the next Step, or
    `CLOSE: <spec file>` when all Steps are done.
+
+## Per-Step run
+
+Only with per-Step models (`models` has tiers). Fixed or no `models`: one Step per
+`IMPLEMENT:` as above.
+
+1. **Ask once**, before any work: *"Run Steps <n>–<m> with their models (<n>: <model>, …,
+   <m>: <model>), committing each Step with its suggested message? — yes / only Step <n> /
+   no"*. Nothing is pushed in any case.
+2. **Yes:** for each Step in order, run *IMPLEMENT* steps 3–7 as a **sub-agent on the Step's
+   model** (`../models.md`), give it the spec file, the Step number and this prompt; when it
+   returns, check its Done line and commit with the suggested message. Stop at the first
+   failing check, an open question, or a missing model, and report. Ask nothing else in
+   between.
+   - If the agent's permissions deny `git commit` (`.claude/settings.json`, the user's
+     answer), or the tool has no sub-agents with a model choice, do **only Step <n>** and say
+     why.
+3. **Only Step <n>:** that Step on its model (as a sub-agent where possible), then stop; the
+   user commits.
+4. **No:** stop.
+5. **Tools without sub-agents:** at the end of each Step, name the next Step's model:
+   *"Step <m> is set to <model> — switch before `IMPLEMENT:`."*
 
 ## CLOSE
 
@@ -135,8 +160,10 @@ and in a generated kit (`.specs/kit/implementation/`).
 
 ## Never
 
-- Work on more than one Step per `IMPLEMENT:`, or start the next Step on your own.
+- Work on more than one Step per `IMPLEMENT:`, or start the next Step on your own — except a
+  **Per-Step run** the user said yes to.
 - Change Part 1 while implementing (only `CLOSE` adds discovered statements); if Part 1 is
   wrong, stop and suggest `REQUIREMENTS: <spec file> — …`.
 - Tick a task whose check fails, or write a Done line for a Step that is not done.
-- Commit, push or merge — the user does that.
+- Commit, push or merge — the user does that; the only exception is the per-Step commit of a
+  confirmed **Per-Step run**. Never push.
