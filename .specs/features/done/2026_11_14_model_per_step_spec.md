@@ -36,6 +36,7 @@
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~85 k (0 k in · 84 k cached · 0 k out) | ~CHF 0.02 (2 credits) | Step 10 done |
 | 2026-11-16 | review | `REVIEW:` | Claude Opus 5.5 | ~1.84 M (31 k in · 1.80 M cached · 17 k out) | ~CHF 0.72 (86 credits) | semantic diff written; review fix "1 credit" |
 | 2026-11-16 | implementation | `CLOSE:` | Claude Opus 5.5 | ~320 k (4 k in · 315 k cached · 1 k out) | ~CHF 0.09 (11 credits) | spec closed |
+| 2026-11-16 | pr | `PR:` | Claude Opus 5.5 | ~261 k (1 k in · 259 k cached · 0 k out) | ~CHF 0.06 (7 credits) | pull request opened (until the commit of this row) |
 
 > All rows were computed with `stages/tools/usage.ps1` (method D11 and
 > [COSTS.md](../../../stages/COSTS.md)) on the VS Code transcript of this chat, replacing the
