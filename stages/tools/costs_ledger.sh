@@ -61,7 +61,7 @@ def tokens(cell):
 
 
 def stage_of(stage):
-    return stage if stage in ("requirements", "plan", "implementation") else "other"
+    return stage if stage in ("requirements", "plan", "implementation", "review", "pr") else "other"
 
 
 specs = []
@@ -133,19 +133,19 @@ for spec in specs:
     if t:
         grand = [grand[i] + t[i] for i in range(3)]
         parts = [cell(spec["stages"][x]) if x in spec["stages"] else "\u2014"
-                 for x in ("requirements", "plan", "implementation", "other")]
+                 for x in ("requirements", "plan", "implementation", "review", "pr", "other")]
     else:
-        parts = ["N/A"] * 4
+        parts = ["N/A"] * 6
     rows.append("| [%s](%s) | %s | %s | %s |" % (spec["title"], spec["path"], spec["status"], " | ".join(parts), cell(t)))
 
 out = ["# Cost of the specs", "",
        "> Estimate \u2014 see [COSTS.md](%s). **All costs are estimates and may be wrong.** Rebuilt by" % link,
        "> `costs_ledger` from the Stage logs on %s; do not edit by hand." % datetime.date.today().isoformat(), "",
        "**All specs: ~%s%s~%s %.2f (%s)**" % (k(grand[0]), dot, currency, round(grand[1], 2), credit_text(grand[2])), "",
-       "| Spec | Status | Requirements | Plan | Implementation | Other | Total |",
-       "|------|--------|--------------|------|----------------|-------|-------|"]
+       "| Spec | Status | Requirements | Plan | Implementation | Review | PR | Other | Total |",
+       "|------|--------|--------------|------|----------------|--------|----|-------|-------|"]
 out += rows
-out.append("| **All specs** | | | | | | **%s** |" % cell(grand))
+out.append("| **All specs** | | | | | | | | **%s** |" % cell(grand))
 steps = [(s, st) for s in specs for st in s["steps"]]
 if steps:
     out += ["", "## Implementation by Step", "", "| Spec | Step | Tokens | Cost |", "|------|------|--------|------|"]

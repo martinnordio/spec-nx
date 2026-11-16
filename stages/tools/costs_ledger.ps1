@@ -102,7 +102,7 @@ foreach ($path in $order) {
         $cur = if ($money.Success) { $money.Groups[1].Value } else { $currency }
         $spec.tracked = $true
         $stage = $cells[$head['Stage']]
-        $key = if (@('requirements', 'plan', 'implementation') -contains $stage) { $stage } else { 'other' }
+        $key = if (@('requirements', 'plan', 'implementation', 'review', 'pr') -contains $stage) { $stage } else { 'other' }
         if (-not $spec.stages.Contains($key)) { $spec.stages[$key] = @(0.0, 0.0, 0.0) }
         $s = $spec.stages[$key]; $s[0] += $n; $s[1] += $value; $s[2] += $credits
         if ($head.ContainsKey('Note') -and $stage -eq 'implementation') {
@@ -120,12 +120,12 @@ foreach ($spec in $specs) {
         $t = @(0.0, 0.0, 0.0)
         foreach ($v in $spec.stages.Values) { for ($i = 0; $i -lt 3; $i++) { $t[$i] += $v[$i] } }
         for ($i = 0; $i -lt 3; $i++) { $grand[$i] += $t[$i] }
-        $parts = foreach ($x in 'requirements', 'plan', 'implementation', 'other') {
+        $parts = foreach ($x in 'requirements', 'plan', 'implementation', 'review', 'pr', 'other') {
             if ($spec.stages.Contains($x)) { Format-Cell $spec.stages[$x] } else { $dash }
         }
     } else {
         $t = $null
-        $parts = @('N/A', 'N/A', 'N/A', 'N/A')
+        $parts = @('N/A', 'N/A', 'N/A', 'N/A', 'N/A', 'N/A')
     }
     $rows += "| [$($spec.title)]($($spec.path)) | $($spec.status) | $($parts -join ' | ') | $(Format-Cell $t) |"
 }
@@ -135,10 +135,10 @@ $out = @('# Cost of the specs', '',
     "> Estimate $dash see [COSTS.md]($CostsLink). **All costs are estimates and may be wrong.** Rebuilt by",
     "> ``costs_ledger`` from the Stage logs on $today; do not edit by hand.", '',
     ('**All specs: ~' + (Format-Tokens $grand[0]) + $dot + '~' + $currency + ' ' + ([math]::Round($grand[1], 2)).ToString('0.00', $inv) + ' (' + (Format-Credits $grand[2]) + ')**'), '',
-    '| Spec | Status | Requirements | Plan | Implementation | Other | Total |',
-    '|------|--------|--------------|------|----------------|-------|-------|')
+    '| Spec | Status | Requirements | Plan | Implementation | Review | PR | Other | Total |',
+    '|------|--------|--------------|------|----------------|--------|----|-------|-------|')
 $out += $rows
-$out += "| **All specs** | | | | | | **$(Format-Cell $grand)** |"
+$out += "| **All specs** | | | | | | | | **$(Format-Cell $grand)** |"
 $stepRows = New-Object System.Collections.ArrayList
 foreach ($spec in $specs) { foreach ($st in $spec.steps) { [void]$stepRows.Add(@($spec.title, $st)) } }
 if ($stepRows.Count) {

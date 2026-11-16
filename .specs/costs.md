@@ -3,20 +3,20 @@
 > Estimate — see [COSTS.md](../stages/COSTS.md). **All costs are estimates and may be wrong.** Rebuilt by
 > `costs_ledger` from the Stage logs on 2026-11-16; do not edit by hand.
 
-**All specs: ~25.16 M · ~CHF 7.65 (915 credits)**
+**All specs: ~25.84 M · ~CHF 7.82 (936 credits)**
 
-| Spec | Status | Requirements | Plan | Implementation | Other | Total |
-|------|--------|--------------|------|----------------|-------|-------|
-| [Requirements → Plan → PR](features/done/2026_11_09_spec_plan_pr_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
-| [Azure DevOps Git Login and Backlog Project](features/done/2026_11_13_ado_git_login_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
-| [Default Parent](features/done/2026_11_13_default_parent_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
-| [Description Markers](features/done/2026_11_13_description_markers_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
-| [Kit Folder](features/done/2026_11_13_kit_folder_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
-| [Spec-Kit Migration](features/done/2026_11_13_spec_kit_migration_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
-| [Model Name in Logs](features/done/2026_11_14_model_name_in_logs_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
-| [The Right Model and Cost for Each Step](features/done/2026_11_14_model_per_step_spec.md) | ✅ Complete | ~5.72 M · ~CHF 1.83 | ~3.10 M · ~CHF 1.01 | ~13.82 M · ~CHF 3.87 | ~2.53 M · ~CHF 0.94 | ~25.16 M · ~CHF 7.65 |
-| [Update Without Questions](features/done/2026_11_14_update_without_questions_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
-| **All specs** | | | | | | **~25.16 M · ~CHF 7.65** |
+| Spec | Status | Requirements | Plan | Implementation | Review | PR | Other | Total |
+|------|--------|--------------|------|----------------|--------|----|-------|-------|
+| [Requirements → Plan → PR](features/done/2026_11_09_spec_plan_pr_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| [Azure DevOps Git Login and Backlog Project](features/done/2026_11_13_ado_git_login_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| [Default Parent](features/done/2026_11_13_default_parent_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| [Description Markers](features/done/2026_11_13_description_markers_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| [Kit Folder](features/done/2026_11_13_kit_folder_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| [Spec-Kit Migration](features/done/2026_11_13_spec_kit_migration_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| [Model Name in Logs](features/done/2026_11_14_model_name_in_logs_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| [The Right Model and Cost for Each Step](features/done/2026_11_14_model_per_step_spec.md) | ✅ Complete | ~5.72 M · ~CHF 1.83 | ~3.10 M · ~CHF 1.01 | ~14.50 M · ~CHF 4.04 | ~2.05 M · ~CHF 0.80 | ~479 k · ~CHF 0.14 | — | ~25.84 M · ~CHF 7.82 |
+| [Update Without Questions](features/done/2026_11_14_update_without_questions_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
+| **All specs** | | | | | | | | **~25.84 M · ~CHF 7.82** |
 
 ## Implementation by Step
 
@@ -33,3 +33,4 @@
 | The Right Model and Cost for Each Step | 9 | ~1.64 M | ~CHF 0.58 (69 credits) |
 | The Right Model and Cost for Each Step | 10 | ~85 k | ~CHF 0.02 (2 credits) |
 | The Right Model and Cost for Each Step | 11 | ~763 k | ~CHF 0.21 (25 credits) |
+| The Right Model and Cost for Each Step | 12 | ~681 k | ~CHF 0.17 (21 credits) |
