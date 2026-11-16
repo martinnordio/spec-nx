@@ -54,8 +54,8 @@ bash stages/tools/github/update_pr.sh summary.md --semantic-diff semantic_diff.m
 ## Tokens and cost
 
 `usage.ps1` / `usage.sh` measure (Claude Code) or estimate (VS Code Copilot) the tokens of a
-time range of the AI chat and price them, by the method of the kit's COSTS.md (`costs.md` in
-spec-nx). They read the `cost` block of `.specs/spec-nx.json` (and `.local.json`); without it,
+time range of the AI chat and price them, by the method of `../COSTS.md`. They read the
+`cost` block of `.specs/spec-nx.json` (and `.local.json`); without it,
 or with `enabled: false`, they print that cost tracking is off and do nothing. They change no
 file. The bash script needs `python3`.
 

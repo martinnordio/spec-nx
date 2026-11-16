@@ -27,6 +27,10 @@ Always: `../skills/developer.md` — the role you take in this stage.
 **Check the model first** (`../models.md`): with `models` set in the settings, run on the
 configured model, as a sub-agent or after asking; with no `models`, use the tool's model.
 
+**Tokens and cost** (`../COSTS.md`): only with the `cost` block on. Note the start time; at
+the end run `../tools/usage.ps1` / `../tools/usage.sh` with it and your model, and copy its
+Tokens and Cost into your Stage log row — never compute them yourself.
+
 Wherever this prompt says *your model*, write the name of the model that runs this command
 now, as your runtime reports it. Never copy it from earlier rows, from `.specs/spec-nx.json`
 (its `model` is the model that generated the kit), from the kit's README or from examples. If
@@ -82,6 +86,9 @@ and in a generated kit (`.specs/kit/implementation/`).
      <check and its result>`, where `<model>` is your model;
    - a **Model (suggested)** line: `suggested: <tier> (<model>) · ran: <your model>` at the
      end of the Done line, when `models` is set (`../models.md`);
+   - with cost tracking on (`../COSTS.md`): run `usage` from the `Started:` time and end the
+     Done line with `· ~<tokens> · ~<currency> <amount>`; the Stage log row gets the same
+     numbers in its Tokens and Cost columns;
    - **Last updated** today; a **Stage log** row: today, `implementation`, `IMPLEMENT:`, your
      model, `Step <n> done`.
 
