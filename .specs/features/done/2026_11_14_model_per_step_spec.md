@@ -38,6 +38,7 @@
 | 2026-11-16 | implementation | `CLOSE:` | Claude Opus 5.5 | ~320 k (4 k in · 315 k cached · 1 k out) | ~CHF 0.09 (11 credits) | spec closed |
 | 2026-11-16 | pr | `PR:` | Claude Opus 5.5 | ~261 k (1 k in · 259 k cached · 0 k out) | ~CHF 0.06 (7 credits) | pull request opened (until the commit of this row) |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~763 k (7 k in · 753 k cached · 3 k out) | ~CHF 0.21 (25 credits) | Step 11 done (S23, added after closing) |
+| 2026-11-16 | review | `REVIEW:` | Claude Opus 5.5 | ~208 k (4 k in · 203 k cached · 2 k out) | ~CHF 0.08 (10 credits) | semantic diff re-run: block for S23 |
 
 > All rows were computed with `stages/tools/usage.ps1` (method D11 and
 > [COSTS.md](../../../stages/COSTS.md)) on the VS Code transcript of this chat, replacing the
@@ -697,6 +698,7 @@ Tasks set aside for a future spec, so nothing is forgotten.
 | 2026-11-16 | AI assistant (Claude Opus 5.5) | plan | re-planned | Exact calculation method (D11), Cost column in the local currency (D7), spec-nx on its own settings and the same spec format (D12, Step 9); reminder moved to Step 10 |
 | 2026-11-16 | AI assistant (Claude Opus 5.5) | implementation | added | `docs/configuration.md` and the README section at the very top, at the author's request (Step 8); D11 sets the context back at the cap (Step 5) |
 | 2026-11-16 | AI assistant (Claude Opus 5.5) | semantic diff | Approve with follow-ups | [review page](../../review/2026-11-16_feature-model-per-step.html) — 13 blocks; checks 6 pass · 2 n/a · 1 fail (C7); findings: 2 Should-fix (transcript discovery per workspace, end-to-end GENERATE KIT — deferred), 4 Nit (no committed tests — deferred; "1 credits" — fixed; estimate constants, Model column — accepted) |
+| 2026-11-16 | AI assistant (Claude Opus 5.5) | semantic diff | Approve with follow-ups | re-run after Step 11: 14 blocks (new: the summary format, S23); checks and findings unchanged, finding 4 resolved |
 
 ---
 

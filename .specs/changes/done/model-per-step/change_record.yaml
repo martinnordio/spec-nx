@@ -10,7 +10,7 @@ why: |
   project has a cost block.
 spec:
   path: .specs/features/done/2026_11_14_model_per_step_spec.md
-  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22]
+  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23]
 changes:
   - id: question-table
     kind: config
@@ -143,6 +143,16 @@ changes:
       - name: top
         input: |
           README.md up to the work-in-progress note
+  - id: summary-format
+    kind: data-format
+    change: modified
+    object: issue / backlog item and pull-request description — the spec summary
+    note: A closed spec's Cost summary goes before the Plan part, links as full URLs; Azure DevOps pull requests over 4000 characters keep only the sentence.
+    statements: [S23]
+    examples:
+      - name: summary
+        input: |
+          section "The summary" of stages/tools/README.md
 breaking: none — without models and cost in the settings, kits, specs, commands and scripts behave as before.
 review:
   - question: Why are VS Code Copilot numbers estimates?
