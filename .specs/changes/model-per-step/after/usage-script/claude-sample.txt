@@ -1,0 +1,3 @@
+Tokens: 50 k (5 k in · 44 k cached · 1 k out)
+Cost: CHF 0.04 (5 credits, 0.3 % of Copilot Business)
+Source: measured from <transcript> · 2 requests

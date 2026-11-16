@@ -34,6 +34,7 @@
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.88 M (11 k in · 1.86 M cached · 6 k out) | ~CHF 0.45 (54 credits) | Step 8 done |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.64 M (47 k in · 1.59 M cached · 7 k out) | ~CHF 0.58 (69 credits) | Step 9 done |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~85 k (0 k in · 84 k cached · 0 k out) | ~CHF 0.02 (2 credits) | Step 10 done |
+| 2026-11-16 | review | `REVIEW:` | Claude Opus 5.5 | ~1.54 M (27 k in · 1.50 M cached · 15 k out) | ~CHF 0.61 (72 credits) | semantic diff written |
 
 > All rows were computed with `stages/tools/usage.ps1` (method D11 and
 > [COSTS.md](../../stages/COSTS.md)) on the VS Code transcript of this chat, replacing the
@@ -591,6 +592,8 @@ Tasks set aside for a future spec, so nothing is forgotten.
 | Sub-agent tokens in VS Code Copilot, if they are not in the main transcript | Unknown until Step 5 tests it; COSTS.md says so | later spec |
 | hack_star: run the same features with different model settings (fixed Opus, per Step, light-heavy) and compare tokens and cost | Real numbers on a real project, after `v0.4.0` | new spec in hack_star |
 | A tutorial for configuring and using spec-nx | The author asked for it; `docs/configuration.md` is the reference for now | later spec |
+| `usage`: find the VS Code transcript of this workspace (`workspace.json`), not the newest of all | Review finding 1: with two chats open it can count the wrong one; `-Transcript` works today | later spec |
+| Committed tests for `usage` and `costs_ledger` (fixtures for both shells) | Review finding 3 (C7) | later spec |
 | Run `GENERATE KIT --update` in a real project with and without the new settings | Step 8 checked the scripts and prompt guards, not an AI generation end to end | after the release |
 
 ---
@@ -601,6 +604,7 @@ Tasks set aside for a future spec, so nothing is forgotten.
 |------|----------|-------|---------|----------|
 | 2026-11-16 | AI assistant (Claude Opus 5.5) | plan | re-planned | Exact calculation method (D11), Cost column in the local currency (D7), spec-nx on its own settings and the same spec format (D12, Step 9); reminder moved to Step 10 |
 | 2026-11-16 | AI assistant (Claude Opus 5.5) | implementation | added | `docs/configuration.md` and the README section at the very top, at the author's request (Step 8); D11 sets the context back at the cap (Step 5) |
+| 2026-11-16 | AI assistant (Claude Opus 5.5) | semantic diff | Approve with follow-ups | [review page](../review/2026-11-16_feature-model-per-step.html) — 13 blocks; checks 6 pass · 2 n/a · 1 fail (C7); findings: 2 Should-fix (transcript discovery per workspace, end-to-end GENERATE KIT — deferred), 4 Nit (no committed tests — deferred; "1 credits" — fixed; estimate constants, Model column — accepted) |
 
 ---
 
@@ -610,6 +614,6 @@ Tasks set aside for a future spec, so nothing is forgotten.
 - [x] Plan · Part 2 written; every Step has a goal and tasks
 - [ ] Implementation · every Step's tasks checked
 - [ ] Documentation · README, generator docs and kit README updated
-- [ ] Review · semantic diff written for this spec
+- [x] Review · semantic diff written for this spec
 - [ ] Spec closed · moved to `.specs/features/done/`
 - [ ] Pull request · opened with the spec summary; reviewed; merged; branch deleted

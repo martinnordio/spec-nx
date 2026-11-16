@@ -1,0 +1,164 @@
+# yaml-language-server: $schema=../../../stages/review/change_record.schema.json
+version: 1
+branch: feature/model-per-step
+base: ec52844
+why: |
+  The whole spec ran on whatever model the chat had, and switching by hand per Step was easy
+  to forget; nobody could see what a feature cost in tokens or money. This branch lets a project
+  choose a model per Step (or one fixed model, or none), runs each stage and Step on its model,
+  and records the tokens and an estimated cost of every stage, Step and spec — off unless the
+  project has a cost block.
+spec:
+  path: .specs/features/2026_11_14_model_per_step_spec.md
+  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22]
+changes:
+  - id: question-table
+    kind: config
+    change: modified
+    object: generator/questions.md — the setup questions
+    note: New question Q7 "Model per Step" asked last; the cost block is announced as not asked.
+    statements: [S1, S2, S7]
+    examples:
+      - name: table
+        input: |
+          the question table of generator/questions.md
+  - id: settings-file
+    kind: data-format
+    change: modified
+    object: .specs/spec-nx.json
+    note: New keys models and cost; both optional, missing means off; the local file can override both.
+    statements: [S3, S18]
+    examples:
+      - name: spec-nx-json
+        input: |
+          section ".specs/spec-nx.json (project)" of generator/questions.md
+  - id: models-rules
+    kind: config
+    change: added
+    object: stages/models.md — which model runs each stage and Step
+    note: Tier per stage, check before work, sub-agent or ask, missing model, recording; models null = do nothing.
+    statements: [S5, S7, S9, S10]
+    examples:
+      - name: models
+        input: |
+          stages/models.md
+  - id: model-check
+    kind: command
+    change: modified
+    object: the Model name section of every stage prompt (plan shown)
+    note: Starts with the model check and the tokens-and-cost rule; the Model name rule itself is unchanged.
+    statements: [S5, S13, S20]
+    examples:
+      - name: plan-model-name
+        input: |
+          section "Model name" of stages/plan/prompt.md
+  - id: plan-overview
+    kind: data-format
+    change: modified
+    object: spec file — 2 · Spec Overview
+    note: Optional column Model (suggested) — tier, model and why; only with per-Step models.
+    statements: [S4, S8]
+    examples:
+      - name: overview
+        input: |
+          section "2 · Spec Overview" of stages/spec_template.md
+  - id: stage-log
+    kind: data-format
+    change: modified
+    object: spec file — Stage log
+    note: Optional columns Tokens (with the COSTS.md link) and Cost in the local currency; only with cost tracking on.
+    statements: [S13, S14, S20]
+    examples:
+      - name: stage-log
+        input: |
+          section "Stage log" of stages/spec_template.md
+  - id: implement-command
+    kind: command
+    change: added
+    object: "IMPLEMENT: — Per-Step run"
+    note: One question, each Step as a sub-agent on its model, commit per Step, stop at the first failure, never push.
+    statements: [S6, S8, S10]
+    examples:
+      - name: per-step-run
+        input: |
+          section "Per-Step run" of stages/implementation/prompt.md
+  - id: close-command
+    kind: command
+    change: modified
+    object: "CLOSE: — Cost summary and ledger"
+    note: With cost tracking on, a Cost summary above Part 1 and costs_ledger rebuilds .specs/costs.md.
+    statements: [S17, S21]
+    examples:
+      - name: close-step-3
+        input: |
+          step 3 of CLOSE in stages/implementation/prompt.md
+  - id: usage-script
+    kind: output
+    change: added
+    object: tools/usage.ps1 / usage.sh
+    note: Measured numbers from a Claude Code session file; a duplicate message is counted once, a row outside the range is left out.
+    statements: [S13, S14, S15, S16]
+    examples:
+      - name: claude-sample
+        input: |
+          ./usage.ps1 -Since 2026-11-16T08:00:00Z -Until 2026-11-16T09:00:00Z -Model claude-opus-5-5 -Transcript <claude-sample.jsonl>
+          (settings: cost block in CHF, prices for claude-opus-5-5)
+  - id: costs-ledger
+    kind: output
+    change: added
+    object: tools/costs_ledger.ps1 / .sh → .specs/costs.md
+    note: One tracked spec, one older spec (N/A), the per-Step table and the total.
+    statements: [S21]
+    examples:
+      - name: two-specs
+        input: |
+          ./costs_ledger.ps1 -Root <fixture with two closed specs> -CostsLink kit/COSTS.md -DryRun
+  - id: costs-doc
+    kind: message
+    change: added
+    object: COSTS.md — the disclaimer
+    note: First lines of the cost page; every cost number links here.
+    statements: [S19, S20]
+    examples:
+      - name: disclaimer
+        input: |
+          the top of stages/COSTS.md
+  - id: kit-layout
+    kind: data-format
+    change: modified
+    object: .specs/kit/ — what GENERATE KIT writes
+    note: models.md always; COSTS.md, usage and costs_ledger only with a cost block.
+    statements: [S12, S19]
+    examples:
+      - name: generate-step-5
+        input: |
+          step 5 of GENERATE KIT in generator/prompt.md
+  - id: readme-top
+    kind: message
+    change: modified
+    object: README.md — the top
+    note: The feature is the first section after the introduction.
+    statements: [S11]
+    examples:
+      - name: top
+        input: |
+          README.md up to the work-in-progress note
+breaking: none — without models and cost in the settings, kits, specs, commands and scripts behave as before.
+review:
+  - question: Why are VS Code Copilot numbers estimates?
+    answer: |
+      Its chat transcript has every turn but no token counts. The script counts characters ÷ 4,
+      treats the previous request's context as cached and resets at the context cap (D11);
+      COSTS.md lists the limits. Claude Code logs real usage, so those numbers are measured.
+  - question: Is the cost what we pay?
+    answer: |
+      No — it is the value of the GitHub AI credits used at Copilot's per-token rates. Within the
+      plan's monthly credits nothing extra is paid. COSTS.md and every number say "estimate".
+  - question: Does an existing project start tracking cost after --update?
+    answer: |
+      No. GENERATE KIT --update never adds the cost block; only the first GENERATE KIT writes it.
+      Q7 is asked once on --update because it is a new question.
+  - question: Why does the bash script need python3?
+    answer: |
+      Reading JSON lines and doing the arithmetic in plain bash would need jq and bc and still
+      differ from PowerShell; python3 gives the same numbers as the PowerShell script.
