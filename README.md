@@ -322,7 +322,7 @@ Done:
   implementation, documentation and review stages; the on-demand stages improvement, setup
   and ui; guidelines; the new-project spec; the company layer; agent permissions; questions
   Q0, Q0b, Q0c, Q1b, Q5, Q6.
-- [x] [The right model and cost for each Step](.specs/features/2026_11_14_model_per_step_spec.md):
+- [x] [The right model and cost for each Step](.specs/features/done/2026_11_14_model_per_step_spec.md):
   question Q7, model per stage and Step with sub-agents, tokens and cost of every stage, the
   cost summary and `.specs/costs.md`.
 

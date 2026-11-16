@@ -1,7 +1,7 @@
 # The Right Model and Cost for Each Step Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress
+> **Status:** ✅ Complete — closed on feature/model-per-step
 > **Created:** 2026-11-14
 > **Last updated:** 2026-11-16
 > **Branch:** `feature/model-per-step`
@@ -9,7 +9,7 @@
 
 ## Stage log
 
-| Date | Stage | Command | Model | Tokens (estimate — see [COSTS.md](../../stages/COSTS.md)) | Cost (CHF) | Note |
+| Date | Stage | Command | Model | Tokens (estimate — see [COSTS.md](../../../stages/COSTS.md)) | Cost (CHF) | Note |
 |------|-------|---------|-------|--------|------|------|
 | 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~536 k (4 k in · 529 k cached · 3 k out) | ~CHF 0.16 (19 credits) | Part 1 written |
 | 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~1.93 M (7 k in · 1.91 M cached · 5 k out) | ~CHF 0.43 (51 credits) | Full process chosen; tokens and cost added (S13–S18) |
@@ -34,15 +34,40 @@
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.88 M (11 k in · 1.86 M cached · 6 k out) | ~CHF 0.45 (54 credits) | Step 8 done |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.64 M (47 k in · 1.59 M cached · 7 k out) | ~CHF 0.58 (69 credits) | Step 9 done |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~85 k (0 k in · 84 k cached · 0 k out) | ~CHF 0.02 (2 credits) | Step 10 done |
-| 2026-11-16 | review | `REVIEW:` | Claude Opus 5.5 | ~1.54 M (27 k in · 1.50 M cached · 15 k out) | ~CHF 0.61 (72 credits) | semantic diff written |
+| 2026-11-16 | review | `REVIEW:` | Claude Opus 5.5 | ~1.84 M (31 k in · 1.80 M cached · 17 k out) | ~CHF 0.72 (86 credits) | semantic diff written; review fix "1 credit" |
+| 2026-11-16 | implementation | `CLOSE:` | Claude Opus 5.5 | ~320 k (4 k in · 315 k cached · 1 k out) | ~CHF 0.09 (11 credits) | spec closed |
 
 > All rows were computed with `stages/tools/usage.ps1` (method D11 and
-> [COSTS.md](../../stages/COSTS.md)) on the VS Code transcript of this chat, replacing the
+> [COSTS.md](../../../stages/COSTS.md)) on the VS Code transcript of this chat, replacing the
 > hand-made POC numbers: the time range of each row runs from its first message to the next
 > row's (Steps: from commit to commit). The hack_star licence work in between is not counted,
 > nor is the design talk before Part 1. Model rates of Claude Opus 5.5 in credits per 1 M tokens:
 > 500 new input (cache write), 20 cached, 2,000 output; 0.8384 CHF/USD. The cost is the value of
 > the credits used, not an invoice.
+
+---
+
+## Cost summary
+
+This feature used ~23.71 M tokens, ~CHF 7.22 — estimate, see [COSTS.md](../../../stages/COSTS.md).
+
+| Stage / Step | Tokens | Cost (CHF) | Share of Copilot Business |
+|--------------|--------|------------|---------------------------|
+| requirements | ~5.72 M | ~CHF 1.83 (218 credits) | 11.5 % |
+| plan | ~3.10 M | ~CHF 1.01 (121 credits) | 6.4 % |
+| Step 1 | ~1.70 M | ~CHF 0.45 (54 credits) | 2.8 % |
+| Step 2 | ~857 k | ~CHF 0.23 (28 credits) | 1.5 % |
+| Step 3 | ~257 k | ~CHF 0.08 (10 credits) | 0.5 % |
+| Step 4 | ~394 k | ~CHF 0.12 (14 credits) | 0.7 % |
+| Step 5 | ~2.68 M | ~CHF 0.73 (87 credits) | 4.6 % |
+| Step 6 | ~1.12 M | ~CHF 0.32 (38 credits) | 2.0 % |
+| Step 7 | ~2.12 M | ~CHF 0.59 (71 credits) | 3.7 % |
+| Step 8 | ~1.88 M | ~CHF 0.45 (54 credits) | 2.8 % |
+| Step 9 | ~1.64 M | ~CHF 0.58 (69 credits) | 3.6 % |
+| Step 10 | ~85 k | ~CHF 0.02 (2 credits) | 0.1 % |
+| review | ~1.84 M | ~CHF 0.72 (86 credits) | 4.5 % |
+| CLOSE | ~320 k | ~CHF 0.09 (11 credits) | 0.6 % |
+| **Total** | **~23.71 M** | **~CHF 7.22 (863 credits)** | **45.4 %** |
 
 ---
 
@@ -202,6 +227,30 @@ at the start of stages, tracking of suggested vs. actual model.
 ---
 
 # Part 2 · Plan
+
+## Closing summary
+
+**Built:** spec-nx can choose the AI model for every stage and Step and report what each one
+cost. Question Q7 sets `models` (a model per tier with a guide, one fixed model, or none —
+missing means none); `models.md` makes every stage check its model first and run as a
+sub-agent on it; the plan gives each Step a tier; `IMPLEMENT:` asks once and runs the Steps on
+their models, committing each, never pushing. With a `cost` block (written only by the first
+`GENERATE KIT`, CHF by default), `usage.ps1` / `.sh` measure (Claude Code) or estimate (VS Code
+Copilot) the tokens of a time range and price them in credits, the local currency and % of the
+plan; every Stage log row and Done line carries them; `CLOSE:` writes a cost summary and
+`costs_ledger` rebuilds `.specs/costs.md`. `COSTS.md` explains the method and says that all
+costs are estimates. The README opens with the feature; `docs/configuration.md` explains the
+settings. spec-nx uses it itself (fixed Claude Opus 5.5, CHF).
+**Differs from the plan:** D11 resets the context at the cap (the POC numbers were not the
+right target); the cost page is `stages/COSTS.md` so `../COSTS.md` works in spec-nx and kits;
+the regression checked the scripts and prompt guards instead of a full AI generation;
+`docs/configuration.md` and the README section at the very top were added at the author's
+request; review fix "1 credit".
+**Files:** `generator/questions.md`, `generator/prompt.md`, `stages/models.md`,
+`stages/COSTS.md`, `stages/tools/usage.ps1` / `.sh`, `stages/tools/costs_ledger.ps1` / `.sh`,
+`stages/tools/README.md`, the seven stage prompts, `stages/spec_template.md`,
+`stages/kit_readme.md`, `README.md`, `docs/configuration.md`, `.specs/spec-nx.json`,
+`.specs/costs.md`.
 
 ## 2 · Spec Overview
 
@@ -604,7 +653,7 @@ Tasks set aside for a future spec, so nothing is forgotten.
 |------|----------|-------|---------|----------|
 | 2026-11-16 | AI assistant (Claude Opus 5.5) | plan | re-planned | Exact calculation method (D11), Cost column in the local currency (D7), spec-nx on its own settings and the same spec format (D12, Step 9); reminder moved to Step 10 |
 | 2026-11-16 | AI assistant (Claude Opus 5.5) | implementation | added | `docs/configuration.md` and the README section at the very top, at the author's request (Step 8); D11 sets the context back at the cap (Step 5) |
-| 2026-11-16 | AI assistant (Claude Opus 5.5) | semantic diff | Approve with follow-ups | [review page](../review/2026-11-16_feature-model-per-step.html) — 13 blocks; checks 6 pass · 2 n/a · 1 fail (C7); findings: 2 Should-fix (transcript discovery per workspace, end-to-end GENERATE KIT — deferred), 4 Nit (no committed tests — deferred; "1 credits" — fixed; estimate constants, Model column — accepted) |
+| 2026-11-16 | AI assistant (Claude Opus 5.5) | semantic diff | Approve with follow-ups | [review page](../../review/2026-11-16_feature-model-per-step.html) — 13 blocks; checks 6 pass · 2 n/a · 1 fail (C7); findings: 2 Should-fix (transcript discovery per workspace, end-to-end GENERATE KIT — deferred), 4 Nit (no committed tests — deferred; "1 credits" — fixed; estimate constants, Model column — accepted) |
 
 ---
 
@@ -612,8 +661,8 @@ Tasks set aside for a future spec, so nothing is forgotten.
 
 - [x] Requirements · Part 1 agreed (S1..S22 testable, open questions answered)
 - [x] Plan · Part 2 written; every Step has a goal and tasks
-- [ ] Implementation · every Step's tasks checked
-- [ ] Documentation · README, generator docs and kit README updated
+- [x] Implementation · every Step's tasks checked
+- [x] Documentation · README, generator docs and kit README updated
 - [x] Review · semantic diff written for this spec
-- [ ] Spec closed · moved to `.specs/features/done/`
+- [x] Spec closed · moved to `.specs/features/done/`
 - [ ] Pull request · opened with the spec summary; reviewed; merged; branch deleted

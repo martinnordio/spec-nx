@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../../../stages/review/change_record.schema.json
+# yaml-language-server: $schema=../../../../stages/review/change_record.schema.json
 version: 1
 branch: feature/model-per-step
 base: ec52844
@@ -9,7 +9,7 @@ why: |
   and records the tokens and an estimated cost of every stage, Step and spec — off unless the
   project has a cost block.
 spec:
-  path: .specs/features/2026_11_14_model_per_step_spec.md
+  path: .specs/features/done/2026_11_14_model_per_step_spec.md
   statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22]
 changes:
   - id: question-table
