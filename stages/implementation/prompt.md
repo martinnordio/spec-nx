@@ -155,30 +155,32 @@ Only with per-Step models (`models` has tiers). Fixed or no `models`: one Step p
 
    This feature used ~<tokens> tokens, ~<currency> <amount> — estimate, see [COSTS.md](<link>).
 
-   | Stage | Tokens | Cost (<currency>) | Share of <plan> |
-   |-------|--------|-------------------|-----------------|
-   | requirements | … | … | … % |
-   | plan | … | … | … % |
-   | implementation | … | … | … % |
-   | review | … | … | … % |
-   | pr | … | … | … % |
-   | **Total** | **…** | **…** | **… %** |
+   | Stage | Models | Tokens | Cost (<currency>) | Share of <plan> |
+   |-------|--------|--------|-------------------|-----------------|
+   | requirements | <model> | … | … | … % |
+   | plan | <model> | … | … | … % |
+   | implementation | <model>, <model> | … | … | … % |
+   | review | <model> | … | … | … % |
+   | pr | <model> | … | … | … % |
+   | **Total** | | **…** | **…** | **… %** |
 
    **Implementation by Step**
 
-   | Step | Tokens | Cost (<currency>) | Share of <plan> |
-   |------|--------|-------------------|-----------------|
-   | Step 1 | … | … | … % |
-   | … | | | |
-   | CLOSE | … | … | … % |
-   | **Total implementation** | **…** | **…** | **… %** |
+   | Step | Model | Tokens | Cost (<currency>) | Share of <plan> |
+   |------|-------|--------|-------------------|-----------------|
+   | Step 1 | <model> | … | … | … % |
+   | … | | | | |
+   | CLOSE | <model> | … | … | … % |
+   | **Total implementation** | | **…** | **…** | **… %** |
    ```
 
    The numbers are the sums of the Stage log rows per stage (`CREATE ISSUE:` / `UPDATE
    ISSUE:` under requirements, `CLOSE:` under implementation, `CODE REVIEW:` under review;
    leave out the rows of stages that have no Stage log row yet — such as `pr`, which runs after
    `CLOSE:` — and put any other stage, such as documentation, in its own row). Cost cells are
-   written as in the Stage log: `~<currency> <amount> (<credits> credits)`. The second table splits implementation into its Steps and
+   written as in the Stage log: `~<currency> <amount> (<credits> credits)`. **Models** lists the
+   models of the stage's Stage log rows (each once, in order); a Step's **Model** is the model
+   in its Stage log row — the model that ran it. The second table splits implementation into its Steps and
    `CLOSE:`; its total equals the implementation row. The share is credits ÷
    `monthly_credits`. A row without numbers reads `N/A`. Then rebuild the list of all specs:
    `../tools/costs_ledger.ps1` / `../tools/costs_ledger.sh` (writes `.specs/costs.md`).

@@ -106,7 +106,8 @@ for path in sorted(files, key=lambda f: os.path.basename(f)):
         s[0] += n; s[1] += value; s[2] += credits
         step = re.search(r"Step (\d+)", cells[head["Note"]]) if "Note" in head else None
         if step and cells[head["Stage"]] == "implementation":
-            spec["steps"].append((step.group(1), n, value, credits, currency))
+            spec["steps"].append((step.group(1), n, value, credits, currency,
+                                  cells[head["Model"]] if "Model" in head else ""))
     specs.append(spec)
 
 currency = cost.get("currency", "USD")
@@ -148,9 +149,9 @@ out += rows
 out.append("| **All specs** | | | | | | | | **%s** |" % cell(grand))
 steps = [(s, st) for s in specs for st in s["steps"]]
 if steps:
-    out += ["", "## Implementation by Step", "", "| Spec | Step | Tokens | Cost |", "|------|------|--------|------|"]
-    for s, (n, tok, val, cr, cur) in steps:
-        out.append("| %s | %s | ~%s | ~%s %.2f (%s) |" % (s["title"], n, k(tok), cur, round(val, 2), credit_text(cr)))
+    out += ["", "## Implementation by Step", "", "| Spec | Step | Model | Tokens | Cost |", "|------|------|-------|--------|------|"]
+    for s, (n, tok, val, cr, cur, model) in steps:
+        out.append("| %s | %s | %s | ~%s | ~%s %.2f (%s) |" % (s["title"], n, model, k(tok), cur, round(val, 2), credit_text(cr)))
 text = "\n".join(out) + "\n"
 if a.dry_run:
     print(text, end="")

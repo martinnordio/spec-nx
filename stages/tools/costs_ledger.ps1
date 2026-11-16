@@ -107,7 +107,7 @@ foreach ($path in $order) {
         $s = $spec.stages[$key]; $s[0] += $n; $s[1] += $value; $s[2] += $credits
         if ($head.ContainsKey('Note') -and $stage -eq 'implementation') {
             $step = [regex]::Match($cells[$head['Note']], 'Step (\d+)')
-            if ($step.Success) { $spec.steps += , @($step.Groups[1].Value, $n, $value, $credits, $cur) }
+            if ($step.Success) { $model = if ($head.ContainsKey('Model')) { $cells[$head['Model']] } else { '' }; $spec.steps += , @($step.Groups[1].Value, $n, $value, $credits, $cur, $model) }
         }
     }
     $specs += $spec
@@ -142,10 +142,10 @@ $out += "| **All specs** | | | | | | | | **$(Format-Cell $grand)** |"
 $stepRows = New-Object System.Collections.ArrayList
 foreach ($spec in $specs) { foreach ($st in $spec.steps) { [void]$stepRows.Add(@($spec.title, $st)) } }
 if ($stepRows.Count) {
-    $out += '', '## Implementation by Step', '', '| Spec | Step | Tokens | Cost |', '|------|------|--------|------|'
+    $out += '', '## Implementation by Step', '', '| Spec | Step | Model | Tokens | Cost |', '|------|------|-------|--------|------|'
     foreach ($r in $stepRows) {
         $st = $r[1]
-        $out += "| $($r[0]) | $($st[0]) | ~$(Format-Tokens $st[1]) | ~$($st[4]) $(([math]::Round($st[2], 2)).ToString('0.00', $inv)) ($(Format-Credits $st[3])) |"
+        $out += "| $($r[0]) | $($st[0]) | $($st[5]) | ~$(Format-Tokens $st[1]) | ~$($st[4]) $(([math]::Round($st[2], 2)).ToString('0.00', $inv)) ($(Format-Credits $st[3])) |"
     }
 }
 $text = ($out -join "`n") + "`n"

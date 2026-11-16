@@ -204,7 +204,7 @@ compatible with updates and with each other:
      copy its tokens and cost into the row; `N/A` and why if it cannot run. Without one, drop
      the Tokens and Cost columns.
    - **Cost summary** (only with a `cost` block): the sentence and the table by stage of
-     `COSTS.md` — one row `generator`, and the total; cost cells as in the Stage log
+     `COSTS.md` — one row `generator` with the model you are, and the total; cost cells as in the Stage log
      (`~CHF 0.96 (114 credits)`).
    - **Part 1 · Requirements:** *Context* — the spec-nx version and what the scan found;
      *Specs* — one statement per setting this run decided, asked or not (for example

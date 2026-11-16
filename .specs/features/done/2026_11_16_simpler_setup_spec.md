@@ -23,6 +23,7 @@
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.30 M (15 k in · 1.27 M cached · 8 k out) | ~CHF 0.41 (49 credits) | Step 7: Angular run checked (kit, requirements, close); open questions with suggestions; CLOSE cost cells; example `examples/tour-of-heroes` (from 13:25 UTC) |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~679 k (4 k in · 672 k cached · 3 k out) | ~CHF 0.18 (21 credits) | Step 7 done: commit `1a81dfb`; Python run checked; `uv init --app --no-package` (from 13:51 UTC) |
 | 2026-11-16 | implementation | `CLOSE:` | Claude Opus 5.5 | ~900 k (11 k in · 884 k cached · 6 k out) | ~CHF 0.29 (34 credits) | spec closed; example `examples/flaskr` (from 14:29 UTC) |
+| 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.21 M (11 k in · 1.20 M cached · 5 k out) | ~CHF 0.34 (40 credits) | Step 9 done (S23 added after closing); spec closed again; includes the release commit and tag (from 14:31 UTC) |
 
 > The work was done in one chat on `main`, turn by turn, before this spec was written: the
 > Stage log and the Steps record those turns after the fact. Every row was computed with
@@ -36,28 +37,29 @@
 
 ## Cost summary
 
-This feature used ~13.91 M tokens, ~CHF 3.95 — estimate, see [COSTS.md](../../../stages/COSTS.md).
+This feature used ~15.12 M tokens, ~CHF 4.29 — estimate, see [COSTS.md](../../../stages/COSTS.md).
 
-| Stage | Tokens | Cost (CHF) | Share of Copilot Business |
-|-------|--------|------------|---------------------------|
-| requirements | ~1.20 M | ~CHF 0.31 (37 credits) | 1.9 % |
-| implementation | ~12.71 M | ~CHF 3.64 (431 credits) | 22.7 % |
-| **Total** | **~13.91 M** | **~CHF 3.95 (468 credits)** | **24.6 %** |
+| Stage | Models | Tokens | Cost (CHF) | Share of Copilot Business |
+|-------|--------|--------|------------|---------------------------|
+| requirements | Claude Opus 5.5 | ~1.20 M | ~CHF 0.31 (37 credits) | 1.9 % |
+| implementation | Claude Opus 5.5 | ~13.92 M | ~CHF 3.98 (471 credits) | 24.8 % |
+| **Total** | | **~15.12 M** | **~CHF 4.29 (508 credits)** | **26.7 %** |
 
 **Implementation by Step**
 
-| Step | Tokens | Cost (CHF) | Share of Copilot Business |
-|------|--------|------------|---------------------------|
-| Step 1 | ~2.25 M | ~CHF 0.54 (65 credits) | 3.4 % |
-| Step 2 | ~759 k | ~CHF 0.17 (20 credits) | 1.0 % |
-| Step 3 | ~772 k | ~CHF 0.17 (20 credits) | 1.1 % |
-| Step 4 | ~1.44 M | ~CHF 0.36 (43 credits) | 2.3 % |
-| Step 5 | ~833 k | ~CHF 0.20 (24 credits) | 1.3 % |
-| Step 6 | ~2.08 M | ~CHF 0.52 (62 credits) | 3.3 % |
-| Step 7 | ~3.34 M | ~CHF 1.23 (146 credits) | 7.7 % |
-| Step 8 | ~344 k | ~CHF 0.15 (17 credits) | 0.9 % |
-| CLOSE | ~900 k | ~CHF 0.29 (34 credits) | 1.8 % |
-| **Total implementation** | **~12.71 M** | **~CHF 3.64 (431 credits)** | **22.7 %** |
+| Step | Model | Tokens | Cost (CHF) | Share of Copilot Business |
+|------|-------|--------|------------|---------------------------|
+| Step 1 | Claude Opus 5.5 | ~2.25 M | ~CHF 0.54 (65 credits) | 3.4 % |
+| Step 2 | Claude Opus 5.5 | ~759 k | ~CHF 0.17 (20 credits) | 1.0 % |
+| Step 3 | Claude Opus 5.5 | ~772 k | ~CHF 0.17 (20 credits) | 1.1 % |
+| Step 4 | Claude Opus 5.5 | ~1.44 M | ~CHF 0.36 (43 credits) | 2.3 % |
+| Step 5 | Claude Opus 5.5 | ~833 k | ~CHF 0.20 (24 credits) | 1.3 % |
+| Step 6 | Claude Opus 5.5 | ~2.08 M | ~CHF 0.52 (62 credits) | 3.3 % |
+| Step 7 | Claude Opus 5.5 | ~3.34 M | ~CHF 1.23 (146 credits) | 7.7 % |
+| Step 8 | Claude Opus 5.5 | ~344 k | ~CHF 0.15 (17 credits) | 0.9 % |
+| CLOSE | Claude Opus 5.5 | ~900 k | ~CHF 0.29 (34 credits) | 1.8 % |
+| Step 9 + CLOSE | Claude Opus 5.5 | ~1.21 M | ~CHF 0.34 (40 credits) | 2.1 % |
+| **Total implementation** | | **~13.92 M** | **~CHF 3.98 (471 credits)** | **24.8 %** |
 
 ---
 
@@ -167,6 +169,14 @@ documentation says how to change it for special cases.
   tokens and cost of the run in the Stage log and a cost summary; `.specs/costs.md` is
   rebuilt. The generator's report ends by pointing to that spec.
 
+**Models in the cost summary** (added after closing)
+
+- **S23 — Which model, in every cost table:** the cost summary written by `CLOSE:` shows the
+  models of each stage in the table by stage, and the model that ran each Step (and `CLOSE:`)
+  in the table by Step; the kit spec's table names the generator's model; the summary copied
+  into the issue and the pull request keeps both columns; `.specs/costs.md` shows the model of
+  each Step.
+
 ### Open questions
 
 None. The tutorial questions were answered on 2026-11-16 with the suggestions: Tour of Heroes
@@ -235,6 +245,7 @@ specs of both trial runs are in `examples/`.
 | **6** | Project start not asked, this spec (S11, S13) | ✅ Done | [→ Step 6](#step-6--project-start-not-asked-this-spec-s11-s13) |
 | **7** | Tutorial (S14–S21) | ✅ Done | [→ Step 7](#step-7--tutorial-s14s21) |
 | **8** | Kit spec (S22) | ✅ Done | [→ Step 8](#step-8--kit-spec-s22) |
+| **9** | Models in the cost summary (S23) | ✅ Done | [→ Step 9](#step-9--models-in-the-cost-summary-s23) |
 
 ### Decisions
 
@@ -451,6 +462,34 @@ Started: 2026-11-16 14:10
 **Done (2026-11-16 · ~2m · Claude Opus 5.5)** — the stage `generator` goes to the
 *Other* column of `.specs/costs.md`; `check_all.ps1`: 4 known placeholders. · ~344 k ·
 ~CHF 0.15
+
+---
+
+## Step 9 — Models in the cost summary (S23)
+
+### Goal
+Every cost table says which model the tokens were spent on.
+
+### Tasks
+- [x] Record the start time in Notes below.
+- [x] `stages/implementation/prompt.md` (`CLOSE:`): a **Models** column in the table by stage,
+      a **Model** column in the table by Step, and how to fill them from the Stage log.
+- [x] `stages/tools/README.md`: the summary format for the issue and the pull request with both
+      columns.
+- [x] `generator/prompt.md`: the kit spec's `generator` row names the model.
+- [x] `costs_ledger.ps1` / `.sh`: a **Model** column in *Implementation by Step*, from the Stage
+      log's Model column.
+- [x] This spec's own cost summary with both columns; `.specs/costs.md` rebuilt.
+- [x] `check_all.ps1`; both ledger scripts print the same file.
+
+### Notes
+Started: 2026-11-16 15:34
+
+The examples in `examples/` keep the tables their runs produced (before S23).
+
+**Done (2026-11-16 · ~5m · Claude Opus 5.5)** — Models / Model columns in the CLOSE
+template, the summary format and the ledger; kit spec row names the model. Both ledger scripts
+print the same file; `check_all.ps1`: 4 known placeholders. · ~1.21 M · ~CHF 0.34
 
 ---
 

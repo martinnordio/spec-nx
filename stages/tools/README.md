@@ -110,17 +110,17 @@ Built by the stage prompt from the spec file, in this form:
 ## Cost summary
 This feature used ~<tokens> tokens, ~<currency> <amount> — estimate, see [COSTS.md](<full URL of COSTS.md>).
 
-| Stage | Tokens | Cost (<currency>) | Share of <plan> |
-|-------|--------|-------------------|-----------------|
-| requirements | ~… | ~… | … % |
-| **Total** | **~…** | **~…** | **… %** |
+| Stage | Models | Tokens | Cost (<currency>) | Share of <plan> |
+|-------|--------|--------|-------------------|-----------------|
+| requirements | <model> | ~… | ~… | … % |
+| **Total** | | **~…** | **~…** | **… %** |
 
 **Implementation by Step**
 
-| Step | Tokens | Cost (<currency>) | Share of <plan> |
-|------|--------|-------------------|-----------------|
-| Step 1 | ~… | ~… | … % |
-| **Total implementation** | **~…** | **~…** | **… %** |
+| Step | Model | Tokens | Cost (<currency>) | Share of <plan> |
+|------|-------|--------|-------------------|-----------------|
+| Step 1 | <model> | ~… | ~… | … % |
+| **Total implementation** | | **~…** | **~…** | **… %** |
 
 **Plan**
 | Step | Description | Status |
