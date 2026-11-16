@@ -33,6 +33,8 @@ if not cost.get("enabled", True):
     sys.exit(0)
 
 link = a.costs_link
+if not link and os.path.exists(os.path.join(a.root, "stages", "COSTS.md")):
+    link = "../stages/COSTS.md"
 if not link:
     kit = project.get("kit_dir", ".specs/kit").rstrip("/")
     if kit.startswith(".specs/"):

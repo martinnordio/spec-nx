@@ -1,5 +1,6 @@
 # Local working notes, never pushed
 *.local.md
+.specs/spec-nx.local.json
 
 # Local trial runs of the generator (only the README is kept)
 testing/*
