@@ -8,6 +8,7 @@ exec python3 - "$@" <<'PY'
 import argparse, glob, json, os, re, sys
 from datetime import datetime, timezone
 
+sys.stdout.reconfigure(encoding="utf-8")
 p = argparse.ArgumentParser(prog="usage.sh")
 p.add_argument("--since", required=True)
 p.add_argument("--until")

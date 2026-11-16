@@ -82,6 +82,18 @@ Cost: ~CHF 0.48 (57 credits, 3.0 % of Copilot Business)
 Source: estimated from <transcript> · 17 requests
 ```
 
+`costs_ledger.ps1` / `costs_ledger.sh` rebuild `.specs/costs.md` — every spec in
+`.specs/features/` and `done/` with its tokens and cost per stage, per Step and in total, and
+the total of all specs — from the Tokens and Cost columns of the Stage logs; specs without
+them show `N/A`. Run at `CLOSE:`; after a merge conflict in `.specs/costs.md`, run it again.
+Parameters: `-Root` / `--root`, `-CostsLink` / `--costs-link` (path from `.specs/` to
+COSTS.md; default from `kit_dir`), `-DryRun` / `--dry-run` (print, write nothing).
+
+```
+pwsh stages/tools/costs_ledger.ps1 -DryRun
+bash stages/tools/costs_ledger.sh
+```
+
 ## The summary
 
 Built by the stage prompt from the spec file, in this form:
