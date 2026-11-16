@@ -198,7 +198,7 @@ at the start of stages, tracking of suggested vs. actual model.
 |------|-------------|-------------------|--------|--------|
 | **1** | Settings: Q7 `models`, the `cost` block | reasoning (Claude Opus 5.5) — settings contract | ✅ Done | [→ Step 1](#step-1--settings-q7-models-the-cost-block) |
 | **2** | Shared model rules for every stage | reasoning (Claude Opus 5.5) — sub-agent and fallback logic | ✅ Done | [→ Step 2](#step-2--shared-model-rules-for-every-stage) |
-| **3** | Plan: Model column and tier choice | standard (Claude Sonnet 5.5) — follows D1–D3 | ⬜ Not started | [→ Step 3](#step-3--plan-model-column-and-tier-choice) |
+| **3** | Plan: Model column and tier choice | standard (Claude Sonnet 5.5) — follows D1–D3 | ✅ Done | [→ Step 3](#step-3--plan-model-column-and-tier-choice) |
 | **4** | Implementation: one confirmation, sub-agents, tracking | reasoning (Claude Opus 5.5) — commits, stops, sub-agents | ⬜ Not started | [→ Step 4](#step-4--implementation-one-confirmation-sub-agents-tracking) |
 | **5** | Usage script: tokens and price | reasoning (Claude Opus 5.5) — transcript parsing, two shells | ⬜ Not started | [→ Step 5](#step-5--usage-script-tokens-and-price) |
 | **6** | COSTS.md and token columns in every stage | standard (Claude Sonnet 5.5) — text in known places | ⬜ Not started | [→ Step 6](#step-6--costsmd-and-token-columns-in-every-stage) |
@@ -305,15 +305,23 @@ tokens and cost: Step 9
 Plans give each Step a tier with a reason, chosen for quality and cost (S4, S8).
 
 ### Tasks
-- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
-- [ ] `stages/plan/prompt.md`: with per Step, a **Model (suggested)** column — tier, model and
+- [x] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [x] `stages/plan/prompt.md`: with per Step, a **Model (suggested)** column — tier, model and
       a few words why; start from `guide`, pick the cheapest tier that does the Step well;
       without per Step, no column.
-- [ ] `stages/spec_template.md`: the column in **2 · Spec Overview** (marked optional) and its
+- [x] `stages/spec_template.md`: the column in **2 · Spec Overview** (marked optional) and its
       comment.
-- [ ] Check: this spec's own table follows the new rule; `check_all.ps1` passes.
+- [x] Check: this spec's own table follows the new rule; `check_all.ps1` passes.
 
 ### Notes
+Started: 2026-11-16 09:08
+
+**Done (2026-11-16 · ~4m · Claude Opus 5.5)** — The plan prompt fills **Model (suggested)**
+as `<tier> (<model>) — <why>` from the `guide`, choosing the cheapest tier that does the
+Step well, and lists the tiers in its report; the template has the optional column and a
+comment. This spec's table already has that shape. `check_all.ps1`: 4 known placeholders. ·
+suggested: standard (Claude Sonnet 5.5) · ran: Claude Opus 5.5 (one chat on a fixed model; no
+sub-agent switch before Step 4 exists) · tokens and cost: Step 9
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---
