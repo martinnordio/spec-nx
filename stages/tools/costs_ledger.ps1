@@ -48,6 +48,10 @@ function Format-Cell($v) {
     if ($null -eq $v) { return 'N/A' }
     return '~' + (Format-Tokens $v[0]) + $dot + '~' + $currency + ' ' + ([math]::Round($v[1], 2)).ToString('0.00', $inv)
 }
+function Format-Credits([double] $n) {
+    $r = [math]::Round($n)
+    return $r.ToString('0', $inv) + $(if ($r -eq 1) { ' credit' } else { ' credits' })
+}
 function Get-Tokens([string] $text) {
     $m = [regex]::Match($text, '([0-9][0-9,]*(?:\.[0-9]+)?)\s*([kM])')
     if (-not $m.Success) { return $null }
@@ -92,7 +96,7 @@ foreach ($path in $order) {
         $n = Get-Tokens $cells[$head['Tokens']]
         if ($null -eq $n) { continue }
         $money = [regex]::Match($cells[$head['Cost']], '([A-Z]{3})\s*([0-9]+(?:\.[0-9]+)?)')
-        $cr = [regex]::Match($cells[$head['Cost']], '([0-9][0-9,]*(?:\.[0-9]+)?)\s*credits')
+        $cr = [regex]::Match($cells[$head['Cost']], '([0-9][0-9,]*(?:\.[0-9]+)?)\s*credits?')
         $value = if ($money.Success) { [double]::Parse($money.Groups[2].Value, $inv) } else { 0.0 }
         $credits = if ($cr.Success) { [double]::Parse($cr.Groups[1].Value.Replace(',', ''), $inv) } else { 0.0 }
         $cur = if ($money.Success) { $money.Groups[1].Value } else { $currency }
@@ -130,7 +134,7 @@ $today = (Get-Date).ToString('yyyy-MM-dd', $inv)
 $out = @('# Cost of the specs', '',
     "> Estimate $dash see [COSTS.md]($CostsLink). **All costs are estimates and may be wrong.** Rebuilt by",
     "> ``costs_ledger`` from the Stage logs on $today; do not edit by hand.", '',
-    ('**All specs: ~' + (Format-Tokens $grand[0]) + $dot + '~' + $currency + ' ' + ([math]::Round($grand[1], 2)).ToString('0.00', $inv) + ' (' + ([math]::Round($grand[2])).ToString('0', $inv) + ' credits)**'), '',
+    ('**All specs: ~' + (Format-Tokens $grand[0]) + $dot + '~' + $currency + ' ' + ([math]::Round($grand[1], 2)).ToString('0.00', $inv) + ' (' + (Format-Credits $grand[2]) + ')**'), '',
     '| Spec | Status | Requirements | Plan | Implementation | Other | Total |',
     '|------|--------|--------------|------|----------------|-------|-------|')
 $out += $rows
@@ -141,7 +145,7 @@ if ($stepRows.Count) {
     $out += '', '## Implementation by Step', '', '| Spec | Step | Tokens | Cost |', '|------|------|--------|------|'
     foreach ($r in $stepRows) {
         $st = $r[1]
-        $out += "| $($r[0]) | $($st[0]) | ~$(Format-Tokens $st[1]) | ~$($st[4]) $(([math]::Round($st[2], 2)).ToString('0.00', $inv)) ($(([math]::Round($st[3])).ToString('0', $inv)) credits) |"
+        $out += "| $($r[0]) | $($st[0]) | ~$(Format-Tokens $st[1]) | ~$($st[4]) $(([math]::Round($st[2], 2)).ToString('0.00', $inv)) ($(Format-Credits $st[3])) |"
     }
 }
 $text = ($out -join "`n") + "`n"

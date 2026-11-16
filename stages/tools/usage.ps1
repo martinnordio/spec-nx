@@ -176,5 +176,7 @@ $tilde = if ($vscode) { '~' } else { '' }
 $dot = ' ' + [char]0x00B7 + ' '
 Write-Output ("Tokens: {0}{1} ({2} in{3}{4} cached{3}{5} out)" -f $tilde, (Format-Tokens $total), (Format-Tokens $t.input), $dot, (Format-Tokens $t.cached), (Format-Tokens $t.output))
 $planText = if ($null -ne $share) { ', ' + $share.ToString('0.0', $inv) + ' % of ' + $(if ($cost['plan']) { $cost['plan'] } else { 'the plan' }) } else { '' }
-Write-Output ("Cost: {0}{1} {2} ({3} credits{4})" -f $tilde, $currency, ([math]::Round($localAmount, 2)).ToString('0.00', $inv), ([math]::Round($credits)).ToString('0', $inv), $planText)
+$creditsRounded = [math]::Round($credits)
+$creditsWord = if ($creditsRounded -eq 1) { 'credit' } else { 'credits' }
+Write-Output ("Cost: {0}{1} {2} ({3} {4}{5})" -f $tilde, $currency, ([math]::Round($localAmount, 2)).ToString('0.00', $inv), $creditsRounded.ToString('0', $inv), $creditsWord, $planText)
 Write-Output ("Source: {0} from {1}{2}{3} requests" -f $source, $Transcript, $dot, $t.requests)
