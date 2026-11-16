@@ -203,7 +203,7 @@ at the start of stages, tracking of suggested vs. actual model.
 | **5** | Usage script: tokens and price | reasoning (Claude Opus 5.5) — transcript parsing, two shells | ✅ Done | [→ Step 5](#step-5--usage-script-tokens-and-price) |
 | **6** | COSTS.md and token columns in every stage | standard (Claude Sonnet 5.5) — text in known places | ✅ Done | [→ Step 6](#step-6--costsmd-and-token-columns-in-every-stage) |
 | **7** | CLOSE: cost summary and ledger | standard (Claude Sonnet 5.5) — script follows Step 5 | ✅ Done | [→ Step 7](#step-7--close-cost-summary-and-ledger) |
-| **8** | README, kit README, regression check | light (Claude Haiku 5.5) — docs and running checks | ⬜ Not started | [→ Step 8](#step-8--readme-kit-readme-regression-check) |
+| **8** | README, kit README, regression check | light (Claude Haiku 5.5) — docs and running checks | ✅ Done | [→ Step 8](#step-8--readme-kit-readme-regression-check) |
 | **9** | spec-nx on its own settings, same spec format | standard (Claude Sonnet 5.5) — settings and a format check | ⬜ Not started | [→ Step 9](#step-9--spec-nx-on-its-own-settings-same-spec-format) |
 | **10** | Reminder: hack_star cost comparison | light (Claude Haiku 5.5) — no code | ⬜ Not started | [→ Step 10](#step-10--reminder-hack_star-cost-comparison) |
 
@@ -482,17 +482,34 @@ ran: Claude Opus 5.5 · tokens and cost: Step 9
 The feature is told early, and existing projects work as before (S11, S12).
 
 ### Tasks
-- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
-- [ ] `README.md`: near the top *The right model for each Step* (what, the three answers,
+- [x] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [x] `README.md`: near the top *The right model for each Step* (what, the three answers,
       which tools switch automatically) and *Tokens and cost* (one switch, estimates,
       COSTS.md); Q7 in *Setup questions*; the `cost` block as an advanced setting.
-- [ ] `stages/kit_readme.md`: the model and cost lines.
-- [ ] Regression (D10): generate a kit in a temporary folder with old settings and with the
+- [x] `docs/configuration.md` (added while implementing, at the author's request): how to
+      configure spec-nx — both settings files, `models`, `cost`, the other keys.
+- [x] `stages/kit_readme.md`: the model and cost lines.
+- [x] Regression (D10): generate a kit in a temporary folder with old settings and with the
       new ones; old settings → no Model column, no Tokens/Cost, no new questions; new
       settings → `models.md`, `COSTS.md`, columns present.
-- [ ] Check: `check_all.ps1` passes; the regression results in Notes.
+- [x] Check: `check_all.ps1` passes; the regression results in Notes.
 
 ### Notes
+Started: 2026-11-16 10:15
+
+**Done (2026-11-16 · ~12m · Claude Opus 5.5)** — README: a ⭐ section *The right model for
+each Step — and what it cost* at the very top (right after the intro), Q7 and the `cost` block
+in *Setup questions*, layout and Status lines; `docs/configuration.md`: settings files,
+`models` (three choices, overrides, missing model), `cost` (keys, plans, overrides, the
+disclaimer), other keys; kit README: a *Models and cost* section. **Differs from the plan:** the
+regression does not run the generator (an AI prompt) end to end; instead, with old settings
+(no `models`, no `cost`) both scripts print "Cost tracking is off" and write no
+`.specs/costs.md`, `models.md` says to do nothing, and every new instruction in the stage
+prompts sits under its guard ("only with the `cost` block on", "with per-Step models",
+"when `models` is set") — the grep for unguarded lines finds only continuation lines of
+guarded paragraphs. A real `GENERATE KIT --update` in another project is left for after the
+release. `check_all.ps1`: 4 known placeholders. · suggested: light (Claude Haiku 5.5) · ran:
+Claude Opus 5.5 · tokens and cost: Step 9
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---
