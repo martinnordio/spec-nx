@@ -110,6 +110,11 @@ compatible with updates and with each other:
      `shells`; `model` (the name of the model you are) when the kit is shared.
    - `.specs/spec-nx.local.json`: `version`, `shell`; `stages`, `on_demand` and `model` when
      the kit is personal.
+   - `models` (Q7) in `.specs/spec-nx.json`; never overwrite a developer's `models` in the
+     local file.
+   - The `cost` block with its defaults (`generator/questions.md`, *The `cost` block*) — only
+     when `.specs/spec-nx.json` did not exist before this run. `--update` and `--force` never
+     add or change it; without it, nothing about tokens or cost is calculated.
    - `.gitignore` of the project: add `.specs/spec-nx.local.json`; add `.specs/kit/` when the
      kit is personal. Do not change other lines.
 
@@ -181,6 +186,8 @@ compatible with updates and with each other:
    (the whole workflow is in `<kit_ref>/README.md`). With a project setup spec, start with
    `Load <kit_ref>/implementation/prompt.md` → `IMPLEMENT: <project spec>` instead.
    Remind the user to commit `.specs/spec-nx.json` (and the kit when shared).
+   Show the model mapping (Q7) and whether cost tracking is on; when it is, say in one line
+   that **all costs are estimates and may be wrong** and link `<kit_ref>/COSTS.md`.
 
 ## GENERATE KIT --update
 
@@ -197,7 +204,8 @@ compatible with updates and with each other:
    repository suggests something else, show both. Keep the answers the user confirms, save the
    changed ones. Never write a second project setup spec (Q0c is not asked again when
    `project_spec` names a file). A changed `kit_dir` removes the old kit's `kit_files` first.
-3. Update `spec_nx_version`, `generated` and `model`; keep every other answer. Read the company
+3. Update `spec_nx_version`, `generated` and `model`; keep every other answer — including the
+   `cost` block, which `--update` never adds or changes. Read the company
    layer again (`layer`), if there is one: it may have changed with its repository.
 4. Regenerate `.specs/kit/` as in steps 5–6 above, from the current building blocks and with
    the current model.

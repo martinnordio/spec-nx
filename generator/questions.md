@@ -11,7 +11,7 @@ questions whose key is missing (questions added to spec-nx later). `GENERATE KIT
 | Level | File | Shared? | Holds |
 |-------|------|---------|-------|
 | **Project** | `.specs/spec-nx.json` | Committed; the same for the whole team | What the project is and how the team works: project start, languages, stages, git host, issues, the shells the kit supports |
-| **Developer** | `.specs/spec-nx.local.json` | Ignored by git; one per developer | How *you* work: your shell |
+| **Developer** | `.specs/spec-nx.local.json` | Ignored by git; one per developer | How *you* work: your shell; overrides of `models` and `cost` |
 
 The questions are **asked in the order of this table**:
 
@@ -32,6 +32,10 @@ The questions are **asked in the order of this table**:
 | Q4b | Kit folder — where should the kit go? | project | `kit_dir` | `".specs/kit"` |
 | Q4c | Kit used from other repositories — under which folder? (only when `kit_dir` is not the default) | project | `kit_ref` | `kit_dir` |
 | Q6 | AI agent permissions — for which agents? | project | `agent` | the agents found |
+| Q7 | Model per Step — should spec-nx choose the model? | project | `models` | per Step, with the default mapping |
+
+Not a question: the **`cost` block** (tokens and price of every stage) is written with its
+defaults by the first `GENERATE KIT` and changed by hand — see [The `cost` block](#the-cost-block).
 
 New questions get the next number and their own key; existing keys never change meaning.
 
@@ -391,6 +395,76 @@ after the user agrees.
 
 ---
 
+## Q7 · Model per Step
+
+**Ask:** *Should spec-nx choose the AI model for each stage and Step — a strong model where it
+matters, a cheaper one for routine work?*
+
+| Option | `models` |
+|--------|----------|
+| **Per Step** (default) | `{ "reasoning": "<model>", "standard": "<model>", "light": "<model>", "guide": { … } }` |
+| **Fixed** — one model for everything | `{ "fixed": "<model>" }` |
+| **No** — always the model selected in my tool | `null` |
+
+**Per Step** proposes the default mapping, then asks to confirm or change each tier:
+
+| Tier | Default | Used for (`guide`) |
+|------|---------|--------------------|
+| `reasoning` | Claude Opus 5.5 | Requirements, plans, architecture, refactorings, security, tricky logic, open decisions, and other complex work such as Steps heavy in graphics definitions |
+| `standard` | Claude Sonnet 5.5 | Implementation that follows a clear plan, with tests |
+| `light` | Claude Haiku 5.5 | Mechanical edits, renames, copies, docs |
+
+The `guide` texts are saved with the answer; teams edit them by hand. They are a starting
+point: the plan stage judges each Step and picks the cheapest tier that does it well.
+
+**Suggest from the tool:** where the tool shows its model list (VS Code Copilot: the model
+picker), check that each default is enabled and offer the nearest enabled model of the same
+kind otherwise. Where it does not, say so and ask for the exact names from the model picker
+(Claude Code: the aliases `opus`, `sonnet`, `haiku`). **Fixed** suggests the model you are
+running on. Never invent a model name.
+
+**Effect:** the stage prompts follow `stages/models.md` — check the model at the start, run
+as a sub-agent on the configured model where the tool allows it, and record the suggested and
+the actual model. `null` or a missing key: nothing is checked, switched or asked. A developer
+can override the names — or set `null` to always use their tool's model — in
+`.specs/spec-nx.local.json`.
+
+---
+
+## The `cost` block
+
+Not asked. The first `GENERATE KIT` in a project writes it into `.specs/spec-nx.json` with
+these defaults; teams change it by hand, a developer overrides keys in
+`.specs/spec-nx.local.json`. `GENERATE KIT --update` never adds it: **no `cost` block, or
+`enabled: false`, means no tokens and no cost are calculated or written.**
+
+```json
+"cost": {
+  "enabled": true,
+  "plan": "Copilot Business",
+  "monthly_price_usd": 19,
+  "monthly_credits": 1900,
+  "currency": "CHF",
+  "rate": 0.8384,
+  "rate_date": "2026-11-13"
+}
+```
+
+| Key | Meaning |
+|-----|---------|
+| `enabled` | `true`: every stage records its tokens and their price (`COSTS.md`); `false`: nothing |
+| `plan` | Name of the subscription, shown in the cost summary |
+| `monthly_price_usd`, `monthly_credits` | Price and monthly base credits of the plan (1 GitHub AI credit = $0.01); the share of the subscription is cost ÷ `monthly_credits` |
+| `currency`, `rate`, `rate_date` | Local currency, its units per USD and the date of that rate |
+| `prices` | Optional: `{ "<model>": { "input": 400, "cache_write": 500, "cached": 20, "output": 2000 } }` in credits per 1 M tokens, for tools that do not publish their prices |
+| `base_tokens` | Optional: tokens of system prompt and tools sent with every request in estimates (default 35000) |
+
+The defaults follow GitHub's public plans page and the European Central Bank reference rate of
+`rate_date`; `COSTS.md` in the kit names the sources and says that **all costs are
+estimates and may be wrong**.
+
+---
+
 ## `.specs/spec-nx.json` (project)
 
 Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the project.
@@ -410,6 +484,17 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
   "shells": ["powershell", "bash"],
   "kit": "shared",
   "agent": ["copilot"],
+  "models": {
+    "reasoning": "Claude Opus 5.5",
+    "standard": "Claude Sonnet 5.5",
+    "light": "Claude Haiku 5.5",
+    "guide": {
+      "reasoning": "Requirements, plans, architecture, refactorings, security, tricky logic, open decisions, complex work such as graphics-heavy Steps",
+      "standard": "Implementation that follows a clear plan, with tests",
+      "light": "Mechanical edits, renames, copies, docs"
+    }
+  },
+  "cost": { "enabled": true, "plan": "Copilot Business", "monthly_price_usd": 19, "monthly_credits": 1900, "currency": "CHF", "rate": 0.8384, "rate_date": "2026-11-13" },
   "model": "<AI model that generated the kit>"
 }
 ```
@@ -436,6 +521,8 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `kit_ref` | Answer to Q4c (missing = `kit_dir`). |
 | `kit_files` | Top-level files and folders of the last generation, relative to `kit_dir` (only when `kit_dir` is not `".specs/kit"`). |
 | `agent` | Answer to Q6: the AI agents whose permissions the generator writes. |
+| `models` | Answer to Q7: the model per tier with its `guide`, one `fixed` model, or `null` (missing = `null`). |
+| `cost` | The `cost` block (not asked; missing = disabled). |
 | `model` | AI model that generated the shared kit (only when `kit` is `"shared"`). Not the model of a stage run: the Stage log names the model that ran each command. |
 
 ## `.specs/spec-nx.local.json` (developer)
@@ -456,3 +543,5 @@ Written by `GENERATE KIT` on each developer's computer; never committed.
 | `stages` | Answer to Q1 (only when the project's `kit` is `"personal"`). |
 | `on_demand` | Answer to Q1b (only when the project's `kit` is `"personal"`). |
 | `model` | AI model that generated your personal kit (only when `kit` is `"personal"`). Not the model of a stage run. |
+| `models` | Optional: your own model names (any tier, or `fixed`), or `null` to always use the model selected in your tool. Wins over the project's `models`. |
+| `cost` | Optional: keys of the `cost` block that differ for you (for example `currency` and `rate`, or `enabled: false`). |
