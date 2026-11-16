@@ -18,7 +18,8 @@
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~833 k (5 k in · 826 k cached · 3 k out) | ~CHF 0.20 (24 credits) | Step 5 done; impact of S11 analysed |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~2.08 M (13 k in · 2.06 M cached · 7 k out) | ~CHF 0.52 (62 credits) | Step 6 done; this spec written and closed (until 12:42 UTC) |
 | 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~751 k (6 k in · 743 k cached · 3 k out) | ~CHF 0.20 (23 credits) | Tutorial drafted (S14–S21), open questions; Step 7 added; spec reopened (from 12:49 UTC) |
-| 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~963 k (45 k in · 911 k cached · 7 k out) | ~CHF 0.46 (55 credits) | Step 7: open questions answered; tutorials and README section written (from 12:51 UTC) |
+| 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.36 M (52 k in · 1.29 M cached · 12 k out) | ~CHF 0.64 (76 credits) | Step 7: open questions answered; tutorials and README section written; trial step 1 checked; commit `760260b` (12:51–13:10 UTC) |
+| 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~344 k (6 k in · 334 k cached · 4 k out) | ~CHF 0.15 (17 credits) | Step 8 done (from 13:10 UTC) |
 
 > The work was done in one chat on `main`, turn by turn, before this spec was written: the
 > Stage log and the Steps record those turns after the fact. Every row was computed with
@@ -32,13 +33,13 @@
 
 ## Cost summary
 
-This feature used ~10.29 M tokens, ~CHF 2.74 — estimate, see [COSTS.md](../../../stages/COSTS.md).
+This feature used ~11.03 M tokens, ~CHF 3.07 — estimate, see [COSTS.md](../../../stages/COSTS.md).
 
 | Stage | Tokens | Cost (CHF) | Share of Copilot Business |
 |-------|--------|------------|---------------------------|
 | requirements | ~1.20 M | ~CHF 0.31 (37 credits) | 1.9 % |
-| implementation | ~9.09 M | ~CHF 2.43 (289 credits) | 15.2 % |
-| **Total** | **~10.29 M** | **~CHF 2.74 (326 credits)** | **17.2 %** |
+| implementation | ~9.83 M | ~CHF 2.76 (327 credits) | 17.2 % |
+| **Total** | **~11.03 M** | **~CHF 3.07 (364 credits)** | **19.2 %** |
 
 **Implementation by Step**
 
@@ -50,8 +51,9 @@ This feature used ~10.29 M tokens, ~CHF 2.74 — estimate, see [COSTS.md](../../
 | Step 4 | ~1.44 M | ~CHF 0.36 (43 credits) | 2.3 % |
 | Step 5 | ~833 k | ~CHF 0.20 (24 credits) | 1.3 % |
 | Step 6 + CLOSE | ~2.08 M | ~CHF 0.52 (62 credits) | 3.3 % |
-| Step 7 (so far) | ~963 k | ~CHF 0.46 (55 credits) | 2.9 % |
-| **Total implementation** | **~9.09 M** | **~CHF 2.43 (289 credits)** | **15.2 %** |
+| Step 7 (so far) | ~1.36 M | ~CHF 0.64 (76 credits) | 4.0 % |
+| Step 8 | ~344 k | ~CHF 0.15 (17 credits) | 0.9 % |
+| **Total implementation** | **~9.83 M** | **~CHF 2.76 (327 credits)** | **17.2 %** |
 
 ---
 
@@ -153,6 +155,14 @@ documentation says how to change it for special cases.
 - **S21 — Tried before published:** each tutorial is run end to end in a scratch repository
   in `testing/`; its real Stage log and cost are the example numbers in the tutorial.
 
+**Kit spec**
+
+- **S22 — The setup is a spec:** `GENERATE KIT` (and `--update`) ends by writing a closed spec
+  in `.specs/features/done/` dated today: the settings it decided as statements, one Step
+  "Generate the kit" with the files written and the checks, and — with cost tracking — the
+  tokens and cost of the run in the Stage log and a cost summary; `.specs/costs.md` is
+  rebuilt. The generator's report ends by pointing to that spec.
+
 ### Open questions
 
 None. The tutorial questions were answered on 2026-11-16 with the suggestions: Tour of Heroes
@@ -199,6 +209,7 @@ command.
 | **5** | Backlog item type not asked (S10) | ✅ Done | [→ Step 5](#step-5--backlog-item-type-not-asked-s10) |
 | **6** | Project start not asked, this spec (S11, S13) | ✅ Done | [→ Step 6](#step-6--project-start-not-asked-this-spec-s11-s13) |
 | **7** | Tutorial (S14–S21) | 🔄 In progress | [→ Step 7](#step-7--tutorial-s14s21) |
+| **8** | Kit spec (S22) | ✅ Done | [→ Step 8](#step-8--kit-spec-s22) |
 
 ### Decisions
 
@@ -365,7 +376,35 @@ A newcomer goes once through the whole workflow on a known app, in Angular or in
 Started: 2026-11-16 13:52
 
 Tutorials written; `check_all.ps1`: 4 known placeholders. Not yet tried end to end.
+
+First trial (Angular, 2026-11-16): step 1 checked — Angular 22.2, Vitest, build and 2 tests
+pass; the first commit is on `master`, so the merge command now names `master` or `main`.
+The run was stopped at step 2: the submodule was added before the simpler questions were
+pushed; it restarts from scratch on `760260b` or later.
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 8 — Kit spec (S22)
+
+### Goal
+The kit setup is recorded as the project's first spec, with its cost.
+
+### Tasks
+- [x] Record the start time in Notes below.
+- [x] `generator/prompt.md`: note the start time (step 1); new step 9 *Kit spec* (file name,
+      header, Stage log row with `usage`, cost summary, the settings as statements, one Step,
+      `costs_ledger`); the report ends with the spec's path; `--update` writes a kit update
+      spec; *Never* and the file table allow the kit spec.
+- [x] Tutorials (step 2) and README (*How it works*) mention the kit spec.
+- [x] `check_all.ps1`.
+
+### Notes
+Started: 2026-11-16 14:10
+
+**Done (2026-11-16 · ~2m · Claude Opus 5.5)** — the stage `generator` goes to the
+*Other* column of `.specs/costs.md`; `check_all.ps1`: 4 known placeholders. · ~344 k ·
+~CHF 0.15
 
 ---
 

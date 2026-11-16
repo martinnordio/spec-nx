@@ -159,7 +159,7 @@ follow).
        kit/               your generated kit: stage prompts, spec template, git-host tools
        guidelines/        your project's own coding rules (GUIDELINES:)
        features/          your specs, yyyy_mm_dd_<name>_spec.md
-       features/done/     closed specs
+       features/done/     closed specs — the first one records the kit setup and its cost
    ```
 
 4. **Use the kit**, stage by stage — for example:

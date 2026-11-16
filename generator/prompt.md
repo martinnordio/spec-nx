@@ -51,7 +51,7 @@ This file is `<spec-nx>/generator/prompt.md`, where `<spec-nx>` is spec-nx in th
 | `.specs/spec-nx.local.json` | Developer settings (not committed) |
 | `.specs/kit/` | The generated kit — replaced on every generation (another folder with Q4b `kit_dir`) |
 | `<layer>/` | A company layer, if the project uses one (`layer` in the settings) |
-| `.specs/features/` | The project's specs — **never** changed by the generator |
+| `.specs/features/` | The project's specs — **never** changed by the generator; it only adds the project setup spec and its own kit spec |
 
 Below, `.specs/kit/` stands for the kit folder `kit_dir`; paths the kit **shows** to its users
 start with `kit_ref` (Q4c), e.g. `Load <kit_ref>/requirements/prompt.md`.
@@ -84,7 +84,8 @@ compatible with updates and with each other:
 
 ## GENERATE KIT
 
-1. **Read the settings.** Load `.specs/spec-nx.json` and `.specs/spec-nx.local.json` if they
+1. **Read the settings.** Note the start time of this run (the real clock time, for the kit
+   spec in step 9). Load `.specs/spec-nx.json` and `.specs/spec-nx.local.json` if they
    exist. Every question whose key already has a value is not asked again.
 
    **Find the company layer** (Q5, see `generator/layer.md`): `layer` from the settings, or a
@@ -190,7 +191,32 @@ compatible with updates and with each other:
    build the lists from the project's tools (and the layer's `agent/permissions.json`), then
    create the agent's file or show a diff that only adds entries.
 
-9. **Report:** the answers, the kit's files, what was adapted (one line per file), what came
+9. **Kit spec.** Record this run as a closed spec, so the project's history starts with it:
+   `.specs/features/done/<yyyy_mm_dd>_spec_nx_kit_spec.md` (today's date; with `--update`,
+   `<yyyy_mm_dd>_spec_nx_kit_update_spec.md`). If the file already exists (a second run the
+   same day), add a Stage log row and update the rest instead of writing a new file. In the
+   shape of `stages/spec_template.md`, kept short:
+   - Title `spec-nx Kit Spec` (or `spec-nx Kit Update Spec`); header: **Status** `✅ Complete`,
+     **Created** / **Last updated** today, **Branch** the current branch.
+   - **Stage log**, one row: today, `generator`, `GENERATE KIT` (or `GENERATE KIT --update`),
+     the model you are, note `kit generated`. With a `cost` block: run
+     `<kit_dir>/tools/usage` from the start time of step 1 with your model (`COSTS.md`) and
+     copy its tokens and cost into the row; `N/A` and why if it cannot run. Without one, drop
+     the Tokens and Cost columns.
+   - **Cost summary** (only with a `cost` block): the sentence and the table by stage of
+     `COSTS.md` — one row `generator`, and the total.
+   - **Part 1 · Requirements:** *Context* — the spec-nx version and what the scan found;
+     *Specs* — one statement per setting this run decided, asked or not (for example
+     `S1 — Project: existing`, `S2 — Languages: typescript`, `S3 — Workflow: Simple —
+     requirements, plan, implementation, pr`, the shell, the models, cost tracking); no open
+     questions.
+   - **Part 2 · Plan:** one Step `Generate the kit`, `✅ Done`, with its tasks ticked (settings,
+     kit, checks, agent permissions, project setup spec if any) and a Done line: the files
+     written and the results of step 6.
+
+   With a `cost` block, rebuild `.specs/costs.md` with `<kit_dir>/tools/costs_ledger`.
+
+10. **Report:** the answers, the kit's files, what was adapted (one line per file), what came
    from the company layer (one line per file), the checks,
    and how to start: `Load <kit_ref>/requirements/prompt.md` → `REQUIREMENTS: <name> — <request>`
    (the whole workflow is in `<kit_ref>/README.md`). With a project setup spec, start with
@@ -198,6 +224,7 @@ compatible with updates and with each other:
    Remind the user to commit `.specs/spec-nx.json` (and the kit when shared).
    Show the model mapping (Q7) and whether cost tracking is on; when it is, say in one line
    that **all costs are estimates and may be wrong** and link `<kit_ref>/COSTS.md`.
+   End with: *"What was set up, and what it cost: `<kit spec>`."*
 
 ## GENERATE KIT --update
 
@@ -218,14 +245,14 @@ compatible with updates and with each other:
    `cost` block, which `--update` never adds or changes. Read the company
    layer again (`layer`), if there is one: it may have changed with its repository.
 4. Regenerate `.specs/kit/` as in steps 5–6 above, from the current building blocks and with
-   the current model.
+   the current model, and write the kit update spec as in step 9.
 5. Report what changed in the kit compared to before (new or removed files, notable changes),
    the old and new `spec_nx_version` / `model`, and the answers used (with `--force`: which
-   answers changed).
+   answers changed); end with the path of the kit update spec.
 
 ## Never
 
 - Change, move or delete anything in `.specs/features/` (the generator only **adds** the
-  project setup spec, Q0c).
+  project setup spec, Q0c, and its own kit spec, step 9).
 - Write tokens, passwords or personal data into the settings or the kit.
 - Commit or push — the user does that.

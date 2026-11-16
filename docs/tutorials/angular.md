@@ -58,7 +58,9 @@ host*) and suggests an answer to each question. For this tutorial:
 | Model per Step | **per Step** with the suggested models |
 
 You get `.specs/kit/` (the stage prompts), `.specs/spec-nx.json` (your answers, with cost
-tracking on) and the agent permissions. Commit them:
+tracking on), the agent permissions, and a first, closed spec:
+`.specs/features/done/<date>_spec_nx_kit_spec.md` — what was set up and what it cost. The
+assistant ends by pointing to it; have a look. Commit everything:
 
 ```
 git add -A
