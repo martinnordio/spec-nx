@@ -3,7 +3,7 @@
 > Estimate — see [COSTS.md](../stages/COSTS.md). **All costs are estimates and may be wrong.** Rebuilt by
 > `costs_ledger` from the Stage logs on 2026-11-16; do not edit by hand.
 
-**All specs: ~21.46 M · ~CHF 6.39 (764 credits)**
+**All specs: ~21.55 M · ~CHF 6.41 (766 credits)**
 
 | Spec | Status | Requirements | Plan | Implementation | Other | Total |
 |------|--------|--------------|------|----------------|-------|-------|
@@ -14,9 +14,9 @@
 | [Kit Folder](features/done/2026_11_13_kit_folder_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
 | [Spec-Kit Migration](features/done/2026_11_13_spec_kit_migration_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
 | [Model Name in Logs](features/done/2026_11_14_model_name_in_logs_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
-| [The Right Model and Cost for Each Step](features/2026_11_14_model_per_step_spec.md) | 🔄 In progress | ~5.72 M · ~CHF 1.83 | ~3.10 M · ~CHF 1.01 | ~12.65 M · ~CHF 3.55 | — | ~21.46 M · ~CHF 6.39 |
+| [The Right Model and Cost for Each Step](features/2026_11_14_model_per_step_spec.md) | 🔄 In progress | ~5.72 M · ~CHF 1.83 | ~3.10 M · ~CHF 1.01 | ~12.73 M · ~CHF 3.57 | — | ~21.55 M · ~CHF 6.41 |
 | [Update Without Questions](features/done/2026_11_14_update_without_questions_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A |
-| **All specs** | | | | | | **~21.46 M · ~CHF 6.39** |
+| **All specs** | | | | | | **~21.55 M · ~CHF 6.41** |
 
 ## Implementation by Step
 
@@ -31,3 +31,4 @@
 | The Right Model and Cost for Each Step | 7 | ~2.12 M | ~CHF 0.59 (71 credits) |
 | The Right Model and Cost for Each Step | 8 | ~1.88 M | ~CHF 0.45 (54 credits) |
 | The Right Model and Cost for Each Step | 9 | ~1.64 M | ~CHF 0.58 (69 credits) |
+| The Right Model and Cost for Each Step | 10 | ~85 k | ~CHF 0.02 (2 credits) |
