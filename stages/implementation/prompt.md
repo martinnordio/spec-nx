@@ -186,7 +186,9 @@ Only with per-Step models (`models` has tiers). Fixed or no `models`: one Step p
      where they are).
 
 7. **Report** and suggest the commit `Close the spec (#<issue>)`. If the kit has the pr
-   stage, the next step is `PR: <spec file>` — the closed spec ships in the same pull request.
+   stage, the next step is `PR: <spec file>` — the closed spec ships in the same pull request,
+   and the pull request and the issue / backlog item get the **Cost summary**. Without the pr
+   stage but with an issue, suggest `UPDATE ISSUE: <spec file>` after the push, for the same.
 
 ## Never
 
