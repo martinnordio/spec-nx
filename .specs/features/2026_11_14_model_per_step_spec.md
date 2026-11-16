@@ -21,13 +21,16 @@
 | 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~281 k (4 k in · 274 k cached · 3 k out) | Default models (S2), task-based tiers (S4), Cost summary (S17), CHF, missing settings = off (S18) |
 | 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~942 k (11 k in · 925 k cached · 5 k out) | Simplified: one `cost.enabled` switch, one ledger, CHF rate 0.8384 (S13–S22); developer `models: null` (S3) |
 | 2026-11-16 | requirements | `UPDATE ISSUE:` | Claude Opus 5.5 | counted in the row above | issue #5 updated |
-| 2026-11-16 | plan | `PLAN:` | Claude Opus 5.5 | ~0.7 M so far (4 k in · 670 k cached · 3 k out) | Part 2 written |
+| 2026-11-16 | plan | `PLAN:` | Claude Opus 5.5 | ~1.54 M (18 k in · 1,509 k cached · 11 k out) | Part 2 written; issue #5 updated |
 
 > POC: numbers estimated by hand from the VS Code transcript (characters ÷ 4, ~35 k tokens of
 > system prompt and summary per request, earlier context counted as cached — also after the
 > break on 2026-11-16, when the cache was in fact cold). The design talk before Part 1 and the
-> hack_star licence work are not counted. Requirements ~3.9 M tokens, plan ~0.7 M so far:
-> **~4.5 M tokens, ~205 credits ≈ $2.05 ≈ CHF 1.72** (Claude Opus 5.5, 0.8384 CHF/USD).
+> hack_star licence work are not counted. Requirements ~3.9 M tokens, plan ~1.5 M:
+> **~5.4 M tokens, ~245 credits ≈ $2.45 ≈ CHF 2.05** — priced at GitHub Copilot's per-token
+> rates for Claude Opus 5.5 (credits per 1 M tokens: 400 input, 20 cached, 2,000 output;
+> 1 credit = $0.01), 0.8384 CHF/USD. This is the value of the credits used, not an invoice: within
+> the plan's monthly credits nothing extra is paid.
 
 ---
 
@@ -323,7 +326,8 @@ S16); it replaces the hand-made POC estimates of this spec (S22).
 ### Tasks
 - [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
 - [ ] `stages/tools/usage.ps1` and `usage.sh` (D5, D6): `-Since`, `-Until`, `-Model`,
-      `-Transcript`, `-Json`; prices from the tool's model list or `cost.prices`; credits →
+      `-Transcript`, `-Json`; prices from the tool's model list or `cost.prices`, new input at
+      the cache-write price when the tool has one; credits →
       USD → local currency with `rate`; % of `monthly_credits`; prints `~` when estimated.
 - [ ] `stages/tools/README.md`: the script, its parameters and an example.
 - [ ] Check: on this conversation's transcript the script reproduces the POC rows of this
@@ -345,7 +349,9 @@ S18, S19, S20).
 - [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
 - [ ] `stages/costs.md` (D9): how it is measured or estimated, the sources and dates (plans
       page, billing page, ECB rate), the settings, and in bold that all costs are estimates
-      and may be wrong; real usage on the GitHub billing page.
+      and may be wrong; that the cost is the value of the credits used at GitHub Copilot's
+      per-token rates, not an invoice (within the plan's credits nothing extra is paid);
+      real usage on the GitHub billing page.
 - [ ] Stage prompts that write a Stage log row: record the start time; at the end, with cost
       enabled, run `usage` and fill **Tokens** and **Cost** (D7); disabled or missing → as
       today.
