@@ -201,7 +201,7 @@ at the start of stages, tracking of suggested vs. actual model.
 | **3** | Plan: Model column and tier choice | standard (Claude Sonnet 5.5) — follows D1–D3 | ✅ Done | [→ Step 3](#step-3--plan-model-column-and-tier-choice) |
 | **4** | Implementation: one confirmation, sub-agents, tracking | reasoning (Claude Opus 5.5) — commits, stops, sub-agents | ✅ Done | [→ Step 4](#step-4--implementation-one-confirmation-sub-agents-tracking) |
 | **5** | Usage script: tokens and price | reasoning (Claude Opus 5.5) — transcript parsing, two shells | ✅ Done | [→ Step 5](#step-5--usage-script-tokens-and-price) |
-| **6** | COSTS.md and token columns in every stage | standard (Claude Sonnet 5.5) — text in known places | ⬜ Not started | [→ Step 6](#step-6--costsmd-and-token-columns-in-every-stage) |
+| **6** | COSTS.md and token columns in every stage | standard (Claude Sonnet 5.5) — text in known places | ✅ Done | [→ Step 6](#step-6--costsmd-and-token-columns-in-every-stage) |
 | **7** | CLOSE: cost summary and ledger | standard (Claude Sonnet 5.5) — script follows Step 5 | ⬜ Not started | [→ Step 7](#step-7--close-cost-summary-and-ledger) |
 | **8** | README, kit README, regression check | light (Claude Haiku 5.5) — docs and running checks | ⬜ Not started | [→ Step 8](#step-8--readme-kit-readme-regression-check) |
 | **9** | spec-nx on its own settings, same spec format | standard (Claude Sonnet 5.5) — settings and a format check | ⬜ Not started | [→ Step 9](#step-9--spec-nx-on-its-own-settings-same-spec-format) |
@@ -406,23 +406,37 @@ With cost enabled, every stage writes its tokens and cost, always linked to COST
 S18, S19, S20).
 
 ### Tasks
-- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
-- [ ] `stages/costs.md` (D9, D11): the calculation method step by step, the sources and dates (plans
+- [x] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [x] `stages/costs.md` (D9, D11): the calculation method step by step, the sources and dates (plans
       page, billing page, ECB rate), the settings, and in bold that all costs are estimates
       and may be wrong; that the cost is the value of the credits used at GitHub Copilot's
       per-token rates, not an invoice (within the plan's credits nothing extra is paid);
       real usage on the GitHub billing page.
-- [ ] Stage prompts that write a Stage log row: record the start time; at the end, with cost
+- [x] Stage prompts that write a Stage log row: record the start time; at the end, with cost
       enabled, run `usage` and copy its **Tokens** and **Cost** into the row (D7), never
       computing by hand; disabled or missing → as today.
-- [ ] `stages/spec_template.md`: the two optional columns (Tokens with "estimate — see
+- [x] `stages/spec_template.md`: the two optional columns (Tokens with "estimate — see
       COSTS.md", Cost in the local currency with credits) and the Done line with tokens and
       price.
-- [ ] `generator/prompt.md`: copy `costs.md` as `COSTS.md` into the kit; the setup report shows
+- [x] `generator/prompt.md`: copy `costs.md` as `COSTS.md` into the kit; the setup report shows
       the disclaimer and the link.
-- [ ] Check: `check_all.ps1`; a spec written with cost disabled is unchanged.
+- [x] Check: `check_all.ps1`; a spec written with cost disabled is unchanged.
 
 ### Notes
+Started: 2026-11-16 09:45
+
+**Done (2026-11-16 · ~10m · Claude Opus 5.5)** — `stages/COSTS.md`: the disclaimer first,
+the switch, what the numbers mean (value of credits, not an invoice; share of base credits),
+the D11 method in five steps with its limits, the sources with dates, and the rules the
+stages follow. The seven stage prompts note the start time and copy `usage` output into their
+Stage log row; the implementation prompt adds it to the Done line; the template has the two
+optional columns (with the link) and the Done-line ending; the generator copies `COSTS.md`
+and `tools/usage.*` when the project has a `cost` block. **Differs from the plan:** the file is
+`stages/COSTS.md`, not `costs.md`, so `../COSTS.md` is the same path in spec-nx and in every
+kit. With cost off every new text says "only with the `cost` block on" and the template says
+to drop both columns, so such specs keep their old shape. `check_all.ps1`: 4 known
+placeholders. · suggested: standard (Claude Sonnet 5.5) · ran: Claude Opus 5.5 · tokens and
+cost: Step 9
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---
