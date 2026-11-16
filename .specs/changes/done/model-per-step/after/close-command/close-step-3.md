@@ -10,16 +10,29 @@
 
    This feature used ~<tokens> tokens, ~<currency> <amount> — estimate, see [COSTS.md](<link>).
 
-   | Stage / Step | Tokens | Cost (<currency>) | Share of <plan> |
-   |--------------|--------|-------------------|-----------------|
+   | Stage | Tokens | Cost (<currency>) | Share of <plan> |
+   |-------|--------|-------------------|-----------------|
    | requirements | … | … | … % |
    | plan | … | … | … % |
+   | implementation | … | … | … % |
+   | review | … | … | … % |
+   | pr | … | … | … % |
+   | **Total** | **…** | **…** | **… %** |
+
+   **Implementation by Step**
+
+   | Step | Tokens | Cost (<currency>) | Share of <plan> |
+   |------|--------|-------------------|-----------------|
    | Step 1 | … | … | … % |
    | … | | | |
-   | **Total** | **…** | **…** | **… %** |
+   | CLOSE | … | … | … % |
+   | **Total implementation** | **…** | **…** | **… %** |
    ```
 
-   The numbers are the sums of the Stage log rows (requirements, plan, each Step, other
-   commands such as `CLOSE:` and `REVIEW:` under their stage); the share is credits ÷
+   The numbers are the sums of the Stage log rows per stage (`CREATE ISSUE:` / `UPDATE
+   ISSUE:` under requirements, `CLOSE:` under implementation, `CODE REVIEW:` under review;
+   leave out the rows of stages the kit does not have, and put any other stage, such as
+   documentation, in its own row). The second table splits implementation into its Steps and
+   `CLOSE:`; its total equals the implementation row. The share is credits ÷
    `monthly_credits`. A row without numbers reads `N/A`. Then rebuild the list of all specs:
    `../tools/costs_ledger.ps1` / `../tools/costs_ledger.sh` (writes `.specs/costs.md`).

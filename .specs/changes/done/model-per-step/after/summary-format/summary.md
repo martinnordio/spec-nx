@@ -14,10 +14,17 @@ Built by the stage prompt from the spec file, in this form:
 ## Cost summary
 This feature used ~<tokens> tokens, ~<currency> <amount> — estimate, see [COSTS.md](<full URL of COSTS.md>).
 
-| Stage / Step | Tokens | Cost (<currency>) | Share of <plan> |
-|--------------|--------|-------------------|-----------------|
+| Stage | Tokens | Cost (<currency>) | Share of <plan> |
+|-------|--------|-------------------|-----------------|
 | requirements | ~… | ~… | … % |
 | **Total** | **~…** | **~…** | **… %** |
+
+**Implementation by Step**
+
+| Step | Tokens | Cost (<currency>) | Share of <plan> |
+|------|--------|-------------------|-----------------|
+| Step 1 | ~… | ~… | … % |
+| **Total implementation** | **~…** | **~…** | **… %** |
 
 **Plan**
 | Step | Description | Status |
@@ -32,7 +39,8 @@ This feature used ~<tokens> tokens, ~<currency> <amount> — estimate, see [COST
   default branch — the feature branch is deleted after the merge, the default branch stays.
 - While the spec has no plan yet (requirements stage), the **Plan** part is left out.
 - **Cost summary:** only when the spec has one (written by `CLOSE:` with cost tracking on):
-  its sentence and table, copied as they are, before the **Plan** part. Make its links full
+  its sentence and both tables (by stage, implementation by Step), copied as they are, before
+  the **Plan** part. Make its links full
   URLs on the default branch (the COSTS.md of the kit, e.g.
   `https://github.com/<owner>/<repo>/blob/<default>/<kit_ref>/COSTS.md`) — never local or
   editor links.

@@ -10,7 +10,7 @@ why: |
   project has a cost block.
 spec:
   path: .specs/features/done/2026_11_14_model_per_step_spec.md
-  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23]
+  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24]
 changes:
   - id: question-table
     kind: config
@@ -86,8 +86,8 @@ changes:
     kind: command
     change: modified
     object: "CLOSE: — Cost summary and ledger"
-    note: With cost tracking on, a Cost summary above Part 1 and costs_ledger rebuilds .specs/costs.md.
-    statements: [S17, S21]
+    note: With cost tracking on, a Cost summary above Part 1 — one table by stage, one for implementation by Step — and costs_ledger rebuilds .specs/costs.md.
+    statements: [S17, S21, S24]
     examples:
       - name: close-step-3
         input: |
@@ -107,8 +107,8 @@ changes:
     kind: output
     change: added
     object: tools/costs_ledger.ps1 / .sh → .specs/costs.md
-    note: One tracked spec, one older spec (N/A), the per-Step table and the total.
-    statements: [S21]
+    note: Columns per stage (requirements, plan, implementation, review, pr, other); one tracked spec, one older spec (N/A), the per-Step table and the total.
+    statements: [S21, S24]
     examples:
       - name: two-specs
         input: |
@@ -147,8 +147,8 @@ changes:
     kind: data-format
     change: modified
     object: issue / backlog item and pull-request description — the spec summary
-    note: A closed spec's Cost summary goes before the Plan part, links as full URLs; Azure DevOps pull requests over 4000 characters keep only the sentence.
-    statements: [S23]
+    note: A closed spec's Cost summary (both tables) goes before the Plan part, links as full URLs; Azure DevOps pull requests over 4000 characters keep only the sentence.
+    statements: [S23, S24]
     examples:
       - name: summary
         input: |
