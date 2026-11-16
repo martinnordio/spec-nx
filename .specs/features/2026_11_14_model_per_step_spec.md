@@ -1,7 +1,7 @@
 # The Right Model and Cost for Each Step Spec
 
 > **Author:** Martin Nordio
-> **Status:** ⬜ Not started — plan ready
+> **Status:** 🔄 In progress
 > **Created:** 2026-11-14
 > **Last updated:** 2026-11-16
 > **Branch:** `feature/model-per-step`
@@ -196,7 +196,7 @@ at the start of stages, tracking of suggested vs. actual model.
 
 | Step | Description | Model (suggested) | Status | Detail |
 |------|-------------|-------------------|--------|--------|
-| **1** | Settings: Q7 `models`, the `cost` block | reasoning (Claude Opus 5.5) — settings contract | ⬜ Not started | [→ Step 1](#step-1--settings-q7-models-the-cost-block) |
+| **1** | Settings: Q7 `models`, the `cost` block | reasoning (Claude Opus 5.5) — settings contract | ✅ Done | [→ Step 1](#step-1--settings-q7-models-the-cost-block) |
 | **2** | Shared model rules for every stage | reasoning (Claude Opus 5.5) — sub-agent and fallback logic | ⬜ Not started | [→ Step 2](#step-2--shared-model-rules-for-every-stage) |
 | **3** | Plan: Model column and tier choice | standard (Claude Sonnet 5.5) — follows D1–D3 | ⬜ Not started | [→ Step 3](#step-3--plan-model-column-and-tier-choice) |
 | **4** | Implementation: one confirmation, sub-agents, tracking | reasoning (Claude Opus 5.5) — commits, stops, sub-agents | ⬜ Not started | [→ Step 4](#step-4--implementation-one-confirmation-sub-agents-tracking) |
@@ -245,16 +245,24 @@ The setup question and both settings keys exist with their defaults and rules (S
 S7, S18).
 
 ### Tasks
-- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
-- [ ] `generator/questions.md`: Q7 row and section — the three answers, the default mapping
+- [x] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [x] `generator/questions.md`: Q7 row and section — the three answers, the default mapping
       (Opus 5.5 / Sonnet 5.5 / Haiku 5.5), checking against the tool's model list, asking for
       exact names otherwise; `models` and `cost` in both settings tables (D1, D2, D4).
-- [ ] `generator/prompt.md`: ask Q7; write `cost` with the defaults for new kits only;
+- [x] `generator/prompt.md`: ask Q7; write `cost` with the defaults for new kits only;
       `--update` adds neither `models` nor `cost`, `--update --force` asks Q7 again; report
       the settings and the COSTS.md note.
-- [ ] Check: `testing/check_all.ps1` passes; read Q7 against S1–S3, S7, S18.
+- [x] Check: `testing/check_all.ps1` passes; read Q7 against S1–S3, S7, S18.
 
 ### Notes
+Started: 2026-11-16 08:55
+
+**Done (2026-11-16 · ~10m · Claude Opus 5.5)** — Q7 *Model per Step* with the default
+mapping and `guide`; *The `cost` block* section (defaults, missing = off); `models` / `cost` in
+both settings tables; the generator writes `cost` only on the first run and reports the
+mapping and the cost note. Note: `--update` *does* ask Q7 once (it is a new key, S1); it never
+adds `cost`. `check_all.ps1`: only the 4 known template placeholders. · suggested: reasoning
+(Claude Opus 5.5) · ran: Claude Opus 5.5 · tokens and cost: Step 9
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---
