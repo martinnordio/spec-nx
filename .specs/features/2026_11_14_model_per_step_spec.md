@@ -9,28 +9,30 @@
 
 ## Stage log
 
-| Date | Stage | Command | Model | Tokens — estimate, see COSTS.md | Note |
-|------|-------|---------|-------|--------|------|
-| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~111 k (38 k in · 70 k cached · 3 k out) | Part 1 written |
-| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~379 k (40 k in · 334 k cached · 5 k out) | Full process chosen; tokens and cost added (S13–S18) |
-| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~132 k (4 k in · 126 k cached · 2 k out) | Q1–Q3 answered: one spec `v0.4.0`, `~` estimates, plan in default settings |
-| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~289 k (5 k in · 282 k cached · 2 k out) | COSTS.md, disclaimer, publishing in public repos (S19–S21) |
-| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~1.33 M (16 k in · 1,305 k cached · 9 k out) | Cost ledgers (S22–S23), POC numbers (S24), hack_star reminder |
-| 2026-11-14 | requirements | `CREATE ISSUE:` | Claude Opus 5.5 | counted in the row above | issue #5 created; default `publish: tokens` |
-| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~399 k (3 k in · 395 k cached · 2 k out) | Switch-off setting; plan prices checked against public GitHub pages |
-| 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~281 k (4 k in · 274 k cached · 3 k out) | Default models (S2), task-based tiers (S4), Cost summary (S17), CHF, missing settings = off (S18) |
-| 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~942 k (11 k in · 925 k cached · 5 k out) | Simplified: one `cost.enabled` switch, one ledger, CHF rate 0.8384 (S13–S22); developer `models: null` (S3) |
-| 2026-11-16 | requirements | `UPDATE ISSUE:` | Claude Opus 5.5 | counted in the row above | issue #5 updated |
-| 2026-11-16 | plan | `PLAN:` | Claude Opus 5.5 | ~1.54 M (18 k in · 1,509 k cached · 11 k out) | Part 2 written; issue #5 updated |
+| Date | Stage | Command | Model | Tokens (estimate — see COSTS.md) | Cost (CHF) | Note |
+|------|-------|---------|-------|--------|------|------|
+| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~111 k (38 k in · 70 k cached · 3 k out) | ~CHF 0.22 (26 credits) | Part 1 written |
+| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~379 k (40 k in · 334 k cached · 5 k out) | ~CHF 0.30 (36 credits) | Full process chosen; tokens and cost added (S13–S18) |
+| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~132 k (4 k in · 126 k cached · 2 k out) | ~CHF 0.08 (9 credits) | Q1–Q3 answered: one spec `v0.4.0`, `~` estimates, plan in default settings |
+| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~289 k (5 k in · 282 k cached · 2 k out) | ~CHF 0.10 (13 credits) | COSTS.md, disclaimer, publishing in public repos (S19–S21) |
+| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~1.33 M (16 k in · 1,305 k cached · 9 k out) | ~CHF 0.44 (52 credits) | Cost ledgers (S22–S23), POC numbers (S24), hack_star reminder |
+| 2026-11-14 | requirements | `CREATE ISSUE:` | Claude Opus 5.5 | counted in the row above | counted in the row above | issue #5 created; default `publish: tokens` |
+| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~399 k (3 k in · 395 k cached · 2 k out) | ~CHF 0.11 (13 credits) | Switch-off setting; plan prices checked against public GitHub pages |
+| 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~281 k (4 k in · 274 k cached · 3 k out) | ~CHF 0.11 (13 credits) | Default models (S2), task-based tiers (S4), Cost summary (S17), CHF, missing settings = off (S18) |
+| 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~942 k (11 k in · 925 k cached · 5 k out) | ~CHF 0.29 (35 credits) | Simplified: one `cost.enabled` switch, one ledger, CHF rate 0.8384 (S13–S22); developer `models: null` (S3) |
+| 2026-11-16 | requirements | `UPDATE ISSUE:` | Claude Opus 5.5 | counted in the row above | counted in the row above | issue #5 updated |
+| 2026-11-16 | plan | `PLAN:` | Claude Opus 5.5 | ~1.54 M (18 k in · 1,509 k cached · 11 k out) | ~CHF 0.51 (61 credits) | Part 2 written; issue #5 updated |
+| 2026-11-16 | plan | `PLAN:` | Claude Opus 5.5 | ~515 k (3 k in · 510 k cached · 2 k out) | ~CHF 0.13 (16 credits) | PLAN estimate corrected; pricing basis written |
+| 2026-11-16 | plan | `PLAN:` | Claude Opus 5.5 | ~868 k (10 k in · 853 k cached · 5 k out) | ~CHF 0.27 (33 credits) | re-planned: exact calculation method (D11), Cost column, spec-nx on its own settings (Step 9) |
 
-> POC: numbers estimated by hand from the VS Code transcript (characters ÷ 4, ~35 k tokens of
-> system prompt and summary per request, earlier context counted as cached — also after the
-> break on 2026-11-16, when the cache was in fact cold). The design talk before Part 1 and the
-> hack_star licence work are not counted. Requirements ~3.9 M tokens, plan ~1.5 M:
-> **~5.4 M tokens, ~245 credits ≈ $2.45 ≈ CHF 2.05** — priced at GitHub Copilot's per-token
-> rates for Claude Opus 5.5 (credits per 1 M tokens: 400 input, 20 cached, 2,000 output;
-> 1 credit = $0.01), 0.8384 CHF/USD. This is the value of the credits used, not an invoice: within
-> the plan's monthly credits nothing extra is paid.
+> POC: numbers estimated by hand from the VS Code transcript with the method of D11 (characters
+> ÷ 4, ~35 k tokens of system prompt and summary per request, earlier context counted as cached
+> — also after the break on 2026-11-16, when the cache was in fact cold). The design talk before
+> Part 1 and the hack_star licence work are not counted. Priced at GitHub Copilot's per-token
+> rates for Claude Opus 5.5 (credits per 1 M tokens: 500 new input — the cache-write rate — 20
+> cached, 2,000 output; 1 credit = $0.01) at 0.8384 CHF/USD. This is the value of the credits
+> used, not an invoice: within the plan's monthly credits nothing extra is paid.
+> **Total so far: ~6.8 M tokens, ~307 credits ≈ $3.07 ≈ CHF 2.57.**
 
 ---
 
@@ -202,7 +204,8 @@ at the start of stages, tracking of suggested vs. actual model.
 | **6** | COSTS.md and token columns in every stage | standard (Claude Sonnet 5.5) — text in known places | ⬜ Not started | [→ Step 6](#step-6--costsmd-and-token-columns-in-every-stage) |
 | **7** | CLOSE: cost summary and ledger | standard (Claude Sonnet 5.5) — script follows Step 5 | ⬜ Not started | [→ Step 7](#step-7--close-cost-summary-and-ledger) |
 | **8** | README, kit README, regression check | light (Claude Haiku 5.5) — docs and running checks | ⬜ Not started | [→ Step 8](#step-8--readme-kit-readme-regression-check) |
-| **9** | Reminder: hack_star cost comparison | light (Claude Haiku 5.5) — no code | ⬜ Not started | [→ Step 9](#step-9--reminder-hack_star-cost-comparison) |
+| **9** | spec-nx on its own settings, same spec format | standard (Claude Sonnet 5.5) — settings and a format check | ⬜ Not started | [→ Step 9](#step-9--spec-nx-on-its-own-settings-same-spec-format) |
+| **10** | Reminder: hack_star cost comparison | light (Claude Haiku 5.5) — no code | ⬜ Not started | [→ Step 10](#step-10--reminder-hack_star-cost-comparison) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
@@ -226,10 +229,12 @@ at the start of stages, tracking of suggested vs. actual model.
 | D4 | Key `cost` = `{enabled, plan, monthly_price_usd, monthly_credits, currency, rate, rate_date, prices}`; `prices` (credits per 1 M tokens per model) is optional and only used when the tool does not publish them | Matches S15/S18; no account data is committed by default |
 | D5 | Script pair `tools/usage.ps1` / `tools/usage.sh` (bash uses `python3` for JSON): reads a transcript between two times, prints tokens (input, cached, output, measured or `~`), credits, USD, local currency and % of plan | Same shape as the other kit scripts; stages call it, never compute by hand |
 | D6 | The transcript is found by the script: Claude Code `~/.claude/projects/<project>/*.jsonl` (measured); VS Code `workspaceStorage/*/GitHub.copilot-chat/transcripts/*.jsonl` of this workspace (estimated, the POC method: characters ÷ 4, earlier context as cached); `-Transcript` overrides | No setting needed; the POC numbers in this spec are the test data |
-| D7 | Stage log gets two columns, **Tokens** and **Cost**, written only when cost is enabled; Done lines add `· ~<tokens> · ~CHF <x>`; older specs keep five columns | S13/S20; nothing changes for projects without `cost` |
+| D7 | Stage log gets two columns, **Tokens (estimate — see COSTS.md)** and **Cost (<currency>)** — e.g. `~379 k (40 k in · 334 k cached · 5 k out)` and `~CHF 0.30 (36 credits)` — written only when cost is enabled; Done lines add `· ~<tokens> · ~<currency> <x>`; older specs keep five columns | S13/S15/S20: tokens and price side by side; nothing changes for projects without `cost` |
 | D8 | Script pair `tools/costs_ledger.ps1` / `.sh` rebuilds `.specs/costs.md` from the Stage logs of `.specs/features/**/*_spec.md` | S21: rebuilt, never appended; merge conflicts fixed by running it |
 | D9 | `stages/costs.md` is both the user page and the rules; the kit gets it as `COSTS.md` | S19: one page to link to |
 | D10 | The tier check in Step 8 generates a kit into a temporary folder with old settings (no `models`, no `cost`) and with the new ones, and compares | S12: proves nothing breaks for existing projects |
+| D11 | **One calculation method**, written in COSTS.md and implemented only in `usage`; prompts run the script and copy its numbers, never compute by hand. Per model request in the range: *context* = base (system prompt, tools, summary; default 35 k tokens) + all transcript events of the session so far ÷ 4 characters — counted from the session start, not from the range start; *cached* = the previous request's context; *new input* = context − cached, priced at the cache-write rate (input rate if none); *output* = the assistant's messages and tool-call arguments ÷ 4. Credits = Σ tokens × rate / 1 M; USD = credits / 100; local = USD × `rate`. Claude Code: the logged `usage` numbers replace the estimate | The POC showed that restarting the context at the range start undercounts by ~5×; one method gives the same numbers in spec-nx and in every kit |
+| D12 | spec-nx uses its own feature: `.specs/spec-nx.json` in spec-nx with `models: {fixed: "Claude Opus 5.5"}` and the default `cost` block (CHF); its specs follow `stages/spec_template.md` exactly, like a generated kit | Specs written in spec-nx and in generated kits have the same format and numbers |
 
 ---
 
@@ -325,13 +330,14 @@ S16); it replaces the hand-made POC estimates of this spec (S22).
 
 ### Tasks
 - [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
-- [ ] `stages/tools/usage.ps1` and `usage.sh` (D5, D6): `-Since`, `-Until`, `-Model`,
-      `-Transcript`, `-Json`; prices from the tool's model list or `cost.prices`, new input at
+- [ ] `stages/tools/usage.ps1` and `usage.sh` (D5, D6, D11): `-Since`, `-Until`, `-Model`,
+      `-Transcript`, `-Json`; the D11 method exactly (context counted from the session start);
+      prices from the tool's model list or `cost.prices`, new input at
       the cache-write price when the tool has one; credits →
       USD → local currency with `rate`; % of `monthly_credits`; prints `~` when estimated.
 - [ ] `stages/tools/README.md`: the script, its parameters and an example.
 - [ ] Check: on this conversation's transcript the script reproduces the POC rows of this
-      spec within 5 %; PowerShell parses and is ASCII; `bash -n` passes; a Claude Code sample
+      spec (tokens and credits) within 5 %, both shells give the same numbers; PowerShell parses and is ASCII; `bash -n` passes; a Claude Code sample
       file gives measured numbers.
 
 ### Notes
@@ -347,15 +353,17 @@ S18, S19, S20).
 
 ### Tasks
 - [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
-- [ ] `stages/costs.md` (D9): how it is measured or estimated, the sources and dates (plans
+- [ ] `stages/costs.md` (D9, D11): the calculation method step by step, the sources and dates (plans
       page, billing page, ECB rate), the settings, and in bold that all costs are estimates
       and may be wrong; that the cost is the value of the credits used at GitHub Copilot's
       per-token rates, not an invoice (within the plan's credits nothing extra is paid);
       real usage on the GitHub billing page.
 - [ ] Stage prompts that write a Stage log row: record the start time; at the end, with cost
-      enabled, run `usage` and fill **Tokens** and **Cost** (D7); disabled or missing → as
-      today.
-- [ ] `stages/spec_template.md`: the two optional columns, header "estimate — see COSTS.md".
+      enabled, run `usage` and copy its **Tokens** and **Cost** into the row (D7), never
+      computing by hand; disabled or missing → as today.
+- [ ] `stages/spec_template.md`: the two optional columns (Tokens with "estimate — see
+      COSTS.md", Cost in the local currency with credits) and the Done line with tokens and
+      price.
 - [ ] `generator/prompt.md`: copy `costs.md` as `COSTS.md` into the kit; the setup report shows
       the disclaimer and the link.
 - [ ] Check: `check_all.ps1`; a spec written with cost disabled is unchanged.
@@ -407,7 +415,28 @@ The feature is told early, and existing projects work as before (S11, S12).
 
 ---
 
-## Step 9 — Reminder: hack_star cost comparison
+## Step 9 — spec-nx on its own settings, same spec format
+
+### Goal
+spec-nx's own specs are written and priced exactly like specs in a generated kit (S12, S13,
+S17, S21, S22).
+
+### Tasks
+- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [ ] `.specs/spec-nx.json` in spec-nx (D12): `models: {fixed: "Claude Opus 5.5"}` and the
+      default `cost` block; `.specs/spec-nx.local.json` in `.gitignore`.
+- [ ] This spec: replace the hand-made POC numbers with `usage` output where the transcript
+      allows, keep the POC note for the rest; columns as in the template.
+- [ ] Run `costs_ledger` to write `.specs/costs.md` for spec-nx.
+- [ ] Check: compare this spec's headings, Stage log columns and Done lines with the template
+      and with a spec from the Step 8 test kit — same format; `check_all.ps1` passes.
+
+### Notes
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 10 — Reminder: hack_star cost comparison
 
 ### Goal
 Nothing is forgotten after the release: a reminder to compare models on a real project.
@@ -438,6 +467,7 @@ Tasks set aside for a future spec, so nothing is forgotten.
 
 | Date | Reviewer | Scope | Outcome | Findings |
 |------|----------|-------|---------|----------|
+| 2026-11-16 | AI assistant (Claude Opus 5.5) | plan | re-planned | Exact calculation method (D11), Cost column in the local currency (D7), spec-nx on its own settings and the same spec format (D12, Step 9); reminder moved to Step 10 |
 
 ---
 
