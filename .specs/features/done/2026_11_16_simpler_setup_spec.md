@@ -1,7 +1,7 @@
 # Simpler Setup Spec
 
 > **Author:** Martin Nordio
-> **Status:** � In progress — Steps 1–6 done; Step 7 (tutorial) written, trial runs open
+> **Status:** ✅ Complete — closed on main
 > **Created:** 2026-11-16
 > **Last updated:** 2026-11-16
 > **Branch:** `main` (release `v0.4.0`, no pull request)
@@ -21,6 +21,8 @@
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.36 M (52 k in · 1.29 M cached · 12 k out) | ~CHF 0.64 (76 credits) | Step 7: open questions answered; tutorials and README section written; trial step 1 checked; commit `760260b` (12:51–13:10 UTC) |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~344 k (6 k in · 334 k cached · 4 k out) | ~CHF 0.15 (17 credits) | Step 8 done (from 13:10 UTC) |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.30 M (15 k in · 1.27 M cached · 8 k out) | ~CHF 0.41 (49 credits) | Step 7: Angular run checked (kit, requirements, close); open questions with suggestions; CLOSE cost cells; example `examples/tour-of-heroes` (from 13:25 UTC) |
+| 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~679 k (4 k in · 672 k cached · 3 k out) | ~CHF 0.18 (21 credits) | Step 7 done: commit `1a81dfb`; Python run checked; `uv init --app --no-package` (from 13:51 UTC) |
+| 2026-11-16 | implementation | `CLOSE:` | Claude Opus 5.5 | ~900 k (11 k in · 884 k cached · 6 k out) | ~CHF 0.29 (34 credits) | spec closed; example `examples/flaskr` (from 14:29 UTC) |
 
 > The work was done in one chat on `main`, turn by turn, before this spec was written: the
 > Stage log and the Steps record those turns after the fact. Every row was computed with
@@ -34,13 +36,13 @@
 
 ## Cost summary
 
-This feature used ~12.33 M tokens, ~CHF 3.48 — estimate, see [COSTS.md](../../../stages/COSTS.md).
+This feature used ~13.91 M tokens, ~CHF 3.95 — estimate, see [COSTS.md](../../../stages/COSTS.md).
 
 | Stage | Tokens | Cost (CHF) | Share of Copilot Business |
 |-------|--------|------------|---------------------------|
 | requirements | ~1.20 M | ~CHF 0.31 (37 credits) | 1.9 % |
-| implementation | ~11.13 M | ~CHF 3.17 (376 credits) | 19.8 % |
-| **Total** | **~12.33 M** | **~CHF 3.48 (413 credits)** | **21.7 %** |
+| implementation | ~12.71 M | ~CHF 3.64 (431 credits) | 22.7 % |
+| **Total** | **~13.91 M** | **~CHF 3.95 (468 credits)** | **24.6 %** |
 
 **Implementation by Step**
 
@@ -51,10 +53,11 @@ This feature used ~12.33 M tokens, ~CHF 3.48 — estimate, see [COSTS.md](../../
 | Step 3 | ~772 k | ~CHF 0.17 (20 credits) | 1.1 % |
 | Step 4 | ~1.44 M | ~CHF 0.36 (43 credits) | 2.3 % |
 | Step 5 | ~833 k | ~CHF 0.20 (24 credits) | 1.3 % |
-| Step 6 + CLOSE | ~2.08 M | ~CHF 0.52 (62 credits) | 3.3 % |
-| Step 7 (so far) | ~2.66 M | ~CHF 1.05 (125 credits) | 6.6 % |
+| Step 6 | ~2.08 M | ~CHF 0.52 (62 credits) | 3.3 % |
+| Step 7 | ~3.34 M | ~CHF 1.23 (146 credits) | 7.7 % |
 | Step 8 | ~344 k | ~CHF 0.15 (17 credits) | 0.9 % |
-| **Total implementation** | **~11.13 M** | **~CHF 3.17 (376 credits)** | **19.8 %** |
+| CLOSE | ~900 k | ~CHF 0.29 (34 credits) | 1.8 % |
+| **Total implementation** | **~12.71 M** | **~CHF 3.64 (431 credits)** | **22.7 %** |
 
 ---
 
@@ -199,6 +202,27 @@ command.
 
 # Part 2 · Plan
 
+## Closing summary
+
+**Built:** The README sells spec-nx and puts the model per Step and its cost first; the Status
+section is gone. `GENERATE KIT` asks fewer questions — project start, shell, backlog item type
+and backlog project are taken from the repository or the computer and documented as settings
+— and ends by writing a closed kit spec with what was set up and what it cost. Two tutorials
+(Angular, Python) go through one full workflow locally, with an optional git-host part; the
+specs of both trial runs are in `examples/`.
+**Differs from the plan:**
+- Written after the work (no plan stage); Step 8 (kit spec) was added while trying the
+  tutorial.
+- The git-host part of the tutorials (GitHub, Azure DevOps) was not tried — deferred.
+- Found in the trial runs and fixed: the merge command names `master` or `main`; open
+  questions carry a suggestion and "take your suggestions" is a valid answer; cost cells in the
+  Stage log format and no `pr` row before the pull request; `uv init --app --no-package`.
+- Still open from the runs: the generator did not always write the kit spec's cost cells in
+  the Stage log format, and copied `spec_summary` only in one of the two kits — deferred.
+**Files:** `README.md`, `docs/configuration.md`, `docs/tutorials/`, `examples/`,
+`generator/questions.md`, `generator/prompt.md`, `stages/kit_readme.md`,
+`stages/requirements/prompt.md`, `stages/implementation/prompt.md`.
+
 ## 2 · Spec Overview
 
 | Step | Description | Status | Detail |
@@ -209,7 +233,7 @@ command.
 | **4** | Shell and backlog project not asked (S8, S9, S12) | ✅ Done | [→ Step 4](#step-4--shell-and-backlog-project-not-asked-s8-s9-s12) |
 | **5** | Backlog item type not asked (S10) | ✅ Done | [→ Step 5](#step-5--backlog-item-type-not-asked-s10) |
 | **6** | Project start not asked, this spec (S11, S13) | ✅ Done | [→ Step 6](#step-6--project-start-not-asked-this-spec-s11-s13) |
-| **7** | Tutorial (S14–S21) | 🔄 In progress | [→ Step 7](#step-7--tutorial-s14s21) |
+| **7** | Tutorial (S14–S21) | ✅ Done | [→ Step 7](#step-7--tutorial-s14s21) |
 | **8** | Kit spec (S22) | ✅ Done | [→ Step 8](#step-8--kit-spec-s22) |
 
 ### Decisions
@@ -368,12 +392,12 @@ A newcomer goes once through the whole workflow on a known app, in Angular or in
 - [x] README `## Tutorial` section after *How it works*; `docs/` in the repository layout.
 - [x] Run the Angular tutorial end to end in a fresh chat (local path) (D5) — in a scratch
       folder outside the repository.
-- [ ] Run the Angular tutorial's GitHub part.
-- [ ] Run the Python tutorial end to end in a fresh chat in `testing/` (local path, then the
-      Azure DevOps part) (D5).
+- [ ] Run the Angular tutorial's GitHub part — deferred.
+- [x] Run the Python tutorial end to end in a fresh chat (local path) (D5); the Azure DevOps
+      part — deferred.
 - [x] Fix the tutorials from the Angular run; its specs are the example
       `examples/tour-of-heroes/` with their real cost (S20, S21).
-- [ ] Fix the tutorials from the Python run.
+- [x] Fix the tutorials from the Python run; its specs are the example `examples/flaskr/`.
 - [x] `check_all.ps1`.
 
 ### Notes
@@ -393,7 +417,17 @@ requirements 15 statements, plan 4 Steps (3 Sonnet, 1 Haiku), 19 tests pass; the
 suggestions" is a valid answer (requirements prompt, tutorials); cost cells of the kit spec
 and of the CLOSE cost summary in the Stage log format, no `pr` row before the pull request
 (generator and implementation prompts). Its specs were copied to `examples/tour-of-heroes/`.
-<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+Third trial (Python, 2026-11-16, spec-nx `1a81dfb`): done through `CLOSE:` and `PR:` (no git
+host: manual steps). uv 0.12's plain `uv init` created a `src/` package, so the tutorial now
+uses `uv init --app --no-package`. Requirements 14 statements, plan 3 Steps (2 Sonnet, 1
+Haiku), 20 tests pass; the CLOSE cost summary used the new format. Kit ~1.45 M · ~CHF 0.89;
+feature ~8.99 M · ~CHF 0.98. Its specs were copied to `examples/flaskr/` (a local path
+shortened; no e-mail addresses in the copies).
+
+**Done (2026-11-16 · ~2h 35m · Claude Opus 5.5)** — both tutorials tried end to end on the
+local path and fixed; two examples; git-host parts deferred. `check_all.ps1`: 4 known
+placeholders. · ~3.34 M · ~CHF 1.23
 
 ---
 
@@ -425,6 +459,8 @@ Started: 2026-11-16 14:10
 | Task | Reason | Target Spec |
 |------|--------|------------------|
 | Renumber the remaining questions (Q5, Q0b, Q0c, Q1 …) | D2: touches every prompt | later spec |
+| Try the tutorials' git-host part (GitHub with Angular, Azure DevOps with Python) | Needs a repository on each host; the local path came first | later spec |
+| Kit spec: cost cells in the Stage log format every time; `spec_summary` copied consistently | Seen in the trial runs; no effect without a git host | later spec |
 
 ---
 

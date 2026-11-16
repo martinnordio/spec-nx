@@ -3,7 +3,7 @@
 > Estimate — see [COSTS.md](../stages/COSTS.md). **All costs are estimates and may be wrong.** Rebuilt by
 > `costs_ledger` from the Stage logs on 2026-11-16; do not edit by hand.
 
-**All specs: ~39.06 M · ~CHF 11.54 (1379 credits)**
+**All specs: ~40.64 M · ~CHF 12.01 (1434 credits)**
 
 | Spec | Status | Requirements | Plan | Implementation | Review | PR | Other | Total |
 |------|--------|--------------|------|----------------|--------|----|-------|-------|
@@ -16,8 +16,8 @@
 | [Model Name in Logs](features/done/2026_11_14_model_name_in_logs_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
 | [The Right Model and Cost for Each Step](features/done/2026_11_14_model_per_step_spec.md) | ✅ Complete | ~5.72 M · ~CHF 1.83 | ~3.10 M · ~CHF 1.01 | ~14.50 M · ~CHF 4.04 | ~2.67 M · ~CHF 0.96 | ~740 k · ~CHF 0.23 | — | ~26.72 M · ~CHF 8.07 |
 | [Update Without Questions](features/done/2026_11_14_update_without_questions_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
-| [Simpler Setup](features/done/2026_11_16_simpler_setup_spec.md) | � In progress | ~1.20 M · ~CHF 0.31 | — | ~11.14 M · ~CHF 3.16 | — | — | — | ~12.34 M · ~CHF 3.47 |
-| **All specs** | | | | | | | | **~39.06 M · ~CHF 11.54** |
+| [Simpler Setup](features/done/2026_11_16_simpler_setup_spec.md) | ✅ Complete | ~1.20 M · ~CHF 0.31 | — | ~12.72 M · ~CHF 3.63 | — | — | — | ~13.92 M · ~CHF 3.94 |
+| **All specs** | | | | | | | | **~40.64 M · ~CHF 12.01** |
 
 ## Implementation by Step
 
@@ -44,3 +44,4 @@
 | Simpler Setup | 7 | ~1.36 M | ~CHF 0.64 (76 credits) |
 | Simpler Setup | 8 | ~344 k | ~CHF 0.15 (17 credits) |
 | Simpler Setup | 7 | ~1.30 M | ~CHF 0.41 (49 credits) |
+| Simpler Setup | 7 | ~679 k | ~CHF 0.18 (21 credits) |

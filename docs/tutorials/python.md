@@ -20,13 +20,14 @@ code.
 ## 1 · Create the project
 
 ```
-uv init flaskr
+uv init --app --no-package flaskr
 cd flaskr
 uv add flask
 uv add --dev pytest
 ```
 
-Delete `main.py` and create `app.py`:
+`--no-package` keeps a flat project (`main.py` next to `pyproject.toml`); newer versions of
+uv otherwise create a `src/` package. Delete `main.py` and create `app.py`:
 
 ```python
 from flask import Flask
@@ -169,6 +170,8 @@ git merge feature/blog-posts
 - `.specs/costs.md`: the cost of every spec of the project.
 
 **Costs are estimates and may be wrong** — see the kit's `COSTS.md`.
+
+Compare with one real run: [examples/flaskr](../../examples/flaskr/README.md).
 
 ## Next
 
