@@ -1,29 +1,33 @@
 # The Right Model and Cost for Each Step Spec
 
 > **Author:** Martin Nordio
-> **Status:** ⬜ Requirements in progress
+> **Status:** ⬜ Not started — plan ready
 > **Created:** 2026-11-14
-> **Last updated:** 2026-11-14
+> **Last updated:** 2026-11-16
 > **Branch:** `feature/model-per-step`
 > **Issue:** #5
 
 ## Stage log
 
-| Date | Stage | Command | Model | Tokens — estimate, see [COSTS.md](../../COSTS.md) | Note |
+| Date | Stage | Command | Model | Tokens — estimate, see COSTS.md | Note |
 |------|-------|---------|-------|--------|------|
 | 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~111 k (38 k in · 70 k cached · 3 k out) | Part 1 written |
 | 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~379 k (40 k in · 334 k cached · 5 k out) | Full process chosen; tokens and cost added (S13–S18) |
 | 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~132 k (4 k in · 126 k cached · 2 k out) | Q1–Q3 answered: one spec `v0.4.0`, `~` estimates, plan in default settings |
 | 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~289 k (5 k in · 282 k cached · 2 k out) | COSTS.md, disclaimer, publishing in public repos (S19–S21) |
-| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~101 k so far (2 k in · 99 k cached · 1 k out) | Cost ledgers (S22–S23), POC numbers (S24), hack_star reminder |
+| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~1.33 M (16 k in · 1,305 k cached · 9 k out) | Cost ledgers (S22–S23), POC numbers (S24), hack_star reminder |
 | 2026-11-14 | requirements | `CREATE ISSUE:` | Claude Opus 5.5 | counted in the row above | issue #5 created; default `publish: tokens` |
-| 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | not yet counted | Default models (S2), task-based tiers (S4), Cost summary (S17), CHF, missing settings = off (S18) |
-| 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | not yet counted | Simplified: one `cost.enabled` switch, one ledger, CHF rate 0.8384 (S13–S22) |
-| 2026-11-16 | requirements | `UPDATE ISSUE:` | Claude Opus 5.5 | not yet counted | issue #5 updated |
+| 2026-11-14 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~399 k (3 k in · 395 k cached · 2 k out) | Switch-off setting; plan prices checked against public GitHub pages |
+| 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~281 k (4 k in · 274 k cached · 3 k out) | Default models (S2), task-based tiers (S4), Cost summary (S17), CHF, missing settings = off (S18) |
+| 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~942 k (11 k in · 925 k cached · 5 k out) | Simplified: one `cost.enabled` switch, one ledger, CHF rate 0.8384 (S13–S22); developer `models: null` (S3) |
+| 2026-11-16 | requirements | `UPDATE ISSUE:` | Claude Opus 5.5 | counted in the row above | issue #5 updated |
+| 2026-11-16 | plan | `PLAN:` | Claude Opus 5.5 | ~0.7 M so far (4 k in · 670 k cached · 3 k out) | Part 2 written |
 
 > POC: numbers estimated by hand from the VS Code transcript (characters ÷ 4, ~35 k tokens of
-> system prompt and summary per request, earlier context counted as cached). The design talk
-> before Part 1 was not counted. Requirements so far: **~1.0 M tokens**.
+> system prompt and summary per request, earlier context counted as cached — also after the
+> break on 2026-11-16, when the cache was in fact cold). The design talk before Part 1 and the
+> hack_star licence work are not counted. Requirements ~3.9 M tokens, plan ~0.7 M so far:
+> **~4.5 M tokens, ~205 credits ≈ $2.05 ≈ CHF 1.72** (Claude Opus 5.5, 0.8384 CHF/USD).
 
 ---
 
@@ -170,8 +174,8 @@ at the start of stages, tracking of suggested vs. actual model.
   = nothing. No publish levels, no private ledger.
 - Default rate 0.8384 CHF per USD: European Central Bank reference rate of 2026-11-13 (latest on
   2026-11-16), via api.frankfurter.app.
-- spec-nx only changes its own repository. Other projects (spec-kit, AcceleratorHub, hack_star,
-  Incubator) get the feature when their owner runs `GENERATE KIT` / `GENERATE KIT --update`.
+- spec-nx only changes its own repository. Other projects get the feature when their owner
+  runs `GENERATE KIT` / `GENERATE KIT --update`.
 - This spec is written before the feature exists: its Stage log carries hand-made POC estimates
   (S22); specs from `v0.4.0` on get them from spec-nx.
 - The plan ends with a reminder Step (no code): *open a new spec to run hack_star experiments with
@@ -183,4 +187,260 @@ at the start of stages, tracking of suggested vs. actual model.
 
 # Part 2 · Plan
 
-_Written by the plan stage once Part 1 is agreed._
+## 2 · Spec Overview
+
+| Step | Description | Model (suggested) | Status | Detail |
+|------|-------------|-------------------|--------|--------|
+| **1** | Settings: Q7 `models`, the `cost` block | reasoning (Claude Opus 5.5) — settings contract | ⬜ Not started | [→ Step 1](#step-1--settings-q7-models-the-cost-block) |
+| **2** | Shared model rules for every stage | reasoning (Claude Opus 5.5) — sub-agent and fallback logic | ⬜ Not started | [→ Step 2](#step-2--shared-model-rules-for-every-stage) |
+| **3** | Plan: Model column and tier choice | standard (Claude Sonnet 5.5) — follows D1–D3 | ⬜ Not started | [→ Step 3](#step-3--plan-model-column-and-tier-choice) |
+| **4** | Implementation: one confirmation, sub-agents, tracking | reasoning (Claude Opus 5.5) — commits, stops, sub-agents | ⬜ Not started | [→ Step 4](#step-4--implementation-one-confirmation-sub-agents-tracking) |
+| **5** | Usage script: tokens and price | reasoning (Claude Opus 5.5) — transcript parsing, two shells | ⬜ Not started | [→ Step 5](#step-5--usage-script-tokens-and-price) |
+| **6** | COSTS.md and token columns in every stage | standard (Claude Sonnet 5.5) — text in known places | ⬜ Not started | [→ Step 6](#step-6--costsmd-and-token-columns-in-every-stage) |
+| **7** | CLOSE: cost summary and ledger | standard (Claude Sonnet 5.5) — script follows Step 5 | ⬜ Not started | [→ Step 7](#step-7--close-cost-summary-and-ledger) |
+| **8** | README, kit README, regression check | light (Claude Haiku 5.5) — docs and running checks | ⬜ Not started | [→ Step 8](#step-8--readme-kit-readme-regression-check) |
+| **9** | Reminder: hack_star cost comparison | light (Claude Haiku 5.5) — no code | ⬜ Not started | [→ Step 9](#step-9--reminder-hack_star-cost-comparison) |
+
+> **Step completion protocol (required):** every time a Step is finished, in the same edit:
+> 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
+> 2. Append a **`**Done (YYYY-MM-DD · ~<duration> · <model>)**`** line to that Step's
+>    **Notes**: date, time it took, the AI model that did the work, a one-line summary and
+>    the verifying test/command result.
+>
+> The table and the Step sections must **always agree**.
+
+> **Time tracking (required for every Step):** each Step's **first task** is
+> `Record the start time in Notes` (e.g. `Started: YYYY-MM-DD HH:MM`); the Done line records
+> the finish and the duration.
+
+### Decisions
+
+| # | Decision | Why |
+|---|----------|-----|
+| D1 | New question **Q7 · Model per Step**, asked after Q6; key `models` = `{reasoning, standard, light, guide}`, `{fixed}` or `null`, in both settings files (the local one wins, also `null`) | One key for all three answers; `null` and "missing" mean the same, so old kits behave as before |
+| D2 | `guide` holds one line per tier (the S4 text); `GENERATE KIT` writes it with the defaults and teams edit it | The guide is a setting, not hidden in a prompt |
+| D3 | Shared rules in a new building block `stages/models.md` (start check, sub-agent, missing model, tracking), copied to the kit as `models.md` and loaded by every stage prompt | One place instead of the same text in eight prompts |
+| D4 | Key `cost` = `{enabled, plan, monthly_price_usd, monthly_credits, currency, rate, rate_date, prices}`; `prices` (credits per 1 M tokens per model) is optional and only used when the tool does not publish them | Matches S15/S18; no account data is committed by default |
+| D5 | Script pair `tools/usage.ps1` / `tools/usage.sh` (bash uses `python3` for JSON): reads a transcript between two times, prints tokens (input, cached, output, measured or `~`), credits, USD, local currency and % of plan | Same shape as the other kit scripts; stages call it, never compute by hand |
+| D6 | The transcript is found by the script: Claude Code `~/.claude/projects/<project>/*.jsonl` (measured); VS Code `workspaceStorage/*/GitHub.copilot-chat/transcripts/*.jsonl` of this workspace (estimated, the POC method: characters ÷ 4, earlier context as cached); `-Transcript` overrides | No setting needed; the POC numbers in this spec are the test data |
+| D7 | Stage log gets two columns, **Tokens** and **Cost**, written only when cost is enabled; Done lines add `· ~<tokens> · ~CHF <x>`; older specs keep five columns | S13/S20; nothing changes for projects without `cost` |
+| D8 | Script pair `tools/costs_ledger.ps1` / `.sh` rebuilds `.specs/costs.md` from the Stage logs of `.specs/features/**/*_spec.md` | S21: rebuilt, never appended; merge conflicts fixed by running it |
+| D9 | `stages/costs.md` is both the user page and the rules; the kit gets it as `COSTS.md` | S19: one page to link to |
+| D10 | The tier check in Step 8 generates a kit into a temporary folder with old settings (no `models`, no `cost`) and with the new ones, and compares | S12: proves nothing breaks for existing projects |
+
+---
+
+## Step 1 — Settings: Q7 `models`, the `cost` block
+
+### Goal
+The setup question and both settings keys exist with their defaults and rules (S1, S2, S3,
+S7, S18).
+
+### Tasks
+- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [ ] `generator/questions.md`: Q7 row and section — the three answers, the default mapping
+      (Opus 5.5 / Sonnet 5.5 / Haiku 5.5), checking against the tool's model list, asking for
+      exact names otherwise; `models` and `cost` in both settings tables (D1, D2, D4).
+- [ ] `generator/prompt.md`: ask Q7; write `cost` with the defaults for new kits only;
+      `--update` adds neither `models` nor `cost`, `--update --force` asks Q7 again; report
+      the settings and the COSTS.md note.
+- [ ] Check: `testing/check_all.ps1` passes; read Q7 against S1–S3, S7, S18.
+
+### Notes
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 2 — Shared model rules for every stage
+
+### Goal
+Every stage runs on the configured model, or says why not (S5, S7, S9, S10).
+
+### Tasks
+- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [ ] `stages/models.md` (D3): read `models` (local wins); `null` → do nothing; requirements
+      and plan on reasoning, fixed for every stage; sub-agent on the configured model (VS Code
+      `runSubagent` with `"<name> (copilot)"`, Claude Code sub-agent model), otherwise stop and
+      ask switch / continue; missing model → stop before work, suggest, save for team or
+      developer, continue, report.
+- [ ] Every stage prompt: *Files this stage uses* lists `../models.md`; the **Model name**
+      section starts with "Check the model first (`../models.md`)".
+- [ ] `generator/prompt.md`: copy `models.md` into the kit (layout in the contract).
+- [ ] Check: `testing/check_all.ps1` (every `../models.md` path resolves).
+
+### Notes
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 3 — Plan: Model column and tier choice
+
+### Goal
+Plans give each Step a tier with a reason, chosen for quality and cost (S4, S8).
+
+### Tasks
+- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [ ] `stages/plan/prompt.md`: with per Step, a **Model (suggested)** column — tier, model and
+      a few words why; start from `guide`, pick the cheapest tier that does the Step well;
+      without per Step, no column.
+- [ ] `stages/spec_template.md`: the column in **2 · Spec Overview** (marked optional) and its
+      comment.
+- [ ] Check: this spec's own table follows the new rule; `check_all.ps1` passes.
+
+### Notes
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 4 — Implementation: one confirmation, sub-agents, tracking
+
+### Goal
+`IMPLEMENT:` runs each Step on its model and records what ran (S6, S8, S10).
+
+### Tasks
+- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [ ] `stages/implementation/prompt.md`: with per Step, one question at the start (yes /
+      only this Step / no); with yes and commit permission (`stages/agent/permissions.md`),
+      each Step as a sub-agent on its model, commit per Step, stop at the first failing
+      check, never push; without commit permission one Step per `IMPLEMENT:`; elsewhere the
+      reminder of the next Step's model.
+- [ ] Done line and Stage log: `suggested: <tier> (<model>) · ran: <model>`
+      (template comment too).
+- [ ] Check: walk through Steps 5–7 of this spec on paper with the new text (who asks, who
+      commits, what is written); `check_all.ps1` passes.
+
+### Notes
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 5 — Usage script: tokens and price
+
+### Goal
+A script measures or estimates the tokens of a time range and prices them (S13, S14, S15,
+S16); it replaces the hand-made POC estimates of this spec (S22).
+
+### Tasks
+- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [ ] `stages/tools/usage.ps1` and `usage.sh` (D5, D6): `-Since`, `-Until`, `-Model`,
+      `-Transcript`, `-Json`; prices from the tool's model list or `cost.prices`; credits →
+      USD → local currency with `rate`; % of `monthly_credits`; prints `~` when estimated.
+- [ ] `stages/tools/README.md`: the script, its parameters and an example.
+- [ ] Check: on this conversation's transcript the script reproduces the POC rows of this
+      spec within 5 %; PowerShell parses and is ASCII; `bash -n` passes; a Claude Code sample
+      file gives measured numbers.
+
+### Notes
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 6 — COSTS.md and token columns in every stage
+
+### Goal
+With cost enabled, every stage writes its tokens and cost, always linked to COSTS.md (S13,
+S18, S19, S20).
+
+### Tasks
+- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [ ] `stages/costs.md` (D9): how it is measured or estimated, the sources and dates (plans
+      page, billing page, ECB rate), the settings, and in bold that all costs are estimates
+      and may be wrong; real usage on the GitHub billing page.
+- [ ] Stage prompts that write a Stage log row: record the start time; at the end, with cost
+      enabled, run `usage` and fill **Tokens** and **Cost** (D7); disabled or missing → as
+      today.
+- [ ] `stages/spec_template.md`: the two optional columns, header "estimate — see COSTS.md".
+- [ ] `generator/prompt.md`: copy `costs.md` as `COSTS.md` into the kit; the setup report shows
+      the disclaimer and the link.
+- [ ] Check: `check_all.ps1`; a spec written with cost disabled is unchanged.
+
+### Notes
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 7 — CLOSE: cost summary and ledger
+
+### Goal
+Closing a spec writes its cost summary and rebuilds the ledger of all specs (S17, S21).
+
+### Tasks
+- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [ ] `stages/implementation/prompt.md` CLOSE: with cost enabled, a **Cost summary** before
+      Part 1 — one sentence (total tokens, local currency, link) and a table per stage and Step
+      with a Total row.
+- [ ] `stages/tools/costs_ledger.ps1` / `.sh` (D8): one row per spec (open and done), per
+      stage and Step totals, a total for all; `N/A` where a spec has no numbers.
+- [ ] `stages/pr/prompt.md`: the pull request repeats the summary sentence.
+- [ ] Check: run the ledger on this repository (older specs show `N/A`, this spec its POC
+      numbers); scripts parse, ASCII, `bash -n`.
+
+### Notes
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 8 — README, kit README, regression check
+
+### Goal
+The feature is told early, and existing projects work as before (S11, S12).
+
+### Tasks
+- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [ ] `README.md`: near the top *The right model for each Step* (what, the three answers,
+      which tools switch automatically) and *Tokens and cost* (one switch, estimates,
+      COSTS.md); Q7 in *Setup questions*; the `cost` block as an advanced setting.
+- [ ] `stages/kit_readme.md`: the model and cost lines.
+- [ ] Regression (D10): generate a kit in a temporary folder with old settings and with the
+      new ones; old settings → no Model column, no Tokens/Cost, no new questions; new
+      settings → `models.md`, `COSTS.md`, columns present.
+- [ ] Check: `check_all.ps1` passes; the regression results in Notes.
+
+### Notes
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 9 — Reminder: hack_star cost comparison
+
+### Goal
+Nothing is forgotten after the release: a reminder to compare models on a real project.
+
+### Tasks
+- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [ ] Add to **Deferred Items**: *new spec in hack_star — run the same features with
+      different model settings (fixed Opus, per Step, light-heavy) and compare tokens and
+      cost*. Do not create that spec.
+- [ ] Check: the row is in Deferred Items.
+
+### Notes
+<!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Deferred Items
+
+Tasks set aside for a future spec, so nothing is forgotten.
+
+| Task | Reason | Target Spec |
+|------|--------|------------------|
+| Sub-agent tokens in VS Code Copilot, if they are not in the main transcript | Unknown until Step 5 tests it; COSTS.md says so | later spec |
+
+---
+
+## Review Log
+
+| Date | Reviewer | Scope | Outcome | Findings |
+|------|----------|-------|---------|----------|
+
+---
+
+## Definition of Done
+
+- [x] Requirements · Part 1 agreed (S1..S22 testable, open questions answered)
+- [x] Plan · Part 2 written; every Step has a goal and tasks
+- [ ] Implementation · every Step's tasks checked
+- [ ] Documentation · README, generator docs and kit README updated
+- [ ] Review · semantic diff written for this spec
+- [ ] Spec closed · moved to `.specs/features/done/`
+- [ ] Pull request · opened with the spec summary; reviewed; merged; branch deleted
