@@ -1,5 +1,5 @@
 ### Semantic diff
-Model per stage and Step, tokens and cost of every stage; nothing changes without the new settings · checks 6 pass · 2 n/a · 1 fail · findings 6
+Model per stage and Step, tokens and cost of every stage; nothing changes without the new settings · checks 6 pass · 2 n/a · 1 fail · findings 6 (1 fixed)
 
 **Review here first:** [review page](https://github.com/martinnordio/spec-nx/raw/feature/model-per-step/.specs/review/2026-11-16_feature-model-per-step.html) — download it and open it in a browser ([all review pages](https://github.com/martinnordio/spec-nx/raw/feature/model-per-step/.specs/review/index.html))
 
@@ -18,5 +18,6 @@ Model per stage and Step, tokens and cost of every stage; nothing changes withou
 | message | `COSTS.md` disclaimer | added | S19, S20 |
 | data-format | `.specs/kit/`: `models.md`, `COSTS.md`, scripts | modified | S12, S19 |
 | message | README: the feature at the top | modified | S11 |
+| data-format | Issue / pull-request summary: `## Cost summary` before the plan | modified | S23 |
 
 **Top findings:** (1) Should-fix — VS Code transcript discovery is not per workspace (deferred); (2) Should-fix — `GENERATE KIT` with Q7 / cost not run end to end (deferred); (3) Nit — no committed tests for the new scripts (C7, deferred).
