@@ -40,6 +40,7 @@
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~763 k (7 k in · 753 k cached · 3 k out) | ~CHF 0.21 (25 credits) | Step 11 done (S23, added after closing) |
 | 2026-11-16 | review | `REVIEW:` | Claude Opus 5.5 | ~208 k (4 k in · 203 k cached · 2 k out) | ~CHF 0.08 (10 credits) | semantic diff re-run: block for S23 |
 | 2026-11-16 | pr | `PR:` | Claude Opus 5.5 | ~218 k (4 k in · 212 k cached · 2 k out) | ~CHF 0.08 (10 credits) | pull request and issue updated with the Cost summary |
+| 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~681 k (5 k in · 673 k cached · 2 k out) | ~CHF 0.17 (21 credits) | Step 12 done (S24, added after closing) |
 
 > All rows were computed with `stages/tools/usage.ps1` (method D11 and
 > [COSTS.md](../../../stages/COSTS.md)) on the VS Code transcript of this chat, replacing the
@@ -53,12 +54,21 @@
 
 ## Cost summary
 
-This feature used ~24.73 M tokens, ~CHF 7.49 — estimate, see [COSTS.md](../../../stages/COSTS.md).
+This feature used ~25.84 M tokens, ~CHF 7.82 — estimate, see [COSTS.md](../../../stages/COSTS.md).
 
-| Stage / Step | Tokens | Cost (CHF) | Share of Copilot Business |
-|--------------|--------|------------|---------------------------|
+| Stage | Tokens | Cost (CHF) | Share of Copilot Business |
+|-------|--------|------------|---------------------------|
 | requirements | ~5.72 M | ~CHF 1.83 (218 credits) | 11.5 % |
 | plan | ~3.10 M | ~CHF 1.01 (121 credits) | 6.4 % |
+| implementation | ~14.50 M | ~CHF 4.04 (484 credits) | 25.5 % |
+| review | ~2.05 M | ~CHF 0.80 (96 credits) | 5.1 % |
+| pr | ~479 k | ~CHF 0.14 (17 credits) | 0.9 % |
+| **Total** | **~25.84 M** | **~CHF 7.82 (936 credits)** | **49.3 %** |
+
+**Implementation by Step**
+
+| Step | Tokens | Cost (CHF) | Share of Copilot Business |
+|------|--------|------------|---------------------------|
 | Step 1 | ~1.70 M | ~CHF 0.45 (54 credits) | 2.8 % |
 | Step 2 | ~857 k | ~CHF 0.23 (28 credits) | 1.5 % |
 | Step 3 | ~257 k | ~CHF 0.08 (10 credits) | 0.5 % |
@@ -70,12 +80,11 @@ This feature used ~24.73 M tokens, ~CHF 7.49 — estimate, see [COSTS.md](../../
 | Step 9 | ~1.64 M | ~CHF 0.58 (69 credits) | 3.6 % |
 | Step 10 | ~85 k | ~CHF 0.02 (2 credits) | 0.1 % |
 | Step 11 | ~763 k | ~CHF 0.21 (25 credits) | 1.3 % |
-| review | ~1.84 M | ~CHF 0.72 (86 credits) | 4.5 % |
+| Step 12 | ~681 k | ~CHF 0.17 (21 credits) | 1.1 % |
 | CLOSE | ~320 k | ~CHF 0.09 (11 credits) | 0.6 % |
-| pr | ~261 k | ~CHF 0.06 (7 credits) | 0.4 % |
-| **Total** | **~24.73 M** | **~CHF 7.49 (895 credits)** | **47.1 %** |
+| **Total implementation** | **~14.50 M** | **~CHF 4.04 (484 credits)** | **25.5 %** |
 
-Up to Step 11; the review and pull-request update after it are in the Stage log.
+Up to Step 12; the review and pull-request update after it are in the Stage log.
 
 ---
 
@@ -208,6 +217,10 @@ at the start of stages, tracking of suggested vs. actual model.
   section `## Cost summary` with its sentence and table, links as full URLs — before the plan
   part; the pull request too (an Azure DevOps pull request over 4000 characters keeps only the
   sentence).
+- **S24 — Cost summary by stage, then by Step** *(added after closing)*: the Cost summary has
+  two tables — one row per stage (requirements, plan, implementation, review, pr) with a
+  Total, then implementation by Step (each Step and `CLOSE:`) with its total; the issue /
+  backlog item and the pull request get both.
 
 ### Decisions
 
@@ -259,7 +272,8 @@ right target); the cost page is `stages/COSTS.md` so `../COSTS.md` works in spec
 the regression checked the scripts and prompt guards instead of a full AI generation;
 `docs/configuration.md` and the README section at the very top were added at the author's
 request; review fix "1 credit". After closing, at the author's request: S23 / Step 11 — the
-Cost summary in the issue and the pull request.
+Cost summary in the issue and the pull request; S24 / Step 12 — the Cost summary by stage,
+then by Step.
 **Files:** `generator/questions.md`, `generator/prompt.md`, `stages/models.md`,
 `stages/COSTS.md`, `stages/tools/usage.ps1` / `.sh`, `stages/tools/costs_ledger.ps1` / `.sh`,
 `stages/tools/README.md`, the seven stage prompts, `stages/spec_template.md`,
@@ -281,6 +295,7 @@ Cost summary in the issue and the pull request.
 | **9** | spec-nx on its own settings, same spec format | standard (Claude Sonnet 5.5) — settings and a format check | ✅ Done | [→ Step 9](#step-9--spec-nx-on-its-own-settings-same-spec-format) |
 | **10** | Reminder: hack_star cost comparison | light (Claude Haiku 5.5) — no code | ✅ Done | [→ Step 10](#step-10--reminder-hack_star-cost-comparison) |
 | **11** | Cost summary in the issue and the pull request | standard (Claude Sonnet 5.5) — text in known places | ✅ Done | [→ Step 11](#step-11--cost-summary-in-the-issue-and-the-pull-request) |
+| **12** | Cost summary by stage, then by Step | standard (Claude Sonnet 5.5) — text in known places | ✅ Done | [→ Step 12](#step-12--cost-summary-by-stage-then-by-step) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
@@ -674,6 +689,39 @@ prompts and the CLOSE report now carry the Cost summary before the plan, with fu
 example's editor link `vscode-resource…` would not work in GitHub); an Azure DevOps pull
 request over 4000 characters keeps only the sentence. `check_all.ps1`: 4 known placeholders.
 · suggested: standard (Claude Sonnet 5.5) · ran: Claude Opus 5.5 · ~763 k · ~CHF 0.21
+
+---
+
+## Step 12 — Cost summary by stage, then by Step
+
+*(added after closing, at the author's request)*
+
+### Goal
+The Cost summary shows the stages first and implementation by Step second, in the spec, the
+issue and the pull request (S24).
+
+### Tasks
+- [x] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [x] `stages/implementation/prompt.md` CLOSE: the two tables and how rows are grouped
+      (`CLOSE:` under implementation, issue commands under requirements, other stages in their
+      own row).
+- [x] `stages/tools/README.md`, `stages/pr/prompt.md`, `stages/requirements/prompt.md`: both
+      tables in the summary.
+- [x] This spec: S24, this Step, the Cost summary in two tables; review, pull request and issue
+      again.
+- [x] Check: `check_all.ps1`; the implementation table's total equals the implementation row;
+      the issue and the pull request show both tables before **Plan**.
+
+### Notes
+Started: 2026-11-16 12:08
+
+**Done (2026-11-16 · ~3m · Claude Opus 5.5)** — Cost summary in two tables (by stage, then
+implementation by Step with `CLOSE:`), in the CLOSE prompt, the summary format and the pr and
+requirements prompts; this spec's summary rebuilt: implementation ~14.50 M / ~CHF 4.04 in both
+tables. `costs_ledger` now has the same stage columns (Requirements, Plan, Implementation,
+Review, PR, Other); both shells print the same file. `check_all.ps1`: 4 known placeholders. ·
+suggested: standard (Claude Sonnet 5.5) ·
+ran: Claude Opus 5.5 · ~681 k · ~CHF 0.17
 
 ---
 

@@ -71,7 +71,7 @@ generated kit (`.specs/kit/pr/`).
    status. Write it to a temporary file outside the repository.
 
    **Cost:** if the spec has a **Cost summary** (closed with cost tracking on, `../COSTS.md`),
-   add the section `## Cost summary` — its sentence and table, links as full URLs — before
+   add the section `## Cost summary` — its sentence and both tables, links as full URLs — before
    the **Plan** part, as `../tools/README.md` shows. The issue / backlog item always gets the
    whole section; an Azure DevOps pull request over 4000 characters keeps only the sentence.
 
