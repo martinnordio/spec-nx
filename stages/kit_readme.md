@@ -48,6 +48,18 @@ carries the reference of the spec's issue (`#<n>`) or backlog item (`AB#<id>`) �
 
 <!-- Without the implementation stage, row 6 becomes: "Close the spec by hand: Status ✅, move it to done/". -->
 
+<!-- Only the lines that apply: `models` set (Q7) and / or a `cost` block. -->
+## Models and cost
+
+- **Models** (`models.md`): <per Step — reasoning <model>, standard <model>, light <model> /
+  fixed <model>>. Each stage checks its model first and runs as a sub-agent on it where the
+  tool allows; the plan gives every Step a tier; `IMPLEMENT:` asks once and runs the Steps on
+  their models. Change it in `.specs/spec-nx.json` (`models`), or only for you in
+  `.specs/spec-nx.local.json` (`null` = always your tool's model).
+- **Tokens and cost** (`COSTS.md`): every Stage log row and Done line gets its tokens and cost
+  in <currency>; `CLOSE:` adds a cost summary and rebuilds `.specs/costs.md`. **All costs are
+  estimates and may be wrong.** Turn it off with `"enabled": false` in the `cost` block.
+
 ## Now and then
 
 | Command | Stage | Does |

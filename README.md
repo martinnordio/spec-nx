@@ -8,6 +8,29 @@ asked.
 
 For anyone who builds software with AI: developers, students, scientists, and curious kids.
 
+## ⭐ The right model for each Step — and what it cost
+
+**spec-nx picks the AI model for every stage and Step, and tells you what each one cost.**
+
+- **The right model, automatically.** Requirements, plans and hard Steps (architecture,
+  security, tricky logic, graphics-heavy work) run on a strong *reasoning* model; routine Steps
+  on a *standard* one; renames and docs on a cheap *light* one. The plan chooses the cheapest
+  model that does each Step well and shows why; `IMPLEMENT:` asks **once** and then runs every
+  Step on its model — as a sub-agent in VS Code Copilot and Claude Code.
+- **Your choice per project:** a model per Step (default: Claude Opus 5.5 / Sonnet 5.5 /
+  Haiku 5.5), **one fixed model** for everything, or **none** — always the model selected in
+  your tool. Each developer can override it for themselves.
+- **Tokens and cost of every stage and Step,** written into the spec: measured in Claude Code,
+  estimated in VS Code Copilot — in tokens, GitHub AI credits, your currency (default CHF) and
+  % of your Copilot plan. Closing a spec adds a **cost summary**, and `.specs/costs.md` lists
+  every spec with its total. One switch turns it off.
+- **Every Step records the model it was meant for and the model that ran it**, so you can
+  compare models on real work.
+
+> Costs are **estimates and may be wrong** — see
+> [stages/COSTS.md](stages/COSTS.md). How to set it up:
+> [docs/configuration.md](docs/configuration.md).
+
 > 🚧 **Work in progress.** spec-nx is built in the open, one spec at a time, using itself.
 > See [Status](#status) for what works today.
 
@@ -214,7 +237,8 @@ Keeping both parts in one file means the reason for every Step is right above it
 
 A short **Stage log** at the top of the spec records which stage wrote what, and with which AI
 model (requirements, plan, each implemented Step, pull request), so you can later see — and
-compare — what each model produced.
+compare — what each model produced. With cost tracking on, it also records the tokens and the
+cost of each row.
 
 ## Terms
 
@@ -247,8 +271,13 @@ The generator starts with a short list of questions:
 | Q4b | **Kit folder** — `.specs/kit/` or, for a repository that *is* a shared kit, e.g. the root? | From a company layer |
 | Q4c | **Kit used from other repositories** — under which submodule folder? (only for another kit folder) | From a company layer |
 | Q6 | **AI agent permissions** — for Claude Code, VS Code Copilot, both or none? | Partly (existing agent settings) |
+| Q7 | **Model per Step** — a model per Step (suggested mapping or your own), one fixed model, or always your tool's model? | Partly (the tool's model list) |
 
-All questions, options and the configuration files: [generator/questions.md](generator/questions.md).
+Not asked: the **`cost` block** — tokens and cost of every stage, on by default in new kits,
+changed by hand.
+
+All questions, options and the configuration files: [generator/questions.md](generator/questions.md);
+how to configure models, cost and the rest: [docs/configuration.md](docs/configuration.md).
 
 If you connect a git host, the kit includes scripts that keep the issue (GitHub) or backlog
 item (Azure DevOps) and the pull request in sync with the spec: the requirements stage can
@@ -267,14 +296,17 @@ the project's own rules still win. The format: [generator/layer.md](generator/la
 ```
 spec-nx/
   README.md          this file
+  docs/              how to configure spec-nx (configuration.md)
   generator/         setup questions, the generator prompt, the company-layer format
   stages/            the building blocks: one folder per stage (prompt, templates, rules)
     spec_template.md the spec file template, shared by all stages
+    models.md        which model runs each stage and Step, shared by all stages
+    COSTS.md         how tokens and cost are counted (the kit's COSTS.md)
     kit_readme.md    the README of a generated kit
     skills/          roles the assistant takes on, shared by the stages
     guidelines/      coding-rule baselines per language and GUIDELINES:
     agent/           how the AI agent's permissions are written
-    tools/           git-host scripts (GitHub, Azure DevOps), shared by the stages
+    tools/           git-host scripts (GitHub, Azure DevOps) and the token / cost scripts
   examples/          generated kits, e.g. a "requirements → plan → pr" kit
   testing/           local trial runs (not pushed; see testing/README.md)
   .specs/            spec-nx's own specs — spec-nx is built with itself
@@ -290,6 +322,9 @@ Done:
   implementation, documentation and review stages; the on-demand stages improvement, setup
   and ui; guidelines; the new-project spec; the company layer; agent permissions; questions
   Q0, Q0b, Q0c, Q1b, Q5, Q6.
+- [x] [The right model and cost for each Step](.specs/features/2026_11_14_model_per_step_spec.md):
+  question Q7, model per stage and Step with sub-agents, tokens and cost of every stage, the
+  cost summary and `.specs/costs.md`.
 
 Later: a command-line tool, card images of the semantic diff for pull requests, and example
 kits.
