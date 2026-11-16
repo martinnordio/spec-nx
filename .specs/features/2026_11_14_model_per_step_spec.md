@@ -197,7 +197,7 @@ at the start of stages, tracking of suggested vs. actual model.
 | Step | Description | Model (suggested) | Status | Detail |
 |------|-------------|-------------------|--------|--------|
 | **1** | Settings: Q7 `models`, the `cost` block | reasoning (Claude Opus 5.5) — settings contract | ✅ Done | [→ Step 1](#step-1--settings-q7-models-the-cost-block) |
-| **2** | Shared model rules for every stage | reasoning (Claude Opus 5.5) — sub-agent and fallback logic | ⬜ Not started | [→ Step 2](#step-2--shared-model-rules-for-every-stage) |
+| **2** | Shared model rules for every stage | reasoning (Claude Opus 5.5) — sub-agent and fallback logic | ✅ Done | [→ Step 2](#step-2--shared-model-rules-for-every-stage) |
 | **3** | Plan: Model column and tier choice | standard (Claude Sonnet 5.5) — follows D1–D3 | ⬜ Not started | [→ Step 3](#step-3--plan-model-column-and-tier-choice) |
 | **4** | Implementation: one confirmation, sub-agents, tracking | reasoning (Claude Opus 5.5) — commits, stops, sub-agents | ⬜ Not started | [→ Step 4](#step-4--implementation-one-confirmation-sub-agents-tracking) |
 | **5** | Usage script: tokens and price | reasoning (Claude Opus 5.5) — transcript parsing, two shells | ⬜ Not started | [→ Step 5](#step-5--usage-script-tokens-and-price) |
@@ -273,18 +273,28 @@ adds `cost`. `check_all.ps1`: only the 4 known template placeholders. · suggest
 Every stage runs on the configured model, or says why not (S5, S7, S9, S10).
 
 ### Tasks
-- [ ] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
-- [ ] `stages/models.md` (D3): read `models` (local wins); `null` → do nothing; requirements
+- [x] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [x] `stages/models.md` (D3): read `models` (local wins); `null` → do nothing; requirements
       and plan on reasoning, fixed for every stage; sub-agent on the configured model (VS Code
       `runSubagent` with `"<name> (copilot)"`, Claude Code sub-agent model), otherwise stop and
       ask switch / continue; missing model → stop before work, suggest, save for team or
       developer, continue, report.
-- [ ] Every stage prompt: *Files this stage uses* lists `../models.md`; the **Model name**
+- [x] Every stage prompt: *Files this stage uses* lists `../models.md`; the **Model name**
       section starts with "Check the model first (`../models.md`)".
-- [ ] `generator/prompt.md`: copy `models.md` into the kit (layout in the contract).
-- [ ] Check: `testing/check_all.ps1` (every `../models.md` path resolves).
+- [x] `generator/prompt.md`: copy `models.md` into the kit (layout in the contract).
+- [x] Check: `testing/check_all.ps1` (every `../models.md` path resolves).
 
 ### Notes
+Started: 2026-11-16 09:00
+
+**Done (2026-11-16 · ~8m · Claude Opus 5.5)** — `stages/models.md`: read the setting
+(local wins, also `null`), a tier per stage (requirements, plan, review, improvement:
+reasoning; documentation, CLOSE: standard; pr: light; IMPLEMENT: the Step's tier), check
+before work, sub-agent or ask, missing model, recording. The seven prompts with a **Model
+name** section start it with the check (the mention there replaces a row in *Files this stage
+uses*); the generator copies `models.md` and lists it in the layout. `check_all.ps1`: the
+4 known placeholders only. · suggested: reasoning (Claude Opus 5.5) · ran: Claude Opus 5.5 ·
+tokens and cost: Step 9
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---
