@@ -62,6 +62,7 @@ if (-not $Transcript) {
     $Transcript = ($found | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
 }
 
+$Transcript = (Resolve-Path -LiteralPath $Transcript).Path
 $lines = [IO.File]::ReadAllLines($Transcript, [Text.Encoding]::UTF8)
 $vscode = $lines.Count -gt 0 -and $lines[0].StartsWith('{"type":"session.start"')
 

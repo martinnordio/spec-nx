@@ -32,6 +32,7 @@ foreach ($block in @($(if ($hasProject) { $project.cost }), $(if ($hasLocal) { $
 if ($cost.ContainsKey('enabled') -and -not $cost['enabled']) { Write-Output 'Cost tracking is off: cost.enabled is false.'; return }
 $currency = if ($cost['currency']) { $cost['currency'] } else { 'USD' }
 
+if (-not $CostsLink -and (Test-Path (Join-Path $Root 'stages/COSTS.md'))) { $CostsLink = '../stages/COSTS.md' }
 if (-not $CostsLink) {
     $kit = if ($project -and $project.PSObject.Properties['kit_dir'] -and $project.kit_dir) { "$($project.kit_dir)".TrimEnd('/') } else { '.specs/kit' }
     if ($kit.StartsWith('.specs/')) { $CostsLink = $kit.Substring(7) + '/COSTS.md' }
@@ -54,7 +55,7 @@ function Get-Tokens([string] $text) {
     return [double]::Parse($m.Groups[1].Value.Replace(',', ''), $inv) * $f
 }
 
-$specsDir = Join-Path $Root '.specs'
+$specsDir = (Resolve-Path (Join-Path $Root '.specs')).Path
 $files = @()
 foreach ($d in (Join-Path $specsDir 'features'), (Join-Path $specsDir 'features/done')) {
     if (Test-Path -LiteralPath $d) { $files += Get-ChildItem -LiteralPath $d -Filter '*_spec.md' -File }
