@@ -107,6 +107,14 @@ Built by the stage prompt from the spec file, in this form:
 - **S1 — <name>:** <first sentence of S1>
 - **S2 — <name>:** <first sentence of S2>
 
+## Cost summary
+This feature used ~<tokens> tokens, ~<currency> <amount> — estimate, see [COSTS.md](<full URL of COSTS.md>).
+
+| Stage / Step | Tokens | Cost (<currency>) | Share of <plan> |
+|--------------|--------|-------------------|-----------------|
+| requirements | ~… | ~… | … % |
+| **Total** | **~…** | **~…** | **… %** |
+
 **Plan**
 | Step | Description | Status |
 |------|-------------|--------|
@@ -119,4 +127,11 @@ Built by the stage prompt from the spec file, in this form:
   link to the feature branch; once it is closed (in `.specs/features/done/`), link to the
   default branch — the feature branch is deleted after the merge, the default branch stays.
 - While the spec has no plan yet (requirements stage), the **Plan** part is left out.
-- Keep it short: Azure DevOps allows 4000 characters in a pull-request description.
+- **Cost summary:** only when the spec has one (written by `CLOSE:` with cost tracking on):
+  its sentence and table, copied as they are, before the **Plan** part. Make its links full
+  URLs on the default branch (the COSTS.md of the kit, e.g.
+  `https://github.com/<owner>/<repo>/blob/<default>/<kit_ref>/COSTS.md`) — never local or
+  editor links.
+- Keep it short: Azure DevOps allows 4000 characters in a pull-request description. If the
+  Azure DevOps pull request would be longer, keep only the Cost summary's sentence there; the
+  backlog item always gets the whole section.

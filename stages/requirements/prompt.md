@@ -189,7 +189,9 @@ and in a generated kit (`.specs/kit/requirements/`).
 3. Find the shell: `shell` in `.specs/spec-nx.local.json`, otherwise PowerShell on Windows and
    bash on macOS / Linux.
 4. Build the **summary** in the format of `../tools/README.md`. While Part 2 has no Steps,
-   leave the **Plan** part out. Write it to a temporary file outside the repository.
+   leave the **Plan** part out. If the spec has a **Cost summary** (closed with cost tracking
+   on), add it as `## Cost summary` before the **Plan** part, links as full URLs. Write it to a
+   temporary file outside the repository.
 5. Run the issue script for the host and shell **with the dry run** and show the result:
 
    | Host | PowerShell | bash |

@@ -37,6 +37,7 @@
 | 2026-11-16 | review | `REVIEW:` | Claude Opus 5.5 | ~1.84 M (31 k in · 1.80 M cached · 17 k out) | ~CHF 0.72 (86 credits) | semantic diff written; review fix "1 credit" |
 | 2026-11-16 | implementation | `CLOSE:` | Claude Opus 5.5 | ~320 k (4 k in · 315 k cached · 1 k out) | ~CHF 0.09 (11 credits) | spec closed |
 | 2026-11-16 | pr | `PR:` | Claude Opus 5.5 | ~261 k (1 k in · 259 k cached · 0 k out) | ~CHF 0.06 (7 credits) | pull request opened (until the commit of this row) |
+| 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~763 k (7 k in · 753 k cached · 3 k out) | ~CHF 0.21 (25 credits) | Step 11 done (S23, added after closing) |
 
 > All rows were computed with `stages/tools/usage.ps1` (method D11 and
 > [COSTS.md](../../../stages/COSTS.md)) on the VS Code transcript of this chat, replacing the
@@ -50,7 +51,7 @@
 
 ## Cost summary
 
-This feature used ~23.71 M tokens, ~CHF 7.22 — estimate, see [COSTS.md](../../../stages/COSTS.md).
+This feature used ~24.73 M tokens, ~CHF 7.49 — estimate, see [COSTS.md](../../../stages/COSTS.md).
 
 | Stage / Step | Tokens | Cost (CHF) | Share of Copilot Business |
 |--------------|--------|------------|---------------------------|
@@ -66,9 +67,13 @@ This feature used ~23.71 M tokens, ~CHF 7.22 — estimate, see [COSTS.md](../../
 | Step 8 | ~1.88 M | ~CHF 0.45 (54 credits) | 2.8 % |
 | Step 9 | ~1.64 M | ~CHF 0.58 (69 credits) | 3.6 % |
 | Step 10 | ~85 k | ~CHF 0.02 (2 credits) | 0.1 % |
+| Step 11 | ~763 k | ~CHF 0.21 (25 credits) | 1.3 % |
 | review | ~1.84 M | ~CHF 0.72 (86 credits) | 4.5 % |
 | CLOSE | ~320 k | ~CHF 0.09 (11 credits) | 0.6 % |
-| **Total** | **~23.71 M** | **~CHF 7.22 (863 credits)** | **45.4 %** |
+| pr | ~261 k | ~CHF 0.06 (7 credits) | 0.4 % |
+| **Total** | **~24.73 M** | **~CHF 7.49 (895 credits)** | **47.1 %** |
+
+Up to Step 11; the review and pull-request update after it are in the Stage log.
 
 ---
 
@@ -196,6 +201,11 @@ at the start of stages, tracking of suggested vs. actual model.
 - **S22 — This spec as proof of concept:** until the feature exists, this spec's Stage log gets
   token estimates made by hand from the transcript, for requirements, plan and each Step; from
   `v0.4.0` on, spec-nx writes them itself.
+- **S23 — Cost summary in the issue and the pull request** *(added after closing)*: once the
+  spec is closed and pushed, the issue / backlog item gets the spec's **Cost summary** — the
+  section `## Cost summary` with its sentence and table, links as full URLs — before the plan
+  part; the pull request too (an Azure DevOps pull request over 4000 characters keeps only the
+  sentence).
 
 ### Decisions
 
@@ -246,7 +256,8 @@ settings. spec-nx uses it itself (fixed Claude Opus 5.5, CHF).
 right target); the cost page is `stages/COSTS.md` so `../COSTS.md` works in spec-nx and kits;
 the regression checked the scripts and prompt guards instead of a full AI generation;
 `docs/configuration.md` and the README section at the very top were added at the author's
-request; review fix "1 credit".
+request; review fix "1 credit". After closing, at the author's request: S23 / Step 11 — the
+Cost summary in the issue and the pull request.
 **Files:** `generator/questions.md`, `generator/prompt.md`, `stages/models.md`,
 `stages/COSTS.md`, `stages/tools/usage.ps1` / `.sh`, `stages/tools/costs_ledger.ps1` / `.sh`,
 `stages/tools/README.md`, the seven stage prompts, `stages/spec_template.md`,
@@ -267,6 +278,7 @@ request; review fix "1 credit".
 | **8** | README, kit README, regression check | light (Claude Haiku 5.5) — docs and running checks | ✅ Done | [→ Step 8](#step-8--readme-kit-readme-regression-check) |
 | **9** | spec-nx on its own settings, same spec format | standard (Claude Sonnet 5.5) — settings and a format check | ✅ Done | [→ Step 9](#step-9--spec-nx-on-its-own-settings-same-spec-format) |
 | **10** | Reminder: hack_star cost comparison | light (Claude Haiku 5.5) — no code | ✅ Done | [→ Step 10](#step-10--reminder-hack_star-cost-comparison) |
+| **11** | Cost summary in the issue and the pull request | standard (Claude Sonnet 5.5) — text in known places | ✅ Done | [→ Step 11](#step-11--cost-summary-in-the-issue-and-the-pull-request) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
@@ -630,6 +642,36 @@ Started: 2026-11-16 09:15
 **Done (2026-11-16 · ~1m · Claude Opus 5.5)** — Reminder added to **Deferred Items**; no spec
 created. · suggested: light (Claude Haiku 5.5) · ran: Claude Opus 5.5 · ~85 k · ~CHF 0.02
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+
+---
+
+## Step 11 — Cost summary in the issue and the pull request
+
+*(added after closing, at the author's request)*
+
+### Goal
+The issue / backlog item and the pull request show the spec's Cost summary before the plan
+(S23).
+
+### Tasks
+- [x] Record the start time in Notes below (e.g. `Started: YYYY-MM-DD HH:MM`).
+- [x] `stages/tools/README.md`: the summary format has `## Cost summary` (sentence and table,
+      full URLs) before **Plan**; the Azure DevOps 4000-character rule.
+- [x] `stages/pr/prompt.md`, `stages/requirements/prompt.md` (`UPDATE ISSUE`): add the section
+      when the spec has one; `stages/implementation/prompt.md` CLOSE report: publish it with
+      `PR:` or `UPDATE ISSUE:`.
+- [x] This spec: S23, this Step; review, pull request and issue again.
+- [x] Check: `check_all.ps1`; the dry runs of the pull request and the issue show the section
+      before **Plan**.
+
+### Notes
+Started: 2026-11-16 12:02
+
+**Done (2026-11-16 · ~2m · Claude Opus 5.5)** — The summary format, the pr and requirements
+prompts and the CLOSE report now carry the Cost summary before the plan, with full URLs (the
+example's editor link `vscode-resource…` would not work in GitHub); an Azure DevOps pull
+request over 4000 characters keeps only the sentence. `check_all.ps1`: 4 known placeholders.
+· suggested: standard (Claude Sonnet 5.5) · ran: Claude Opus 5.5 · ~763 k · ~CHF 0.21
 
 ---
 
