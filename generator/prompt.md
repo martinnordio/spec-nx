@@ -37,6 +37,7 @@ This file is `<spec-nx>/generator/prompt.md`, where `<spec-nx>` is spec-nx in th
 | `stages/<stage>/prompt.md` | Reference prompt of each stage (`requirements`, `plan`, `pr`, …) |
 | `stages/skills/<role>.md` | Reference roles the stage prompts load |
 | `stages/spec_template.md` | Reference spec template |
+| `stages/models.md` | Which model runs each stage and Step (Q7), shared by every stage prompt |
 | `stages/kit_readme.md` | Reference README of the kit (workflow and commands) |
 | `stages/guidelines/` | `GUIDELINES:` prompt and the baseline coding rules per language |
 | `stages/setup/project_spec.md` | How to write the project setup spec of a new project (Q0c) |
@@ -74,7 +75,7 @@ compatible with updates and with each other:
   (`.specs/review/<yyyy-mm-dd>_<branch-slug>.html` and `.specs/review/index.html`).
 - The **scripts**: names, parameters, `-DryRun` / `--dry-run`, and what they change.
 - The **layout** of the kit: `README.md`, `<stage>/prompt.md`, `skills/`, `spec_template.md`,
-  `tools/`
+  `models.md`, `tools/`
   (the stage prompts use paths relative to themselves).
 - The **settings keys** in `generator/questions.md`.
 
@@ -127,6 +128,8 @@ compatible with updates and with each other:
      folder (templates, rules);
    - the skills those prompts list under *Skills to load*, into `skills/`;
    - `spec_template.md`;
+   - `models.md` from `stages/models.md` (always — with no `models` setting it tells the
+     stages to do nothing);
    - `README.md` from `stages/kit_readme.md`: only the rows of the kit's stages;
    - `guidelines/prompt.md`, `guidelines/commits.md` (always) and, for each language in
      `languages` that has one, the baseline
