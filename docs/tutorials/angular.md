@@ -80,8 +80,15 @@ shows in the list at once. No server and no routing.
 ```
 
 The assistant writes **Part 1** of a new spec, `.specs/features/<date>_hero_list_spec.md`:
-statements `S1`, `S2`, … and maybe a few open questions. Read it. Answer open questions with
-`REQUIREMENTS: <spec file> — <your answers>`, until you agree with Part 1.
+statements `S1`, `S2`, … and maybe a few open questions, each with a suggestion. Read it.
+The questions differ from one AI model to another; to keep the tutorial simple, take the
+suggestions:
+
+```
+REQUIREMENTS: .specs/features/<date>_hero_list_spec.md — take your suggestions for the open questions
+```
+
+Or answer them your own way. Repeat until Part 1 has no open questions and you agree with it.
 
 This stage runs on the *reasoning* model: if your chat is on another model, the assistant
 says so first.
@@ -143,6 +150,8 @@ git merge feature/hero-list
 - `.specs/costs.md`: the cost of every spec of the project.
 
 **Costs are estimates and may be wrong** — see the kit's `COSTS.md`.
+
+Compare with one real run: [examples/tour-of-heroes](../../examples/tour-of-heroes/README.md).
 
 ## Next
 

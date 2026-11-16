@@ -99,8 +99,15 @@ stored in a SQLite file and kept after a restart. No login.
 ```
 
 The assistant writes **Part 1** of a new spec, `.specs/features/<date>_blog_posts_spec.md`:
-statements `S1`, `S2`, … and maybe a few open questions. Read it. Answer open questions with
-`REQUIREMENTS: <spec file> — <your answers>`, until you agree with Part 1.
+statements `S1`, `S2`, … and maybe a few open questions, each with a suggestion. Read it.
+The questions differ from one AI model to another; to keep the tutorial simple, take the
+suggestions:
+
+```
+REQUIREMENTS: .specs/features/<date>_blog_posts_spec.md — take your suggestions for the open questions
+```
+
+Or answer them your own way. Repeat until Part 1 has no open questions and you agree with it.
 
 This stage runs on the *reasoning* model: if your chat is on another model, the assistant
 says so first.

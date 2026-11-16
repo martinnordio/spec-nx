@@ -176,8 +176,9 @@ Only with per-Step models (`models` has tiers). Fixed or no `models`: one Step p
 
    The numbers are the sums of the Stage log rows per stage (`CREATE ISSUE:` / `UPDATE
    ISSUE:` under requirements, `CLOSE:` under implementation, `CODE REVIEW:` under review;
-   leave out the rows of stages the kit does not have, and put any other stage, such as
-   documentation, in its own row). The second table splits implementation into its Steps and
+   leave out the rows of stages that have no Stage log row yet — such as `pr`, which runs after
+   `CLOSE:` — and put any other stage, such as documentation, in its own row). Cost cells are
+   written as in the Stage log: `~<currency> <amount> (<credits> credits)`. The second table splits implementation into its Steps and
    `CLOSE:`; its total equals the implementation row. The share is credits ÷
    `monthly_credits`. A row without numbers reads `N/A`. Then rebuild the list of all specs:
    `../tools/costs_ledger.ps1` / `../tools/costs_ledger.sh` (writes `.specs/costs.md`).

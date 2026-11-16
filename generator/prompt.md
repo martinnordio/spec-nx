@@ -204,15 +204,17 @@ compatible with updates and with each other:
      copy its tokens and cost into the row; `N/A` and why if it cannot run. Without one, drop
      the Tokens and Cost columns.
    - **Cost summary** (only with a `cost` block): the sentence and the table by stage of
-     `COSTS.md` — one row `generator`, and the total.
+     `COSTS.md` — one row `generator`, and the total; cost cells as in the Stage log
+     (`~CHF 0.96 (114 credits)`).
    - **Part 1 · Requirements:** *Context* — the spec-nx version and what the scan found;
      *Specs* — one statement per setting this run decided, asked or not (for example
      `S1 — Project: existing`, `S2 — Languages: typescript`, `S3 — Workflow: Simple —
      requirements, plan, implementation, pr`, the shell, the models, cost tracking); no open
      questions.
    - **Part 2 · Plan:** one Step `Generate the kit`, `✅ Done`, with its tasks ticked (settings,
-     kit, checks, agent permissions, project setup spec if any) and a Done line: the files
-     written and the results of step 6.
+     kit, checks, agent permissions, project setup spec if any) and a Done line
+     (`**Done (YYYY-MM-DD · ~<duration> · <model>)**`): the files written and the results of
+     step 6.
 
    With a `cost` block, rebuild `.specs/costs.md` with `<kit_dir>/tools/costs_ledger`.
 

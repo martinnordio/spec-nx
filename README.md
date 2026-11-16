@@ -217,6 +217,9 @@ no account needed.
 | [Python](docs/tutorials/python.md) | From Flask's *Flaskr*: a list of blog posts and a form to write one, in SQLite | Python, uv, git, VS Code with GitHub Copilot (or Claude Code) |
 
 Each tutorial gives you the exact `REQUIREMENTS:` text, so you start from the same feature.
+To see what you get, read the specs of one real run:
+[examples/tour-of-heroes](examples/tour-of-heroes/README.md) — 15 requirements, 4 Steps on
+Sonnet and Haiku, ~CHF 2 including the kit setup.
 **Optional, afterwards:** [connect GitHub or Azure DevOps](docs/tutorials/git-host.md) and
 build a second feature with an issue and a pull request — the repository has to exist on the
 host first.
@@ -384,7 +387,7 @@ spec-nx/
     guidelines/      coding-rule baselines per language and GUIDELINES:
     agent/           how the AI agent's permissions are written
     tools/           git-host scripts (GitHub, Azure DevOps) and the token / cost scripts
-  examples/          generated example kits (planned)
+  examples/          real results, e.g. the specs of the Angular tutorial (tour-of-heroes/)
   testing/           local trial runs (not pushed; see testing/README.md)
   .specs/            spec-nx's own specs — spec-nx is built with itself
 ```

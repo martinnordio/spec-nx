@@ -20,6 +20,7 @@
 | 2026-11-16 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | ~751 k (6 k in · 743 k cached · 3 k out) | ~CHF 0.20 (23 credits) | Tutorial drafted (S14–S21), open questions; Step 7 added; spec reopened (from 12:49 UTC) |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.36 M (52 k in · 1.29 M cached · 12 k out) | ~CHF 0.64 (76 credits) | Step 7: open questions answered; tutorials and README section written; trial step 1 checked; commit `760260b` (12:51–13:10 UTC) |
 | 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~344 k (6 k in · 334 k cached · 4 k out) | ~CHF 0.15 (17 credits) | Step 8 done (from 13:10 UTC) |
+| 2026-11-16 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | ~1.30 M (15 k in · 1.27 M cached · 8 k out) | ~CHF 0.41 (49 credits) | Step 7: Angular run checked (kit, requirements, close); open questions with suggestions; CLOSE cost cells; example `examples/tour-of-heroes` (from 13:25 UTC) |
 
 > The work was done in one chat on `main`, turn by turn, before this spec was written: the
 > Stage log and the Steps record those turns after the fact. Every row was computed with
@@ -33,13 +34,13 @@
 
 ## Cost summary
 
-This feature used ~11.03 M tokens, ~CHF 3.07 — estimate, see [COSTS.md](../../../stages/COSTS.md).
+This feature used ~12.33 M tokens, ~CHF 3.48 — estimate, see [COSTS.md](../../../stages/COSTS.md).
 
 | Stage | Tokens | Cost (CHF) | Share of Copilot Business |
 |-------|--------|------------|---------------------------|
 | requirements | ~1.20 M | ~CHF 0.31 (37 credits) | 1.9 % |
-| implementation | ~9.83 M | ~CHF 2.76 (327 credits) | 17.2 % |
-| **Total** | **~11.03 M** | **~CHF 3.07 (364 credits)** | **19.2 %** |
+| implementation | ~11.13 M | ~CHF 3.17 (376 credits) | 19.8 % |
+| **Total** | **~12.33 M** | **~CHF 3.48 (413 credits)** | **21.7 %** |
 
 **Implementation by Step**
 
@@ -51,9 +52,9 @@ This feature used ~11.03 M tokens, ~CHF 3.07 — estimate, see [COSTS.md](../../
 | Step 4 | ~1.44 M | ~CHF 0.36 (43 credits) | 2.3 % |
 | Step 5 | ~833 k | ~CHF 0.20 (24 credits) | 1.3 % |
 | Step 6 + CLOSE | ~2.08 M | ~CHF 0.52 (62 credits) | 3.3 % |
-| Step 7 (so far) | ~1.36 M | ~CHF 0.64 (76 credits) | 4.0 % |
+| Step 7 (so far) | ~2.66 M | ~CHF 1.05 (125 credits) | 6.6 % |
 | Step 8 | ~344 k | ~CHF 0.15 (17 credits) | 0.9 % |
-| **Total implementation** | **~9.83 M** | **~CHF 2.76 (327 credits)** | **17.2 %** |
+| **Total implementation** | **~11.13 M** | **~CHF 3.17 (376 credits)** | **19.8 %** |
 
 ---
 
@@ -365,12 +366,15 @@ A newcomer goes once through the whole workflow on a known app, in Angular or in
       confirmation of `IMPLEMENT:`, commit approval in VS Code and Claude Code, `PR:` without a
       git host).
 - [x] README `## Tutorial` section after *How it works*; `docs/` in the repository layout.
-- [ ] Run the Angular tutorial end to end in a fresh chat in `testing/` (local path, then the
-      GitHub part) (D5).
+- [x] Run the Angular tutorial end to end in a fresh chat (local path) (D5) — in a scratch
+      folder outside the repository.
+- [ ] Run the Angular tutorial's GitHub part.
 - [ ] Run the Python tutorial end to end in a fresh chat in `testing/` (local path, then the
       Azure DevOps part) (D5).
-- [ ] Fix the tutorials from those runs; add their real cost as the example (S20, S21).
-- [ ] `check_all.ps1`.
+- [x] Fix the tutorials from the Angular run; its specs are the example
+      `examples/tour-of-heroes/` with their real cost (S20, S21).
+- [ ] Fix the tutorials from the Python run.
+- [x] `check_all.ps1`.
 
 ### Notes
 Started: 2026-11-16 13:52
@@ -381,6 +385,14 @@ First trial (Angular, 2026-11-16): step 1 checked — Angular 22.2, Vitest, buil
 pass; the first commit is on `master`, so the merge command now names `master` or `main`.
 The run was stopped at step 2: the submodule was added before the simpler questions were
 pushed; it restarts from scratch on `760260b` or later.
+
+Second trial (Angular, 2026-11-16, spec-nx `d4aa796`): done through `CLOSE:`. `GENERATE KIT`
+stated "existing", asked no shell or git host, wrote the kit spec (~1.43 M · ~CHF 0.96);
+requirements 15 statements, plan 4 Steps (3 Sonnet, 1 Haiku), 19 tests pass; the feature cost
+~8.30 M · ~CHF 1.08. Fixes from it: open questions carry a suggestion and "take your
+suggestions" is a valid answer (requirements prompt, tutorials); cost cells of the kit spec
+and of the CLOSE cost summary in the Stage log format, no `pr` row before the pull request
+(generator and implementation prompts). Its specs were copied to `examples/tour-of-heroes/`.
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 
 ---

@@ -110,7 +110,8 @@ and in a generated kit (`.specs/kit/requirements/`).
      - Check what is often forgotten: errors and empty states, limits (sizes, numbers),
        speed, who may do it, accessibility, and what must keep working as before.
      - If an existing spec already covers part of it, refer to it instead of repeating it.
-   - **Open questions:** what you could not decide; one line each.
+   - **Open questions:** what you could not decide; one line each, ending with your
+     suggestion (`Suggestion: …`).
    - Delete the template's example block and placeholder rows.
 
 6. **Leave Part 2 for the plan stage.** Keep the marker line `<!-- spec-nx:plan -->` and
@@ -125,8 +126,8 @@ and in a generated kit (`.specs/kit/requirements/`).
    ```
 
 7. **Report to the user:** the file name, the statements in one line each, the open questions,
-   and the next step: *answer the open questions (`REQUIREMENTS: <spec file> — <answers>`),
-   then run the plan stage.* If the spec has an issue, offer `UPDATE ISSUE`.
+   and the next step: *answer the open questions (`REQUIREMENTS: <spec file> — <answers>`, or
+   `— take your suggestions`), then run the plan stage.* If the spec has an issue, offer `UPDATE ISSUE`.
 
    **When the requirements are finished** (no open questions left) and the project has a git
    host, ask: *"Create the issue / backlog item for this spec now? If it belongs under a parent
