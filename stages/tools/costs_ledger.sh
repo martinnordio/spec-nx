@@ -46,7 +46,11 @@ if not link:
 
 TOKENS = re.compile(r"([0-9][0-9,]*(?:\.[0-9]+)?)\s*([kM])")
 MONEY = re.compile(r"([A-Z]{3})\s*([0-9]+(?:\.[0-9]+)?)")
-CREDITS = re.compile(r"([0-9][0-9,]*(?:\.[0-9]+)?)\s*credits")
+CREDITS = re.compile(r"([0-9][0-9,]*(?:\.[0-9]+)?)\s*credits?")
+
+
+def credit_text(n):
+    return "%s %s" % (round(n), "credit" if round(n) == 1 else "credits")
 
 
 def tokens(cell):
@@ -137,7 +141,7 @@ for spec in specs:
 out = ["# Cost of the specs", "",
        "> Estimate \u2014 see [COSTS.md](%s). **All costs are estimates and may be wrong.** Rebuilt by" % link,
        "> `costs_ledger` from the Stage logs on %s; do not edit by hand." % datetime.date.today().isoformat(), "",
-       "**All specs: ~%s%s~%s %.2f (%s credits)**" % (k(grand[0]), dot, currency, round(grand[1], 2), round(grand[2])), "",
+       "**All specs: ~%s%s~%s %.2f (%s)**" % (k(grand[0]), dot, currency, round(grand[1], 2), credit_text(grand[2])), "",
        "| Spec | Status | Requirements | Plan | Implementation | Other | Total |",
        "|------|--------|--------------|------|----------------|-------|-------|"]
 out += rows
@@ -146,7 +150,7 @@ steps = [(s, st) for s in specs for st in s["steps"]]
 if steps:
     out += ["", "## Implementation by Step", "", "| Spec | Step | Tokens | Cost |", "|------|------|--------|------|"]
     for s, (n, tok, val, cr, cur) in steps:
-        out.append("| %s | %s | ~%s | ~%s %.2f (%s credits) |" % (s["title"], n, k(tok), cur, round(val, 2), round(cr)))
+        out.append("| %s | %s | ~%s | ~%s %.2f (%s) |" % (s["title"], n, k(tok), cur, round(val, 2), credit_text(cr)))
 text = "\n".join(out) + "\n"
 if a.dry_run:
     print(text, end="")

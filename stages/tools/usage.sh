@@ -178,6 +178,6 @@ tilde = "~" if vscode else ""
 dot = " \u00b7 "
 print("Tokens: %s%s (%s in%s%s cached%s%s out)" % (tilde, k(total), k(t["input"]), dot, k(t["cached"]), dot, k(t["output"])))
 plan = "" if share is None else ", %.1f %% of %s" % (share, cost.get("plan", "the plan"))
-print("Cost: %s%s %.2f (%s credits%s)" % (tilde, currency, round(local_amount, 2), round(credits), plan))
+print("Cost: %s%s %.2f (%s %s%s)" % (tilde, currency, round(local_amount, 2), round(credits), "credit" if round(credits) == 1 else "credits", plan))
 print("Source: %s from %s%s%d requests" % (out["source"], transcript, dot, t["requests"]))
 PY
