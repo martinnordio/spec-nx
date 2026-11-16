@@ -78,10 +78,13 @@ Clear, testable statements: each describes WHAT the system does, not HOW.
 
 ## 2 · Spec Overview
 
-| Step | Description | Status | Detail |
-|------|-------------|--------|--------|
-| **0** | [Setup / scaffolding] | ⬜ Not started | [→ Step 0](#step-0--setup--scaffolding) |
-| **1** | [Core implementation] | ⬜ Not started | [→ Step 1](#step-1--core-implementation) |
+<!-- The Model (suggested) column is only there with per-Step models (`models` in the settings,
+     models.md): `<tier> (<model>) — <why>`, chosen by the plan stage. Without it, drop the column. -->
+
+| Step | Description | Model (suggested) | Status | Detail |
+|------|-------------|-------------------|--------|--------|
+| **0** | [Setup / scaffolding] | [light (<model>) — why] | ⬜ Not started | [→ Step 0](#step-0--setup--scaffolding) |
+| **1** | [Core implementation] | [standard (<model>) — why] | ⬜ Not started | [→ Step 1](#step-1--core-implementation) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
