@@ -32,9 +32,11 @@ summary at the end (the kit's README, section *Prompt log*).
 **Check the model first** (`../models.md`): with `models` set in the settings, run on the
 configured model, as a sub-agent or after asking; with no `models`, use the tool's model.
 
-**Tokens and cost** (`../COSTS.md`): only with the `cost` block on. Note the start time; at
-the end run `../tools/usage.ps1` / `../tools/usage.sh` with it and your model, and copy its
-Tokens and Cost into your Stage log row — never compute them yourself.
+**Tokens and cost** (`../COSTS.md`): only with the `cost` block on. Note the start time and write the
+marker `spec-nx run <yyyymmdd-hhmm>-<4 random letters>` into the chat; at the end run
+`../tools/usage.ps1` / `../tools/usage.sh` with the time, your model and `-Run <id>` /
+`--run <id>` (the part after `spec-nx run`), so only this chat is counted, and copy its Tokens
+and Cost into your Stage log row — never compute them yourself.
 
 Wherever this prompt says *your model*, write the name of the model that runs this command
 now, as your runtime reports it. Never copy it from earlier rows, from `.specs/spec-nx.json`

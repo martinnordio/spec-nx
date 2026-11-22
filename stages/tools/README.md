@@ -80,7 +80,8 @@ file. The bash script needs `python3`.
 | `-Since` / `--since` | Start of the range: the stage's or Step's start time (local time or ISO with `Z`) |
 | `-Until` / `--until` | End of the range (default: now) |
 | `-Model` / `--model` | The model that ran, as named in the tool's model list or in `cost.prices` (a Copilot CLI log names its models itself) |
-| `-Transcript` / `--transcript` | The chat log (default: of all logs of this project written since `-Since` — Copilot CLI sessions, VS Code Copilot chats of this workspace, Claude Code sessions — the one with the most requests in the range) |
+| `-Transcript` / `--transcript` | The chat log (default: of all logs of this project written since `-Since` — Copilot CLI sessions, VS Code Copilot chats of this workspace, Claude Code sessions — the one of this chat, see `-Run`) |
+| `-Run` / `--run` | The id of the marker `spec-nx run <id>` the stage wrote into its chat at its start: only the log that contains it is counted. Without it, `usage` stops when several chats of the project have requests in the range |
 | `-Root` / `--root` | The project root (default: the current folder) |
 | `-ContextCap` / `--context-cap` | Context size at which the chat is assumed to be summarized (default 200000) |
 | `-Agent` / `--agent` | `all` (default), `main` (only the chat's own requests) or `subagents` (only its sub-agents') — Copilot CLI logs only; a `Split:` line always shows both parts |
@@ -99,7 +100,7 @@ Cost: ~CHF 0.48 (57 credits, 3.0 % of Copilot Business)
 Source: estimated from <transcript> · 17 requests · Claude Opus 5.5
 ```
 
-With no request in the range it stops with an error that lists the logs it checked.
+With no request in the range it stops with an error that lists the logs it checked; with several chats of the project in the range and no `-Run`, it stops with an error that lists them.
 
 `costs_ledger.ps1` / `costs_ledger.sh` rebuild `.specs/costs.md` — every spec in
 `.specs/features/` and `done/` with its tokens and cost per stage, per Step and in total, and

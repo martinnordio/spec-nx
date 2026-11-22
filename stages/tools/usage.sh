@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Tokens and cost of a time range of the AI chat, by the method of COSTS.md.
 # usage: usage.sh --since <time> --model <name> [--until <time>] [--transcript <file>]
-#                 [--root <dir>] [--context-cap <tokens>] [--json]
+#                 [--run <id>] [--root <dir>] [--context-cap <tokens>] [--json]
+# --run: the id of the marker "spec-nx run <id>" the stage wrote into its chat at its start;
+# only the log that contains it is counted (other chats of the same project are left out).
 set -euo pipefail
 command -v python3 >/dev/null || { echo "usage.sh needs python3" >&2; exit 1; }
 # The kit's, the project's and the developer's settings, the later winning (settings.sh).
@@ -22,6 +24,7 @@ p.add_argument("--since", required=True)
 p.add_argument("--until")
 p.add_argument("--model", required=True)
 p.add_argument("--transcript")
+p.add_argument("--run")
 p.add_argument("--root", default=".")
 p.add_argument("--context-cap", type=int, default=200000)
 p.add_argument("--agent", choices=("all", "main", "subagents"), default="all")
@@ -187,22 +190,48 @@ def candidates(root):
     return files
 
 
+def has_marker(path):
+    with open(path, encoding="utf-8", errors="replace") as f:
+        return marker in f.read()
+
+
 root = os.path.abspath(a.root)
+marker = "spec-nx run " + a.run if a.run else None
 tried = []
 t = None
 transcript = a.transcript
 if transcript:
     tried.append(transcript)
+    if marker and not has_marker(transcript):
+        sys.exit('%s does not contain the marker "%s": is it the log of this chat?' % (transcript, marker))
     t = measure(transcript)
 else:
+    # Only the log of this chat counts: with --run the one that holds the marker; without it,
+    # the only log of the project with requests in the range — never the busiest of several.
     since_epoch = datetime.strptime(since, "%Y-%m-%dT%H:%M:%S.%fZ").replace(tzinfo=timezone.utc).timestamp()
+    found = []
     for c in candidates(root):
         if os.path.getmtime(c) < since_epoch:
             continue
         tried.append(c)
         m = measure(c)
-        if t is None or m["requests"] > t["requests"]:
-            t, transcript = m, c
+        if m["requests"] > 0:
+            found.append((c, m))
+    if marker:
+        hits = [(c, m) for c, m in found if has_marker(c)]
+        if len(hits) != 1:
+            listed = "\n".join("  %s (%d requests)" % (c, m["requests"]) for c, m in found) or "  (none with requests)"
+            sys.exit('%s logs of %s with requests contain the marker "%s". Logs with requests:\n%s\n'
+                     "Write the marker into the chat at the start of the command, or pass --transcript <file>."
+                     % ("No" if not hits else "Several", root, marker, listed))
+        transcript, t = hits[0]
+    elif len(found) > 1:
+        listed = "\n".join("  %s (%d requests)" % (c, m["requests"]) for c, m in found)
+        sys.exit("Several chats of %s have requests in this range, so the one of this command is not known:\n%s\n"
+                 'Pass --run <id> (the marker "spec-nx run <id>" written at the start of the command) or '
+                 "--transcript <file>." % (root, listed))
+    elif found:
+        transcript, t = found[0]
 if t is None or t["requests"] == 0:
     listed = "\n".join("  " + x for x in tried) or "  (none written to since the start time)"
     sys.exit("No AI requests found between %s and %s for %s. Logs checked:\n%s\nCheck the start time, "

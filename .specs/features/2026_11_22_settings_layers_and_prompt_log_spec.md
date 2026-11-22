@@ -16,6 +16,7 @@
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 11.04 M (50 k in · 10.96 M cached · 38 k out) | CHF 2.68 (320 credits) | Step 1 done |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 10.79 M (38 k in · 10.73 M cached · 31 k out) | CHF 2.47 (295 credits) | Step 2 done |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 14.20 M (133 k in · 14.01 M cached · 56 k out) | CHF 3.84 (458 credits) | Step 3 done (window includes the Step 4 and 5 code written meanwhile, and the trial sub-agent) |
+| 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 2.60 M (6 k in · 2.58 M cached · 5 k out) | CHF 0.54 (65 credits) | Step 4 done (its code is in the Step 3 row) |
 
 ---
 
@@ -208,7 +209,7 @@ command), Q5 → S18 (a marker in the chat). The Copilot CLI costs spec's open q
 | **1** | Settings in three layers | ✅ Done | [→ Step 1](#step-1--settings-in-three-layers) |
 | **2** | Backlog item and issue fields | ✅ Done | [→ Step 2](#step-2--backlog-item-and-issue-fields) |
 | **3** | Prompt log | ✅ Done | [→ Step 3](#step-3--prompt-log) |
-| **4** | Cost of this chat only | ⬜ Not started | [→ Step 4](#step-4--cost-of-this-chat-only) |
+| **4** | Cost of this chat only | ✅ Done | [→ Step 4](#step-4--cost-of-this-chat-only) |
 | **5** | Finish the Copilot CLI costs spec | ⬜ Not started | [→ Step 5](#step-5--finish-the-copilot-cli-costs-spec) |
 | **6** | Customizing page, documents and final check | ⬜ Not started | [→ Step 6](#step-6--customizing-page-documents-and-final-check) |
 
@@ -341,18 +342,21 @@ Started: 2026-11-22 09:43
 at the same time, and names the log it used (S18, S19).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `usage.ps1` / `usage.sh`: `-Run` / `--run` (D7) — the log that contains the marker;
+- [x] Record the start time in Notes below.
+- [x] `usage.ps1` / `usage.sh`: `-Run` / `--run` (D7) — the log that contains the marker;
       without it, an error when more than one project log has requests in the range, listing
       them with their request counts and how to pass `-Run` or `-Transcript`.
-- [ ] `stages/COSTS.md` and every stage prompt's *Tokens and cost* lines: write the marker at
+- [x] `stages/COSTS.md` and every stage prompt's *Tokens and cost* lines: write the marker at
       the start, pass it at the end; `stages/tools/README.md`: the parameter and the error.
-- [ ] Check: two sample logs of the same project in the same range — without `-Run` an error
+- [x] Check: two sample logs of the same project in the same range — without `-Run` an error
       naming both; with `-Run` the right one; a single log works as before; both shells give
       the same numbers.
 
 ### Notes
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+Started: 2026-11-22 09:44
+
+**Done (2026-11-22 · ~8m · Claude Opus 5.5)** — `usage.ps1` / `usage.sh`: `-Run` / `--run <id>` counts only the log that contains the marker `spec-nx run <id>`; without it, an error when several chats of the project have requests in the range (each named with its request count) instead of taking the busiest; `-Transcript` with `-Run` refuses a log without the marker; `COSTS.md` (write the marker at the start, pass it at the end, the new rule for the log choice), every stage prompt's *Tokens and cost* lines and `tools/README.md`. Check (`testing/usage/check_usage.ps1`, both shells): two chats of one project in the same range — error naming both without `-Run`, the right one with `-Run` for each; another project's marker is not found; a log without the marker is refused with `-Transcript`; one log works as before. The code was written during Step 3's window (counted there) · 2.60 M (6 k in · 2.58 M cached · 5 k out) · CHF 0.54
 
 ---
 
