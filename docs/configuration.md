@@ -1,17 +1,21 @@
 # Configuring spec-nx
 
-How to change what `GENERATE KIT` set up: the two settings files, the AI model per stage and
-Step, tokens and cost, and the other answers. A full tutorial will follow in its own page.
+How to change what `GENERATE KIT` set up: the settings files, the AI model per stage and
+Step, tokens and cost, and the other answers. **Examples for every common change — another
+parent, fewer stages, Azure DevOps area and iteration, GitHub issue types, the prompt log, costs
+— are in [Customizing spec-nx](customize.md).**
 
 ## The two settings files
 
 | File | Who | Committed? | Holds |
 |------|-----|------------|-------|
 | `.specs/spec-nx.json` | the team | yes | the answers to the setup questions, `models`, `cost` |
-| `.specs/spec-nx.local.json` | you | no (git-ignored) | your shell, and your own overrides of `models` and `cost` |
+| `.specs/spec-nx.local.json` | you | no (git-ignored) | your shell, and any project key you want different for you (`parent`, `stages`, `work_items`, `models`, `cost`, `prompt_log` …) |
 
 Both are plain JSON: edit them by hand, or run `GENERATE KIT --update --force` to be asked
-again. A key in the local file wins over the same key in the project file. After a change that
+again. A shared kit used as a submodule can add a third file, its own `.specs/spec-nx.json`,
+read first. Each file wins over the one before: keys are replaced, objects merged key by key,
+lists replaced, `null` removes a key ([the three layers](customize.md#the-three-settings-files)). After a change that
 affects the kit (stages, languages, git host, shells), run `GENERATE KIT --update`.
 
 Every key and every question: [generator/questions.md](../generator/questions.md).

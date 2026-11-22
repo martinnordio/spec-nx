@@ -1,7 +1,7 @@
 # Settings Layers and Prompt Log Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress — Steps 1–5 done
+> **Status:** 🔄 In progress — all Steps done; review and close next
 > **Created:** 2026-11-22
 > **Last updated:** 2026-11-22
 > **Branch:** `feature/settings-layers-and-prompt-log`
@@ -18,6 +18,7 @@
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 14.20 M (133 k in · 14.01 M cached · 56 k out) | CHF 3.84 (458 credits) | Step 3 done (window includes the Step 4 and 5 code written meanwhile, and the trial sub-agent) |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 2.60 M (6 k in · 2.58 M cached · 5 k out) | CHF 0.54 (65 credits) | Step 4 done (its code is in the Step 3 row) |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 4.76 M (13 k in · 4.74 M cached · 8 k out) | CHF 0.98 (117 credits) | Step 5 done; Copilot CLI costs spec closed |
+| 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 3.26 M (12 k in · 3.24 M cached · 8 k out) | CHF 0.74 (88 credits) | Step 6 done |
 
 ---
 
@@ -212,7 +213,7 @@ command), Q5 → S18 (a marker in the chat). The Copilot CLI costs spec's open q
 | **3** | Prompt log | ✅ Done | [→ Step 3](#step-3--prompt-log) |
 | **4** | Cost of this chat only | ✅ Done | [→ Step 4](#step-4--cost-of-this-chat-only) |
 | **5** | Finish the Copilot CLI costs spec | ✅ Done | [→ Step 5](#step-5--finish-the-copilot-cli-costs-spec) |
-| **6** | Customizing page, documents and final check | ⬜ Not started | [→ Step 6](#step-6--customizing-page-documents-and-final-check) |
+| **6** | Customizing page, documents and final check | ✅ Done | [→ Step 6](#step-6--customizing-page-documents-and-final-check) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
 > 1. Tick its tasks `[x]` **and** set its row in this table to ✅ Done.
@@ -396,21 +397,24 @@ One easy page explains how to customize spec-nx, the README points to it, and ev
 worked before still works (S25–S27, S20).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `docs/customize.md` (S25, S26): most important first — the three layers with a small
+- [x] Record the start time in Notes below.
+- [x] `docs/customize.md` (S25, S26): most important first — the three layers with a small
       example of each and the result; then examples to copy: another parent and only
       requirements; Azure DevOps area, iteration, assignee; GitHub type, assignee, parent;
       the prompt log with a sample file; costs (the block, turning it off, another currency, a
       measured and an estimated `usage` result, two chats in parallel).
-- [ ] `README.md`: a highlighted line near the top and the *Project and developer settings*
+- [x] `README.md`: a highlighted line near the top and the *Project and developer settings*
       section link the page; `docs/configuration.md`, `generator/questions.md`,
       `docs/tutorials/git-host.md` describe the layers the same way and link it (S27).
-- [ ] Check: `testing/check_all.ps1` (links, scripts parse and ASCII, no company names) shows
+- [x] Check: `testing/check_all.ps1` (links, scripts parse and ASCII, no company names) shows
       no new problem; `testing/usage/check_usage.*` pass; the contract items of
       `generator/prompt.md` are unchanged (S20).
 
 ### Notes
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+Started: 2026-11-22 09:52
+
+**Done (2026-11-22 · ~5m · Claude Opus 5.5)** — `docs/customize.md`: the three settings files and the merge rule first, with an example of each file and the result as `settings.ps1` prints it; then examples to copy (another parent and only requirements; Azure DevOps area, iteration, assignee with a dry run; GitHub type, assignee, parent; models; the prompt log with a sample file; costs: the block, turning it off, another currency or plan, a measured `usage` result, measured vs estimated, two chats with `-Run`). README: a highlighted *Make it yours* line near the top and the settings section link it; `docs/configuration.md`, `generator/questions.md` and `docs/tutorials/git-host.md` describe the layers the same way and link it. Final check: `check_all` shows only the 4 template placeholder links that were there before (links, scripts parse and ASCII, no company names); `check_usage.ps1` 19 / 19; the contract lines of `generator/prompt.md` are unchanged · 3.26 M (12 k in · 3.24 M cached · 8 k out) · CHF 0.74
 
 ---
 
