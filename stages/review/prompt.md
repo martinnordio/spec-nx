@@ -26,6 +26,15 @@ Reviews the branch's changes layer by layer and logs the findings in the spec.
 
 Always: `../skills/reviewer.md` — the role you take in this stage.
 
+## Settings
+
+Read the settings in their three layers (the kit's README, section *Settings*): the kit's,
+the project's `.specs/spec-nx.json` and the developer's `.specs/spec-nx.local.json`, the later
+winning. If the settings list `stages` and this stage is neither in it nor in `on_demand`,
+answer *"The <stage> stage is turned off in <file>."* and do nothing else. In your report,
+name each setting you used that does not come from the kit, with its file (for example
+*parent 150310 — from `.specs/spec-nx.local.json`*).
+
 ## Model name
 
 **Check the model first** (`../models.md`): with `models` set in the settings, run on the

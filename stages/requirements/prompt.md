@@ -33,6 +33,15 @@ first, then the real update after the user confirms.
 
 Always: `../skills/requirements_engineer.md` — the role you take in this stage.
 
+## Settings
+
+Read the settings in their three layers (the kit's README, section *Settings*): the kit's,
+the project's `.specs/spec-nx.json` and the developer's `.specs/spec-nx.local.json`, the later
+winning. If the settings list `stages` and this stage is neither in it nor in `on_demand`,
+answer *"The <stage> stage is turned off in <file>."* and do nothing else. In your report,
+name each setting you used that does not come from the kit, with its file (for example
+*parent 150310 — from `.specs/spec-nx.local.json`*).
+
 ## Model name
 
 **Check the model first** (`../models.md`): with `models` set in the settings, run on the
@@ -57,8 +66,7 @@ and in a generated kit (`.specs/kit/requirements/`).
 | `../skills/requirements_engineer.md` | Your role: how to think and what to avoid |
 | `../spec_template.md` | The spec template (Part 1 · Requirements, marker, Part 2 · Plan) |
 | `../tools/README.md` | The summary format and the git-host scripts |
-| `.specs/spec-nx.json` | Project settings: `git_host`, `link_issues`, `work_item_type`, `work_items`, `parent` (if the project has them) |
-| `.specs/spec-nx.local.json` | Developer settings: `shell` (if the project has it) |
+| `.specs/spec-nx.json`, `.specs/spec-nx.local.json` (and the kit's settings) | The settings (section *Settings* above): `git_host`, `link_issues`, `work_item_type`, `work_items`, `parent`, `shell` |
 
 ---
 
@@ -153,13 +161,13 @@ and in a generated kit (`.specs/kit/requirements/`).
 
 1. **Check.** The header has no `Issue:` / `Backlog item:` (otherwise use `UPDATE ISSUE`).
    Find the git host and the shell as in `UPDATE ISSUE` steps 2–3; with no git host, stop.
-2. **Parent.** From the command (`parent <n>`), the header's `Parent:` line, the project's
-   default `parent` in `.specs/spec-nx.json`, or ask once:
+2. **Parent.** From the command (`parent <n>`), the header's `Parent:` line, `parent` from
+   the settings, or ask once:
    *"Is there a parent? (number, or none)"*. The dry run names the parent — check it.
    GitHub: the new issue becomes a **sub-issue** of
    the parent. Azure DevOps: the new backlog item gets the parent as its **Parent** link.
 3. **Title and type.** Title: the spec title without the trailing "Spec". Azure DevOps type:
-   `work_item_type` from `.specs/spec-nx.json`, otherwise `Product Backlog Item`. If Azure
+   `work_item_type` from the settings, otherwise `Product Backlog Item`. If Azure
    DevOps rejects the type, ask for the right one (User Story — Agile, Requirement — CMMI,
    Issue — Basic) and offer to save it as `work_item_type`. The item is created in the
    project of `work_items` (Azure DevOps), otherwise in the repository's project; the dry run
@@ -185,10 +193,10 @@ and in a generated kit (`.specs/kit/requirements/`).
 
 1. Read the spec header for `Issue:` / `Backlog item:`. If there is none, offer
    `CREATE ISSUE`, or ask for the number of an existing one and add it to the header.
-2. Find the git host: `git_host` in `.specs/spec-nx.json`, otherwise from
+2. Find the git host: `git_host` from the settings, otherwise from
    `git remote get-url origin` (`github.com` → GitHub; `dev.azure.com` or `visualstudio.com` →
    Azure DevOps). With no git host, explain that there is nothing to update.
-3. Find the shell: `shell` in `.specs/spec-nx.local.json`, otherwise PowerShell on Windows and
+3. Find the shell: `shell` from the settings, otherwise PowerShell on Windows and
    bash on macOS / Linux.
 4. Build the **summary** in the format of `../tools/README.md`. While Part 2 has no Steps,
    leave the **Plan** part out. If the spec has a **Cost summary** (closed with cost tracking

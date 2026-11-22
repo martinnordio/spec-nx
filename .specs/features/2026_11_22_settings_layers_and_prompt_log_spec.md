@@ -13,6 +13,7 @@
 | 2026-11-22 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | 1.25 M (317 k in · 925 k cached · 7 k out) | CHF 1.60 (191 credits) | Part 1 written; open questions Q1–Q5 (measured from the Copilot CLI session log) |
 | 2026-11-22 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | 1.30 M (326 k in · 965 k cached · 5 k out) | CHF 1.61 (192 credits) | Part 1 revised: Q1–Q5 answered (S1, S5, S13, S18); Copilot CLI costs spec finished here (S21–S24); customizing page (S25–S27) |
 | 2026-11-22 | plan | `PLAN:` | Claude Opus 5.5 | 5.29 M (379 k in · 4.90 M cached · 16 k out) | CHF 2.67 (319 credits) | Part 2 written: 6 Steps, D1–D9 |
+| 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 11.04 M (50 k in · 10.96 M cached · 38 k out) | CHF 2.68 (320 credits) | Step 1 done |
 
 ---
 
@@ -202,7 +203,7 @@ command), Q5 → S18 (a marker in the chat). The Copilot CLI costs spec's open q
 
 | Step | Description | Status | Detail |
 |------|-------------|--------|--------|
-| **1** | Settings in three layers | ⬜ Not started | [→ Step 1](#step-1--settings-in-three-layers) |
+| **1** | Settings in three layers | ✅ Done | [→ Step 1](#step-1--settings-in-three-layers) |
 | **2** | Backlog item and issue fields | ⬜ Not started | [→ Step 2](#step-2--backlog-item-and-issue-fields) |
 | **3** | Prompt log | ⬜ Not started | [→ Step 3](#step-3--prompt-log) |
 | **4** | Cost of this chat only | ⬜ Not started | [→ Step 4](#step-4--cost-of-this-chat-only) |
@@ -245,27 +246,30 @@ Every stage and script uses the kit's, the project's and the developer's setting
 merge rule, and a developer can change any project key, including fewer stages (S1–S6, S20).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/tools/settings.ps1` / `settings.sh`: find the three files (D2), merge them (S2:
+- [x] Record the start time in Notes below.
+- [x] `stages/tools/settings.ps1` / `settings.sh`: find the three files (D2), merge them (S2:
       later wins, objects key by key, lists whole, `null` removes), ignore project-only keys
       from the developer file with a warning (D4), return the settings and the file of each key.
-- [ ] `usage.*`, `costs_ledger.*`, `azure_devops/ado.*` and the GitHub scripts read their keys
+- [x] `usage.*`, `costs_ledger.*`, `azure_devops/ado.*` and the GitHub scripts read their keys
       through the helper.
-- [ ] `stages/kit_readme.md`: section **Settings** (the three files, the rule, project-only
+- [x] `stages/kit_readme.md`: section **Settings** (the three files, the rule, project-only
       keys, how a stage turns itself off with fewer `stages`, what the report names).
-- [ ] Every stage prompt: a **Settings** paragraph (D3) — read the three layers; stop with
+- [x] Every stage prompt: a **Settings** paragraph (D3) — read the three layers; stop with
       *"<stage> is turned off in <file>"* when the stage is not in `stages` / `on_demand`;
       name in the report each setting used that does not come from the kit.
-- [ ] `generator/questions.md`: the three layers, the merge rule and the keys a developer may
+- [x] `generator/questions.md`: the three layers, the merge rule and the keys a developer may
       set; `generator/prompt.md`: copy `tools/settings.*` with any tool, the prompts read the
       kit's settings at run time (Q1), and the `--update` report shows each key's layer (S5).
-- [ ] Check: both helpers give the same merged result and sources on sample files (three
+- [x] Check: both helpers give the same merged result and sources on sample files (three
       layers; objects; lists; `null`; a project-only key in the local file; old files with one
       or two layers give today's result, S6); `usage` and `costs_ledger` give the same output
       as before on this repository.
 
 ### Notes
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+Started: 2026-11-22 09:29
+
+**Done (2026-11-22 · ~7m · Claude Opus 5.5)** — `stages/tools/settings.ps1` / `settings.sh` (kit layer next to the kit's folder, merge rule, project-only keys with a warning, value and source per key; run them to show every setting with its file); `usage`, `costs_ledger` and the Azure DevOps helpers read through them (bash: the wrapper reads the settings and passes them to python); a **Settings** section in the kit README template and in every stage prompt (turn off with fewer `stages`, name the settings used), `models.md`, `tools/README.md`, `generator/questions.md` (*Three layers*) and `generator/prompt.md` (copy `settings.*`, kit layer at run time, `--update` shows each key's layer). Checks: both helpers give the same output on a three-layer project (object merge, list replace, `null`, a project-only key ignored with a warning) and on a one-layer project; `usage` and `costs_ledger` (both shells) give byte-identical output to `main` on this repository; the Azure DevOps project comes from the merged layers in ProdEval; `check_all` shows no new problem · 11.04 M · CHF 2.68
 
 ---
 

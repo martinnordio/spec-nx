@@ -139,6 +139,8 @@ compatible with updates and with each other:
    - `COSTS.md` from `stages/COSTS.md`, and `tools/usage.*` and `tools/costs_ledger.*` for
      the shells in `shells`, when the project has a `cost` block;
    - `README.md` from `stages/kit_readme.md`: only the rows of the kit's stages;
+   - `tools/settings.*` for the shells in `shells`, whenever any script is copied into
+     `tools/` (every script reads the settings through it);
    - `guidelines/prompt.md`, `guidelines/commits.md` (always) and, for each language in
      `languages` that has one, the baseline
      `guidelines/<language>.md` — adapted to the project's versions and tools (never copy
@@ -156,10 +158,10 @@ compatible with updates and with each other:
      `link_issues` is `false`; *Skills to load* lines for skills not copied);
    - keep instructions short and concrete; do not add new commands;
    - write every path into the kit as its users see it: `<kit_ref>/…`;
-   - when `kit_ref` differs from `kit_dir` (the kit is used from other repositories, which
-     have no settings): write this repository's `git_host`, `link_issues`, `work_item_type`,
-     `stages` and `languages` into the prompts that read them as the defaults — a using
-     project's own `.specs/spec-nx.json` still wins.
+   - when `kit_ref` differs from `kit_dir` (the kit is used from other repositories): keep
+     the prompts' **Settings** sections — they read this repository's `.specs/spec-nx.json`
+     as the kit layer when they run (`<kit_ref>/.specs/spec-nx.json`), and a using project's
+     own files win over it; do not copy its values into the prompts.
 
    Scripts are copied **unchanged** unless the project needs a change (for example a
    different default branch); any change must keep their parameters and behaviour.
@@ -250,7 +252,9 @@ compatible with updates and with each other:
    the current model, and write the kit update spec as in step 9.
 5. Report what changed in the kit compared to before (new or removed files, notable changes),
    the old and new `spec_nx_version` / `model`, and the answers used (with `--force`: which
-   answers changed); end with the path of the kit update spec.
+   answers changed). Show the resulting settings with the layer of each key (the output of
+   `tools/settings.ps1` / `settings.sh`), so a developer sees what their own file changes.
+   End with the path of the kit update spec.
 
 ## Never
 

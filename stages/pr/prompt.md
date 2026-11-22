@@ -16,6 +16,15 @@ changes (Steps done, spec closed): only the `spec-summary` blocks are rewritten.
 
 None — this stage is mechanical: it summarises the spec and runs the git-host tools.
 
+## Settings
+
+Read the settings in their three layers (the kit's README, section *Settings*): the kit's,
+the project's `.specs/spec-nx.json` and the developer's `.specs/spec-nx.local.json`, the later
+winning. If the settings list `stages` and this stage is neither in it nor in `on_demand`,
+answer *"The <stage> stage is turned off in <file>."* and do nothing else. In your report,
+name each setting you used that does not come from the kit, with its file (for example
+*parent 150310 — from `.specs/spec-nx.local.json`*).
+
 ## Model name
 
 **Check the model first** (`../models.md`): with `models` set in the settings, run on the
@@ -40,8 +49,7 @@ generated kit (`.specs/kit/pr/`).
 | `../tools/README.md` | The summary format and the scripts |
 | `../tools/<git_host>/update_pr.*` | Open or update the pull request of the current branch |
 | `../tools/<git_host>/update_issue.*` | Update the issue / backlog item |
-| `.specs/spec-nx.json` | `git_host`, `link_issues` (if the project has it) |
-| `.specs/spec-nx.local.json` | `shell` (if the project has it) |
+| `.specs/spec-nx.json`, `.specs/spec-nx.local.json` (and the kit's settings) | The settings (section *Settings* above): `git_host`, `link_issues`, `shell` |
 
 ---
 
@@ -59,9 +67,9 @@ generated kit (`.specs/kit/pr/`).
      without the spec's reference (`#<n>` / `AB#<id>`, see `../guidelines/commits.md`) and tell
      the user; never rewrite commits on your own.
 
-2. **Find the git host and shell.** `git_host` from `.specs/spec-nx.json`, otherwise from
+2. **Find the git host and shell.** `git_host` from the settings, otherwise from
    `git remote get-url origin` (`github.com` → GitHub; `dev.azure.com` or `visualstudio.com`
-   → Azure DevOps). `shell` from `.specs/spec-nx.local.json`, otherwise PowerShell on Windows
+   → Azure DevOps). `shell` from the settings, otherwise PowerShell on Windows
    and bash on macOS / Linux. With no git host, explain how to open the pull request by hand
    and stop.
 
