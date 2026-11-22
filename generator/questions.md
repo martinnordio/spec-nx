@@ -56,6 +56,8 @@ The questions are **asked in the order of this table**:
 
 Not a question: the **`cost` block** (tokens and price of every stage) is written with its
 defaults by the first `GENERATE KIT` and changed by hand — see [The `cost` block](#the-cost-block).
+Not a question either: **`prompt_log`** (keep the prompts of each spec in `.specs/prompts/`) is
+`false` unless someone sets it by hand, usually a developer in `.specs/spec-nx.local.json`.
 
 Not asked either, taken from the repository or the computer and changed by hand for special
 cases: [new or existing project](#q0--project-start-not-asked), [your shell](#your-shell-developer-not-asked), and on Azure DevOps the
@@ -554,6 +556,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `agent` | Answer to Q6: the AI agents whose permissions the generator writes. |
 | `models` | Answer to Q7: the model per tier with its `guide`, one `fixed` model, or `null` (missing = `null`). |
 | `cost` | The `cost` block (not asked; missing = disabled). |
+| `prompt_log` | Optional, set by hand in any layer (not asked; missing = `false`): `true` keeps every prompt of a spec in `.specs/prompts/<yyyy_mm_dd>_<name>_prompt.md` and the others in `.specs/prompts/<yyyy_mm_dd>_other_prompt.md` (the kit's README, *Prompt log*). |
 | `model` | AI model that generated the shared kit (only when `kit` is `"shared"`). Not the model of a stage run: the Stage log names the model that ran each command. |
 
 ## `.specs/spec-nx.local.json` (developer)

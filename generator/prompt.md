@@ -119,6 +119,7 @@ compatible with updates and with each other:
      `on_demand` and `model` when the kit is personal.
    - `models` (Q7) in `.specs/spec-nx.json`; never overwrite a developer's `models` in the
      local file.
+   - Never ask for or write `prompt_log`: it is `false` until someone sets it by hand.
    - The `cost` block with its defaults (`generator/questions.md`, *The `cost` block*) — only
      when `.specs/spec-nx.json` did not exist before this run. `--update` and `--force` never
      add or change it; without it, nothing about tokens or cost is calculated.

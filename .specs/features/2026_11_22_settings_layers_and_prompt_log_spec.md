@@ -15,6 +15,7 @@
 | 2026-11-22 | plan | `PLAN:` | Claude Opus 5.5 | 5.29 M (379 k in · 4.90 M cached · 16 k out) | CHF 2.67 (319 credits) | Part 2 written: 6 Steps, D1–D9 |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 11.04 M (50 k in · 10.96 M cached · 38 k out) | CHF 2.68 (320 credits) | Step 1 done |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 10.79 M (38 k in · 10.73 M cached · 31 k out) | CHF 2.47 (295 credits) | Step 2 done |
+| 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 14.20 M (133 k in · 14.01 M cached · 56 k out) | CHF 3.84 (458 credits) | Step 3 done (window includes the Step 4 and 5 code written meanwhile, and the trial sub-agent) |
 
 ---
 
@@ -206,7 +207,7 @@ command), Q5 → S18 (a marker in the chat). The Copilot CLI costs spec's open q
 |------|-------------|--------|--------|
 | **1** | Settings in three layers | ✅ Done | [→ Step 1](#step-1--settings-in-three-layers) |
 | **2** | Backlog item and issue fields | ✅ Done | [→ Step 2](#step-2--backlog-item-and-issue-fields) |
-| **3** | Prompt log | ⬜ Not started | [→ Step 3](#step-3--prompt-log) |
+| **3** | Prompt log | ✅ Done | [→ Step 3](#step-3--prompt-log) |
 | **4** | Cost of this chat only | ⬜ Not started | [→ Step 4](#step-4--cost-of-this-chat-only) |
 | **5** | Finish the Copilot CLI costs spec | ⬜ Not started | [→ Step 5](#step-5--finish-the-copilot-cli-costs-spec) |
 | **6** | Customizing page, documents and final check | ⬜ Not started | [→ Step 6](#step-6--customizing-page-documents-and-final-check) |
@@ -312,21 +313,24 @@ With `prompt_log` on, each stage keeps its prompts in `.specs/prompts/`, one fil
 one per day for the rest; off, nothing is written (S12–S17).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `stages/kit_readme.md`: section **Prompt log** — the setting (default `false`, not
+- [x] Record the start time in Notes below.
+- [x] `stages/kit_readme.md`: section **Prompt log** — the setting (default `false`, not
       asked), file names, the format of the colleague's example (title, `Prompt <n> — <title>`,
       date · command · model, the prompt quoted, `Reply summary:`, `---`), the other-prompts
       file, `«redacted»`, committed (`.git/info/exclude` to keep it private).
-- [ ] Every stage prompt's Settings paragraph: with `prompt_log` on, add the prompt as the
+- [x] Every stage prompt's Settings paragraph: with `prompt_log` on, add the prompt as the
       README says (the first `REQUIREMENTS:` prompt goes into the new spec's file).
-- [ ] `generator/questions.md`: `prompt_log` (not asked, default `false`, any layer);
+- [x] `generator/questions.md`: `prompt_log` (not asked, default `false`, any layer);
       `generator/prompt.md`: never asks it, never writes it.
-- [ ] Check: on a scratch project with `prompt_log` on in the developer file, two stage
+- [x] Check: on a scratch project with `prompt_log` on in the developer file, two stage
       commands on one spec and one other command write the two files in the format; with it
       off, `.specs/prompts/` is not created.
 
 ### Notes
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+Started: 2026-11-22 09:43
+
+**Done (2026-11-22 · ~6m · Claude Opus 5.5)** — kit README section **Prompt log** (off by default; the spec's file and the day's other-prompts file; the prompt as typed at the start, the reply summary at the end, also when the stage stops early; `## Prompt <n> — <title>`, date · command · model, the prompt quoted, `Reply summary:`, `---`; numbered per file; `«redacted»`; committed, `.git/info/exclude` to keep private; a turned-off stage writes nothing; `GUIDELINES:` is never turned off); every stage prompt's Settings section points to it; `generator/questions.md` and `generator/prompt.md`: `prompt_log` not asked, never written. Check: a sub-agent followed the stage prompts on two scratch projects — with the log on, `REQUIREMENTS:` twice and `PLAN:` went into `2026_11_22_todo_cli_prompt.md` and `GUIDELINES: python` into `2026_11_22_other_prompt.md` in the format; with it off, `.specs/prompts/` was not created. Its first run found six unclear points (guidelines turned off, summary before the work, what counts as the prompt, the file name before the spec exists, the other file's header, numbering), all fixed and re-checked. The cost window also covers the code of Steps 4 and 5 written meanwhile (main 330 + sub-agent 128 credits) · 14.20 M · CHF 3.84
 
 ---
 
