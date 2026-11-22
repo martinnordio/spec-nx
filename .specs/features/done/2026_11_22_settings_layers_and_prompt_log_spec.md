@@ -1,14 +1,14 @@
 # Settings Layers and Prompt Log Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress — all Steps done; review and close next
+> **Status:** ✅ Complete — closed on `feature/settings-layers-and-prompt-log`
 > **Created:** 2026-11-22
 > **Last updated:** 2026-11-22
 > **Branch:** `feature/settings-layers-and-prompt-log`
 
 ## Stage log
 
-| Date | Stage | Command | Model | Tokens (estimate — see [COSTS.md](../../stages/COSTS.md)) | Cost (CHF) | Note |
+| Date | Stage | Command | Model | Tokens (estimate — see [COSTS.md](../../../stages/COSTS.md)) | Cost (CHF) | Note |
 |------|-------|---------|-------|--------|------|------|
 | 2026-11-22 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | 1.25 M (317 k in · 925 k cached · 7 k out) | CHF 1.60 (191 credits) | Part 1 written; open questions Q1–Q5 (measured from the Copilot CLI session log) |
 | 2026-11-22 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | 1.30 M (326 k in · 965 k cached · 5 k out) | CHF 1.61 (192 credits) | Part 1 revised: Q1–Q5 answered (S1, S5, S13, S18); Copilot CLI costs spec finished here (S21–S24); customizing page (S25–S27) |
@@ -20,6 +20,34 @@
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 4.76 M (13 k in · 4.74 M cached · 8 k out) | CHF 0.98 (117 credits) | Step 5 done; Copilot CLI costs spec closed |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 3.26 M (12 k in · 3.24 M cached · 8 k out) | CHF 0.74 (88 credits) | Step 6 done |
 | 2026-11-22 | review | `REVIEW:` | Claude Opus 5.5 | 9.05 M (38 k in · 8.98 M cached · 32 k out) | CHF 2.19 (262 credits) | semantic diff and code review: Approve with follow-ups; findings 1–3 fixed here (whole marker id, -Run last, settings checks), 4–7 deferred |
+| 2026-11-22 | implementation | `CLOSE:` | Claude Opus 5.5 | 2.95 M (9 k in · 2.93 M cached · 6 k out) | CHF 0.62 (74 credits) | spec closed; Copilot CLI costs spec closed with it |
+
+---
+
+## Cost summary
+
+This feature used 66.49 M tokens, CHF 19.94 — measured, see [COSTS.md](../../../stages/COSTS.md).
+
+| Stage | Models | Tokens | Cost (CHF) | Share of Copilot Business |
+|-------|--------|--------|------------|---------------------------|
+| requirements | Claude Opus 5.5 | 2.55 M | CHF 3.21 (383 credits) | 20.2 % |
+| plan | Claude Opus 5.5 | 5.29 M | CHF 2.67 (319 credits) | 16.8 % |
+| implementation | Claude Opus 5.5 | 49.60 M | CHF 11.87 (1417 credits) | 74.6 % |
+| review | Claude Opus 5.5 | 9.05 M | CHF 2.19 (262 credits) | 13.8 % |
+| **Total** | | **66.49 M** | **CHF 19.94 (2381 credits)** | **125.3 %** |
+
+**Implementation by Step**
+
+| Step | Model | Tokens | Cost (CHF) | Share of Copilot Business |
+|------|-------|--------|------------|---------------------------|
+| Step 1 | Claude Opus 5.5 | 11.04 M | CHF 2.68 (320 credits) | 16.8 % |
+| Step 2 | Claude Opus 5.5 | 10.79 M | CHF 2.47 (295 credits) | 15.5 % |
+| Step 3 | Claude Opus 5.5 | 14.20 M | CHF 3.84 (458 credits) | 24.1 % |
+| Step 4 | Claude Opus 5.5 | 2.60 M | CHF 0.54 (65 credits) | 3.4 % |
+| Step 5 | Claude Opus 5.5 | 4.76 M | CHF 0.98 (117 credits) | 6.2 % |
+| Step 6 | Claude Opus 5.5 | 3.26 M | CHF 0.74 (88 credits) | 4.6 % |
+| CLOSE | Claude Opus 5.5 | 2.95 M | CHF 0.62 (74 credits) | 3.9 % |
+| **Total implementation** | | **49.60 M** | **CHF 11.87 (1417 credits)** | **74.6 %** |
 
 ---
 
@@ -204,6 +232,12 @@ command), Q5 → S18 (a marker in the chat). The Copilot CLI costs spec's open q
 ---
 
 # Part 2 · Plan
+
+## Closing summary
+
+**Built:** spec-nx reads its settings in three layers — the kit's own `.specs/spec-nx.json` (when the kit is a repository of its own), the project's and the developer's — with one merge rule (later wins, objects key by key, lists whole, `null` removes) applied by `tools/settings.ps1` / `settings.sh`, which every script uses and which show each setting with its file. Every stage prompt reads the layers, turns itself off when a developer's `stages` leaves it out (never `GUIDELINES:`), names the settings it used, and keeps an optional prompt log in `.specs/prompts/`. `CREATE ISSUE:` sets Azure DevOps area, iteration and assignee and GitHub type and assignee (default you, `null` nobody), each checked first and shown with its file in the dry run. `usage` counts only the chat that runs the command (`-Run` and the `spec-nx run <id>` marker). The Copilot CLI costs spec is finished (committed checks in `testing/usage/`, `costs_ledger` with *included* and measured numbers without `~`) and closed. `docs/customize.md` explains all of it with examples, linked from the README.
+**Differs from the plan:** Steps 3–5 overlapped in time (the prompt-log trial ran as a sub-agent while the Step 4 and 5 code was written), so the Step 3 row carries their code's cost. The review found and fixed two Should-fix (a marker id matched as a prefix; `-Run` shifting positional parameters) and added committed checks for the settings helpers; the `create_issue` scripts stay without committed tests (deferred).
+**Files:** `stages/tools/settings.ps1`, `settings.sh` (new); `stages/tools/usage.*`, `costs_ledger.*`, `azure_devops/ado.*`, `azure_devops/create_issue.*`, `github/create_issue.*`, `tools/README.md`; every `stages/*/prompt.md`, `stages/kit_readme.md`, `stages/models.md`, `stages/COSTS.md`; `generator/questions.md`, `generator/prompt.md`; `docs/customize.md` (new), `docs/configuration.md`, `docs/tutorials/git-host.md`, `README.md`; `testing/usage/` (new, committed), `testing/README.md`, `.gitignore`; `.specs/features/done/2026_11_21_copilot_cli_costs_spec.md` (closed).
 
 ## 2 · Spec Overview
 
@@ -434,7 +468,7 @@ Started: 2026-11-22 09:52
 
 | Date | Reviewer | Scope | Outcome | Findings |
 |------|----------|-------|---------|----------|
-| 2026-11-22 | AI assistant (Claude Opus 5.5) | semantic diff | — | [review page](../review/2026-11-22_feature-settings-layers-and-prompt-log.html) |
+| 2026-11-22 | AI assistant (Claude Opus 5.5) | semantic diff | — | [review page](../../review/2026-11-22_feature-settings-layers-and-prompt-log.html) |
 | 2026-11-22 | AI assistant (Claude Opus 5.5) | diff | Approve with follow-ups | 0 blocking · 3 should-fix · 4 nit (3 fixed) |
 
 ### Code review 2026-11-22
@@ -457,8 +491,8 @@ Started: 2026-11-22 09:52
 
 - [x] Requirements · Part 1 agreed (statements testable, open questions answered)
 - [x] Plan · Part 2 written; every Step has a goal and tasks
-- [ ] Implementation · every Step's tasks checked
-- [ ] Documentation · affected docs updated
+- [x] Implementation · every Step's tasks checked
+- [x] Documentation · affected docs updated
 - [x] Review · semantic diff and code review; findings routed
-- [ ] Spec closed · moved to `.specs/features/done/`
+- [x] Spec closed · moved to `.specs/features/done/`
 - [ ] Pull request · opened with the spec summary; reviewed; merged; branch deleted
