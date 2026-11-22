@@ -22,16 +22,26 @@ function Get-AdoRepo {
     throw "origin is not an Azure DevOps repository: $url"
 }
 
-# The project that holds the backlog items: work_items in .specs/spec-nx.json, otherwise the
-# repository's project.
+. (Join-Path $PSScriptRoot '..\settings.ps1')
+
+# The settings of the project in three layers (settings.ps1), read once.
+function Get-AdoSettings {
+    if (-not $script:AdoSettings) {
+        $script:AdoSettings = Get-SpecNxSettings -Root (git rev-parse --show-toplevel | Out-String).Trim()
+        foreach ($w in $script:AdoSettings.Warnings) { [Console]::Error.WriteLine("warning: $w") }
+    }
+    return $script:AdoSettings
+}
+
+# The project that holds the backlog items: work_items.org and .project from the settings,
+# otherwise the repository's project.
 function Get-AdoWorkItemsBase {
     $repo = Get-AdoRepo
-    $settings = Join-Path (git rev-parse --show-toplevel | Out-String).Trim() '.specs/spec-nx.json'
-    if (Test-Path $settings) {
-        $items = ([IO.File]::ReadAllText($settings, [Text.Encoding]::UTF8) | ConvertFrom-Json).work_items
-        if ($items -and $items.org -and $items.project) {
-            return "https://dev.azure.com/$([uri]::EscapeDataString($items.org))/$([uri]::EscapeDataString($items.project))"
-        }
+    $s = Get-AdoSettings
+    $org = Get-SpecNxValue $s 'work_items.org'
+    $project = Get-SpecNxValue $s 'work_items.project'
+    if ($org -and $project) {
+        return "https://dev.azure.com/$([uri]::EscapeDataString($org))/$([uri]::EscapeDataString($project))"
     }
     return $repo.Base
 }

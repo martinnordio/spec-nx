@@ -26,6 +26,15 @@ With `--dry-run`, both only show the findings and write nothing.
 
 Always: `../skills/architect.md`. Also `../skills/developer.md` for `SETUP MACHINE`.
 
+## Settings
+
+Read the settings in their three layers (the kit's README, section *Settings*): the kit's,
+the project's `.specs/spec-nx.json` and the developer's `.specs/spec-nx.local.json`, the later
+winning. If the settings list `stages` and this stage is neither in it nor in `on_demand`,
+answer *"The <stage> stage is turned off in <file>."* and do nothing else. In your report,
+name each setting you used that does not come from the kit, with its file (for example
+*parent 150310 — from `.specs/spec-nx.local.json`*).
+
 ## Files this stage uses
 
 Paths are relative to this file, so they work both inside spec-nx (`stages/setup/`) and in a

@@ -1,7 +1,7 @@
 # Shared by the Azure DevOps tools: organisation, project and repository from the origin remote,
 # and REST calls authenticated with AZURE_DEVOPS_EXT_PAT if it is set, otherwise with the
 # developer's git login (Git Credential Manager). Credentials are never printed.
-# Needs curl and jq.
+# Needs curl, jq and python3 (for the settings, ../settings.sh).
 
 ado_repo() {
   local url org project repo
@@ -22,19 +22,21 @@ ado_repo() {
   fi
 }
 
-# ado_items  ->  sets ADO_ITEMS: the project that holds the backlog items (work_items in
-# .specs/spec-nx.json, otherwise the repository's project)
+# ado_setting <key.sub>  ->  prints a setting of the project in three layers (settings.sh)
+ado_setting() {
+  bash "$(dirname "${BASH_SOURCE[0]}")/../settings.sh" --root "$(git rev-parse --show-toplevel)" --get "$1"
+}
+
+# ado_items  ->  sets ADO_ITEMS: the project that holds the backlog items (work_items.org and
+# .project from the settings, otherwise the repository's project)
 ado_items() {
   ado_repo || return 1
-  local settings org='' project=''
-  settings="$(git rev-parse --show-toplevel)/.specs/spec-nx.json"
+  local org project
+  org="$(ado_setting work_items.org)" || return 1
+  project="$(ado_setting work_items.project)" || return 1
   ADO_ITEMS="$ADO_BASE"
-  if [[ -f "$settings" ]]; then
-    org="$(jq -r '.work_items.org // empty | @uri' "$settings")"
-    project="$(jq -r '.work_items.project // empty | @uri' "$settings")"
-  fi
   if [[ -n "$org" && -n "$project" ]]; then
-    ADO_ITEMS="https://dev.azure.com/$org/$project"
+    ADO_ITEMS="https://dev.azure.com/$(jq -rn --arg v "$org" '$v | @uri')/$(jq -rn --arg v "$project" '$v | @uri')"
   fi
 }
 

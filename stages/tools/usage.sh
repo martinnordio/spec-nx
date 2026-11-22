@@ -4,6 +4,13 @@
 #                 [--root <dir>] [--context-cap <tokens>] [--json]
 set -euo pipefail
 command -v python3 >/dev/null || { echo "usage.sh needs python3" >&2; exit 1; }
+# The kit's, the project's and the developer's settings, the later winning (settings.sh).
+root=.
+for ((i = 1; i <= $#; i++)); do
+  case "${!i}" in --root) j=$((i + 1)); root="${!j}" ;; --root=*) root="${!i#--root=}" ;; esac
+done
+SPEC_NX_SETTINGS="$(bash "$(dirname "$0")/settings.sh" --root "$root" --json)" || exit 1
+export SPEC_NX_SETTINGS
 exec python3 - "$@" <<'PY'
 import argparse, glob, json, os, re, sys
 from datetime import datetime, timezone
@@ -37,12 +44,11 @@ def load(path):
         return {}
 
 
-project = load(os.path.join(a.root, ".specs", "spec-nx.json"))
-local = load(os.path.join(a.root, ".specs", "spec-nx.local.json"))
-if not isinstance(project.get("cost"), dict) and not isinstance(local.get("cost"), dict):
-    print("Cost tracking is off: no cost block in .specs/spec-nx.json.")
+settings = json.loads(os.environ.get("SPEC_NX_SETTINGS") or "{}")
+if not isinstance(settings.get("cost"), dict):
+    print("Cost tracking is off: no cost block in the settings (.specs/spec-nx.json).")
     sys.exit(0)
-cost = {**(project.get("cost") or {}), **(local.get("cost") or {})}
+cost = settings["cost"]
 if not cost.get("enabled", True):
     print("Cost tracking is off: cost.enabled is false.")
     sys.exit(0)

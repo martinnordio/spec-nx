@@ -38,6 +38,21 @@ remote), or a personal access token in `AZURE_DEVOPS_EXT_PAT` (Work Items and Co
 write), which wins when set; the bash scripts also need `curl` and `jq`. Credentials are never
 printed. PowerShell scripts run in Windows PowerShell 5.1 and PowerShell 7.
 
+## Settings
+
+`settings.ps1` / `settings.sh` read the settings in three layers — the kit's
+`<kit>/.specs/spec-nx.json` (only when the kit is a repository of its own), the project's
+`.specs/spec-nx.json` and the developer's `.specs/spec-nx.local.json` — and merge them: a later
+layer wins, objects are merged key by key, lists are replaced, `null` removes a key; the keys
+that describe the generated kit come from the project's file only. Every other script reads
+its settings through them. `settings.sh` needs `python3`.
+
+```
+pwsh tools/settings.ps1                       # every setting with the file it comes from
+pwsh tools/settings.ps1 -Get work_items.area  # one value (JSON for objects and lists)
+bash tools/settings.sh --json                 # all settings as JSON
+```
+
 ## Examples
 
 ```

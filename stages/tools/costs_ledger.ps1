@@ -16,25 +16,21 @@ $inv = [Globalization.CultureInfo]::InvariantCulture
 $dash = [string][char]0x2014
 $dot = ' ' + [char]0x00B7 + ' '
 
-function Read-Settings([string] $path) {
-    if (Test-Path $path) { return Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json }
-    return $null
-}
-$project = Read-Settings (Join-Path $Root '.specs/spec-nx.json')
-$local = Read-Settings (Join-Path $Root '.specs/spec-nx.local.json')
-$hasProject = $project -and $project.PSObject.Properties['cost'] -and $project.cost
-$hasLocal = $local -and $local.PSObject.Properties['cost'] -and $local.cost
-if (-not $hasProject -and -not $hasLocal) { Write-Output 'Cost tracking is off: no cost block in .specs/spec-nx.json.'; return }
+# The kit's, the project's and the developer's settings, the later winning (settings.ps1).
+. (Join-Path $PSScriptRoot 'settings.ps1')
+$settings = Get-SpecNxSettings -Root $Root
+foreach ($w in $settings.Warnings) { [Console]::Error.WriteLine("warning: $w") }
+$costBlock = Get-SpecNxValue $settings 'cost'
+if ($costBlock -isnot [System.Collections.IDictionary]) { Write-Output 'Cost tracking is off: no cost block in the settings (.specs/spec-nx.json).'; return }
 $cost = @{}
-foreach ($block in @($(if ($hasProject) { $project.cost }), $(if ($hasLocal) { $local.cost }))) {
-    if ($block) { foreach ($p in $block.PSObject.Properties) { $cost[$p.Name] = $p.Value } }
-}
+foreach ($k in $costBlock.Keys) { $cost[$k] = $costBlock[$k] }
 if ($cost.ContainsKey('enabled') -and -not $cost['enabled']) { Write-Output 'Cost tracking is off: cost.enabled is false.'; return }
 $currency = if ($cost['currency']) { $cost['currency'] } else { 'USD' }
 
 if (-not $CostsLink -and (Test-Path (Join-Path $Root 'stages/COSTS.md'))) { $CostsLink = '../stages/COSTS.md' }
 if (-not $CostsLink) {
-    $kit = if ($project -and $project.PSObject.Properties['kit_dir'] -and $project.kit_dir) { "$($project.kit_dir)".TrimEnd('/') } else { '.specs/kit' }
+    $kitDir = Get-SpecNxValue $settings 'kit_dir'
+    $kit = if ($kitDir) { "$kitDir".TrimEnd('/') } else { '.specs/kit' }
     if ($kit.StartsWith('.specs/')) { $CostsLink = $kit.Substring(7) + '/COSTS.md' }
     elseif ($kit -eq '.' -or $kit -eq '') { $CostsLink = '../COSTS.md' }
     else { $CostsLink = '../' + ($kit -replace '^\./', '') + '/COSTS.md' }

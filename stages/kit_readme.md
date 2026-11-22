@@ -74,12 +74,27 @@ carries the reference of the spec's issue (`#<n>`) or backlog item (`AB#<id>`) �
 
 ## Settings
 
-- `.specs/spec-nx.json` — the team's answers (committed).
-- `.specs/spec-nx.local.json` — your settings, e.g. your shell (not committed).
-- Update the kit: `git submodule update --remote .spec-nx`, then load
-  `.spec-nx/generator/prompt.md` and run `GENERATE KIT --update`.
+**You can customize the kit per project and per developer.** Three files, each winning over
+the one before:
 
-<!-- When kit_ref differs from kit_dir, replace the list above with: "Projects that use this kit
-need no settings; a project's own `.specs/spec-nx.json` overrides the kit's defaults (for
-example `work_items`). The kit is regenerated in its own repository: `git submodule update
---remote .spec-nx`, `GENERATE KIT --update`, commit." -->
+1. the kit's `<kit_ref>/.specs/spec-nx.json` — only when the kit is a repository of its own
+   (a submodule): its defaults for every project that uses it;
+2. `.specs/spec-nx.json` — the project's (committed);
+3. `.specs/spec-nx.local.json` — yours (not committed).
+
+A file holds only what it changes. A key replaces the same key; objects (`work_items`,
+`cost`, `models`) are merged key by key; lists (`stages`) are replaced as a whole; `null`
+removes the key. `version`, `spec_nx_version`, `generated`, `kit`, `kit_dir`, `kit_ref`,
+`kit_files`, `shells` (and `model` of a shared kit) come from the project's file only.
+`<kit_ref>/tools/settings.ps1` / `settings.sh` show every setting with the file it comes from.
+
+When the settings list `stages`, each stage runs only when it is in it (or in `on_demand`) — with
+`"stages": ["requirements"]` in your file, the other stages say they are turned off for you —
+and its report names the settings it used that do not come from the kit. All keys and
+examples: [Customizing spec-nx](https://github.com/martinnordio/spec-nx/blob/main/docs/customize.md).
+
+<!-- When kit_ref equals kit_dir, add: "Update the kit: `git submodule update --remote .spec-nx`,
+then load `.spec-nx/generator/prompt.md` and run `GENERATE KIT --update`." When kit_ref
+differs, add: "Projects that use this kit need no settings of their own. The kit is
+regenerated in its own repository: `git submodule update --remote .spec-nx`,
+`GENERATE KIT --update`, commit." -->

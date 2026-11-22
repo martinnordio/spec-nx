@@ -22,24 +22,19 @@ $ErrorActionPreference = 'Stop'
 [Console]::OutputEncoding = [Text.Encoding]::UTF8
 $inv = [Globalization.CultureInfo]::InvariantCulture
 
-function Read-Settings([string] $path) {
-    if (Test-Path $path) { return Get-Content $path -Raw -Encoding UTF8 | ConvertFrom-Json }
-    return $null
-}
 function To-Utc([string] $text) {
     $d = [datetime]::Parse($text.Trim(), $inv, [Globalization.DateTimeStyles]::AssumeLocal)
     return $d.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss.fff'Z'", $inv)
 }
 
-$project = Read-Settings (Join-Path $Root '.specs/spec-nx.json')
-$local = Read-Settings (Join-Path $Root '.specs/spec-nx.local.json')
-$hasProject = $project -and $project.PSObject.Properties['cost'] -and $project.cost
-$hasLocal = $local -and $local.PSObject.Properties['cost'] -and $local.cost
-if (-not $hasProject -and -not $hasLocal) { Write-Output 'Cost tracking is off: no cost block in .specs/spec-nx.json.'; return }
+# The kit's, the project's and the developer's settings, the later winning (settings.ps1).
+. (Join-Path $PSScriptRoot 'settings.ps1')
+$settings = Get-SpecNxSettings -Root $Root
+foreach ($w in $settings.Warnings) { [Console]::Error.WriteLine("warning: $w") }
+$costBlock = Get-SpecNxValue $settings 'cost'
+if ($costBlock -isnot [System.Collections.IDictionary]) { Write-Output 'Cost tracking is off: no cost block in the settings (.specs/spec-nx.json).'; return }
 $cost = @{}
-foreach ($block in @($(if ($hasProject) { $project.cost }), $(if ($hasLocal) { $local.cost }))) {
-    if ($block) { foreach ($p in $block.PSObject.Properties) { $cost[$p.Name] = $p.Value } }
-}
+foreach ($k in $costBlock.Keys) { $cost[$k] = $costBlock[$k] }
 if ($cost.ContainsKey('enabled') -and -not $cost['enabled']) { Write-Output 'Cost tracking is off: cost.enabled is false.'; return }
 
 $sinceUtc = To-Utc $Since
@@ -225,11 +220,11 @@ function Get-Prices {
         }
     }
     if ($cost['prices']) {
-        foreach ($p in $cost['prices'].PSObject.Properties) {
-            if ($p.Name.ToLower() -ne $Model.ToLower()) { continue }
-            $v = $p.Value
-            $cw = if ($null -ne $v.cache_write) { $v.cache_write } else { $v.input }
-            return @{ input = $v.input; cache_write = $cw; cached = $v.cached; output = $v.output }
+        foreach ($name in $cost['prices'].Keys) {
+            if ($name.ToLower() -ne $Model.ToLower()) { continue }
+            $v = $cost['prices'][$name]
+            $cw = if ($null -ne $v['cache_write']) { $v['cache_write'] } else { $v['input'] }
+            return @{ input = $v['input']; cache_write = $cw; cached = $v['cached']; output = $v['output'] }
         }
     }
     throw "No price for `"$Model`": add it to cost.prices in .specs/spec-nx.json."
