@@ -172,13 +172,19 @@ and in a generated kit (`.specs/kit/requirements/`).
    Issue — Basic) and offer to save it as `work_item_type`. The item is created in the
    project of `work_items` (Azure DevOps), otherwise in the repository's project; the dry run
    names it — check it is the right one.
+   **More fields** from the settings' `work_items` (the scripts read them; the command can
+   override them): Azure DevOps `area`, `iteration`, `assigned_to`; GitHub `type`,
+   `assigned_to`. Without `assigned_to` the item is assigned to the user who creates it;
+   `"assigned_to": null` leaves it unassigned. The dry run lists every field with the file it
+   comes from, and stops with a message naming the setting and its file when a value does not
+   exist (an unknown area, iteration, person, type or parent).
 4. **Summary** as in `UPDATE ISSUE` step 4, in a temporary file outside the repository.
 5. **Dry run** and show it:
 
    | Host | PowerShell | bash |
    |------|------------|------|
-   | GitHub | `../tools/github/create_issue.ps1 -Title <title> -SummaryFile <file> [-Parent <n>] -DryRun` | `../tools/github/create_issue.sh <title> <file> [--parent <n>] --dry-run` |
-   | Azure DevOps | `../tools/azure_devops/create_issue.ps1 -Title <title> -SummaryFile <file> -Type <type> [-Parent <id>] -DryRun` | `../tools/azure_devops/create_issue.sh <title> <file> --type <type> [--parent <id>] --dry-run` |
+   | GitHub | `../tools/github/create_issue.ps1 -Title <title> -SummaryFile <file> [-Parent <n>] [-Type <type>] [-AssignedTo <login> \| -Unassigned] -DryRun` | `../tools/github/create_issue.sh <title> <file> [--parent <n>] [--type <type>] [--assigned-to <login> \| --unassigned] --dry-run` |
+   | Azure DevOps | `../tools/azure_devops/create_issue.ps1 -Title <title> -SummaryFile <file> -Type <type> [-Parent <id>] [-Area <path>] [-Iteration <path>] [-AssignedTo <email> \| -Unassigned] -DryRun` | `../tools/azure_devops/create_issue.sh <title> <file> --type <type> [--parent <id>] [--area <path>] [--iteration <path>] [--assigned-to <email> \| --unassigned] --dry-run` |
 
 6. **After the user confirms,** run it without the dry run; it prints the new number. Delete
    the temporary file.
