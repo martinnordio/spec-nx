@@ -5,6 +5,7 @@
 > **Created:** 2026-11-22
 > **Last updated:** 2026-11-22
 > **Branch:** `feature/settings-layers-and-prompt-log`
+> **Issue:** #8 (created after the merge of pull request #7, then closed)
 
 ## Stage log
 
@@ -22,6 +23,7 @@
 | 2026-11-22 | review | `REVIEW:` | Claude Opus 5.5 | 9.05 M (38 k in · 8.98 M cached · 32 k out) | CHF 2.19 (262 credits) | semantic diff and code review: Approve with follow-ups; findings 1–3 fixed here (whole marker id, -Run last, settings checks), 4–7 deferred |
 | 2026-11-22 | implementation | `CLOSE:` | Claude Opus 5.5 | 2.95 M (9 k in · 2.93 M cached · 6 k out) | CHF 0.62 (74 credits) | spec closed; Copilot CLI costs spec closed with it |
 | 2026-11-22 | pr | `PR:` | Claude Opus 5.5 | 2.39 M (8 k in · 2.38 M cached · 5 k out) | CHF 0.51 (61 credits) | pull request opened on GitHub |
+| 2026-11-22 | requirements | `CREATE ISSUE:` | Claude Opus 5.5 | 4.95 M (9 k in · 4.93 M cached · 7 k out) | CHF 0.98 (117 credits) | issue #8 created after the merge (assigned to the author by the new default), then closed with the spec's summary; this run also wrote the answers into the spec-kit's backlog fields spec |
 
 ---
 
