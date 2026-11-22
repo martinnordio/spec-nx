@@ -55,6 +55,10 @@ git commit -m "Connect spec-nx to the git host"
 git push
 ```
 
+**Your own backlog fields:** area, iteration and assignee (Azure DevOps) or issue type and
+assignee (GitHub) can be set for the team or only for you — see
+[Customizing spec-nx](../customize.md#examples-to-copy).
+
 ## 3 · The second feature
 
 | Tutorial | Second feature |

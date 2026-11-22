@@ -35,7 +35,7 @@ warning. Every other key may be set in any layer — for example `parent`, `work
 that they are turned off in that file.
 
 `tools/settings.ps1` / `settings.sh` of the kit apply the rule for the scripts and show every
-setting with the file it comes from. Examples: `docs/customize.md` in spec-nx.
+setting with the file it comes from. Examples: [Customizing spec-nx](../docs/customize.md).
 
 The questions are **asked in the order of this table**:
 

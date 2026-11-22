@@ -23,6 +23,11 @@ what was asked.
 
 For anyone who builds software with AI: developers, students, scientists, and curious kids.
 
+> **Make it yours.** Every setting can be changed for the team, for one project, or only for
+> you — another parent feature, only the requirements stage, your Azure DevOps area and
+> iteration, a log of your prompts, your currency. See
+> **[Customizing spec-nx](docs/customize.md)**.
+
 ## ⭐ Key feature: the right model for each Step — and what it cost
 
 **spec-nx chooses the AI model for every stage and Step, and records the tokens and the cost
@@ -198,7 +203,11 @@ Some answers are about **the team**, some about **you**:
 | | Project settings | Developer settings |
 |---|---|---|
 | File | `.specs/spec-nx.json` — committed, shared | `.specs/spec-nx.local.json` — not committed, one per developer |
-| Examples | stages, git host, issues, models, cost | your shell: PowerShell (Windows PowerShell 5.1 or 7) or bash (macOS, Linux, Git Bash); your own models or cost settings |
+| Examples | stages, git host, issues, models, cost | your shell: PowerShell (Windows PowerShell 5.1 or 7) or bash (macOS, Linux, Git Bash); any project setting you want different for you — another parent, fewer stages, your backlog area, the prompt log, models, cost |
+
+A shared kit added as a submodule can bring its own settings too: the kit's, the project's and
+your file are read in that order, each winning over the one before — see
+[Customizing spec-nx](docs/customize.md).
 
 The kit contains its scripts for every shell your team uses, so a Windows developer and a
 macOS developer share the same kit. A new team member runs `GENERATE KIT` once: the project
