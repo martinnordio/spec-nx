@@ -14,6 +14,7 @@
 | 2026-11-22 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | 1.30 M (326 k in · 965 k cached · 5 k out) | CHF 1.61 (192 credits) | Part 1 revised: Q1–Q5 answered (S1, S5, S13, S18); Copilot CLI costs spec finished here (S21–S24); customizing page (S25–S27) |
 | 2026-11-22 | plan | `PLAN:` | Claude Opus 5.5 | 5.29 M (379 k in · 4.90 M cached · 16 k out) | CHF 2.67 (319 credits) | Part 2 written: 6 Steps, D1–D9 |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 11.04 M (50 k in · 10.96 M cached · 38 k out) | CHF 2.68 (320 credits) | Step 1 done |
+| 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 10.79 M (38 k in · 10.73 M cached · 31 k out) | CHF 2.47 (295 credits) | Step 2 done |
 
 ---
 
@@ -204,7 +205,7 @@ command), Q5 → S18 (a marker in the chat). The Copilot CLI costs spec's open q
 | Step | Description | Status | Detail |
 |------|-------------|--------|--------|
 | **1** | Settings in three layers | ✅ Done | [→ Step 1](#step-1--settings-in-three-layers) |
-| **2** | Backlog item and issue fields | ⬜ Not started | [→ Step 2](#step-2--backlog-item-and-issue-fields) |
+| **2** | Backlog item and issue fields | ✅ Done | [→ Step 2](#step-2--backlog-item-and-issue-fields) |
 | **3** | Prompt log | ⬜ Not started | [→ Step 3](#step-3--prompt-log) |
 | **4** | Cost of this chat only | ⬜ Not started | [→ Step 4](#step-4--cost-of-this-chat-only) |
 | **5** | Finish the Copilot CLI costs spec | ⬜ Not started | [→ Step 5](#step-5--finish-the-copilot-cli-costs-spec) |
@@ -269,7 +270,7 @@ merge rule, and a developer can change any project key, including fewer stages (
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
 Started: 2026-11-22 09:29
 
-**Done (2026-11-22 · ~7m · Claude Opus 5.5)** — `stages/tools/settings.ps1` / `settings.sh` (kit layer next to the kit's folder, merge rule, project-only keys with a warning, value and source per key; run them to show every setting with its file); `usage`, `costs_ledger` and the Azure DevOps helpers read through them (bash: the wrapper reads the settings and passes them to python); a **Settings** section in the kit README template and in every stage prompt (turn off with fewer `stages`, name the settings used), `models.md`, `tools/README.md`, `generator/questions.md` (*Three layers*) and `generator/prompt.md` (copy `settings.*`, kit layer at run time, `--update` shows each key's layer). Checks: both helpers give the same output on a three-layer project (object merge, list replace, `null`, a project-only key ignored with a warning) and on a one-layer project; `usage` and `costs_ledger` (both shells) give byte-identical output to `main` on this repository; the Azure DevOps project comes from the merged layers in ProdEval; `check_all` shows no new problem · 11.04 M · CHF 2.68
+**Done (2026-11-22 · ~7m · Claude Opus 5.5)** — `stages/tools/settings.ps1` / `settings.sh` (kit layer next to the kit's folder, merge rule, project-only keys with a warning, value and source per key; run them to show every setting with its file); `usage`, `costs_ledger` and the Azure DevOps helpers read through them (bash: the wrapper reads the settings and passes them to python); a **Settings** section in the kit README template and in every stage prompt (turn off with fewer `stages`, name the settings used), `models.md`, `tools/README.md`, `generator/questions.md` (*Three layers*) and `generator/prompt.md` (copy `settings.*`, kit layer at run time, `--update` shows each key's layer). Checks: both helpers give the same output on a three-layer project (object merge, list replace, `null`, a project-only key ignored with a warning) and on a one-layer project; `usage` and `costs_ledger` (both shells) give byte-identical output to `main` on this repository; the Azure DevOps project comes from the merged layers in a real Azure DevOps project; `check_all` shows no new problem · 11.04 M · CHF 2.68
 
 ---
 
@@ -280,24 +281,27 @@ Started: 2026-11-22 09:29
 parent on GitHub, checks them first and shows them in the dry run (S7–S11).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `azure_devops/create_issue.*`: `area`, `iteration`, `assigned_to` from `work_items`
+- [x] Record the start time in Notes below.
+- [x] `azure_devops/create_issue.*`: `area`, `iteration`, `assigned_to` from `work_items`
       (or `-Area`, `-Iteration`, `-AssignedTo`); default assignee the signed-in user, `null`
       unassigned (D6); check area, iteration and person before creating; the dry run lists
       every field with the file it came from.
-- [ ] `github/create_issue.*`: `type` and `assigned_to` from `work_items` (or `-Type`,
+- [x] `github/create_issue.*`: `type` and `assigned_to` from `work_items` (or `-Type`,
       `-AssignedTo`), default `@me`, `null` unassigned; check the type and the parent first;
       the dry run lists every field.
-- [ ] `stages/requirements/prompt.md` (CREATE ISSUE) and `stages/tools/README.md`: the new
+- [x] `stages/requirements/prompt.md` (CREATE ISSUE) and `stages/tools/README.md`: the new
       keys and parameters, the parent from the command, header or `parent` for both hosts.
-- [ ] `generator/questions.md`: `work_items` keys per host (`org`, `project`, `area`,
+- [x] `generator/questions.md`: `work_items` keys per host (`org`, `project`, `area`,
       `iteration`, `assigned_to`; `type`, `assigned_to`).
-- [ ] Check: dry runs on this repository (GitHub) and on an Azure DevOps test project (with and
+- [x] Check: dry runs on this repository (GitHub) and on an Azure DevOps test project (with and
       without each key, an unknown area / type stops with the setting and its file); both
       shells parse.
 
 ### Notes
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+Started: 2026-11-22 09:36
+
+**Done (2026-11-22 · ~7m · Claude Opus 5.5)** — Azure DevOps `create_issue.ps1` / `.sh`: area, iteration and assignee from the options or `work_items` (default the signed-in user from `connectionData`, `null` / `-Unassigned` nobody), each checked first (classification nodes, identities, parent), the dry run lists every field with its file; GitHub `create_issue.ps1` / `.sh`: type (organizations only, checked against the organization's issue types) and assignee (default `@me`, checked as assignable), set after creation; `settings.*` got `-Source` / `--source` so `null` (nobody) differs from unset (you); requirements prompt (CREATE ISSUE), `tools/README.md` and `generator/questions.md` document the keys. Checks on a real Azure DevOps project, both shells with the same output: defaults (parent title, assigned to me), area and iteration paths (accepted), an unknown area and an unknown person (stopped with the option or setting and its file), `iteration` and `assigned_to: null` from the developer's file; on this GitHub repository: default `@me`, a parent, a type on a user account (refused with the reason), an unknown login (refused) · 10.79 M · CHF 2.47
 
 ---
 

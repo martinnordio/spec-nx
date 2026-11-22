@@ -309,6 +309,14 @@ Nothing is asked and nothing is saved.
 "work_items": { "org": "<org>", "project": "<project>" }
 ```
 
+**More fields (optional, any layer):** `work_items` can also set the fields of a new backlog
+item — `"area": "<project>\\<team>"`, `"iteration": "<project>\\<sprint>"` and
+`"assigned_to": "<email>"`. Without `assigned_to` the item is assigned to the user who creates
+it; `"assigned_to": null` leaves it unassigned. On GitHub, `work_items` can set
+`"type": "<issue type>"` (Bug, Task, Feature … — organizations only) and
+`"assigned_to": "<login>"` (default `@me`). `CREATE ISSUE:` checks every value before it creates
+the item.
+
 **Effect:** `CREATE ISSUE:` and `UPDATE ISSUE:` read and create the backlog items in this
 project; pull requests stay in the repository's project and still link the item by its id
 (ids are unique in the organisation). Without the key, the repository's project is used. Signing
@@ -536,7 +544,7 @@ Written by `GENERATE KIT`, read by `GENERATE KIT --update`. Commit it with the p
 | `git_host` | Answer to Q2. |
 | `link_issues` | Answer to Q2b. |
 | `work_item_type` | Optional, set by hand (Azure DevOps only): the backlog item type for another process than Scrum (missing = `"Product Backlog Item"`). |
-| `work_items` | Optional, set by hand (Azure DevOps only): `{ "org", "project" }` of the backlog items when they are not in the repository's project. |
+| `work_items` | Optional, set by hand. Azure DevOps: `org`, `project` (backlog items in another project), `area`, `iteration`, `assigned_to` (email; missing = you, `null` = nobody). GitHub: `type` (an issue type of the organization), `assigned_to` (login; missing = `@me`, `null` = nobody). |
 | `parent` | Optional, set by hand: the default parent (issue number / work item id) of `CREATE ISSUE`, used when neither the command nor the spec header names one. |
 | `shells` | Shells the kit's scripts are generated for: every developer's `shell`. |
 | `kit` | Answer to Q4. |

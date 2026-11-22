@@ -4,7 +4,7 @@
 # developer's (.specs/spec-nx.local.json). A later layer wins: a key replaces the same key,
 # objects are merged key by key, lists are replaced as a whole, null removes the key. Keys that
 # describe the generated kit are taken from the project's file only. Needs python3.
-# usage: settings.sh [--root <dir>] [--get <key.sub>] [--json] [--sources]
+# usage: settings.sh [--root <dir>] [--get <key.sub>] [--source <key.sub>] [--json] [--sources]
 #   (no option: every setting with the file it comes from)
 set -euo pipefail
 command -v python3 >/dev/null || { echo "settings.sh needs python3" >&2; exit 1; }
@@ -15,6 +15,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 p = argparse.ArgumentParser(prog="settings.sh")
 p.add_argument("--root", default=".")
 p.add_argument("--get")
+p.add_argument("--source")
 p.add_argument("--json", action="store_true")
 p.add_argument("--sources", action="store_true")
 a = p.parse_args()
@@ -94,7 +95,12 @@ def get(key):
     return v
 
 
-if a.get:
+if a.source:
+    # The file a key comes from ("<file> (removed)" when a layer set it to null); nothing when unset.
+    src = sources.get(a.source) or next((f for k, f in sources.items() if k.startswith(a.source + ".")), "")
+    if src:
+        print(src)
+elif a.get:
     v = get(a.get)
     if v is not None:
         print(json.dumps(v, ensure_ascii=False, separators=(",", ":")) if isinstance(v, (dict, list)) else ("true" if v is True else "false" if v is False else v))

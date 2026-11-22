@@ -9,6 +9,7 @@
 .EXAMPLE
   ./settings.ps1                  # every setting with the file it comes from
   ./settings.ps1 -Get work_items.area
+  ./settings.ps1 -Source work_items.assigned_to   # the file it comes from
   ./settings.ps1 -Json
 #>
 # No param block: dot-sourcing must not change the caller's variables. Arguments: see below.
@@ -118,17 +119,19 @@ function Get-SpecNxSource($settings, [string] $key) {
 if ($MyInvocation.InvocationName -ne '.') {
     $ErrorActionPreference = 'Stop'
     [Console]::OutputEncoding = [Text.Encoding]::UTF8
-    $Root = '.'; $Get = ''; $Json = $false
+    $Root = '.'; $Get = ''; $Source = ''; $Json = $false
     for ($i = 0; $i -lt $args.Count; $i++) {
         switch ($args[$i]) {
             '-Root' { $Root = $args[++$i] }
             '-Get' { $Get = $args[++$i] }
+            '-Source' { $Source = $args[++$i] }
             '-Json' { $Json = $true }
-            default { throw "Unknown argument: $($args[$i]). Use -Root <dir>, -Get <key.sub>, -Json." }
+            default { throw "Unknown argument: $($args[$i]). Use -Root <dir>, -Get <key.sub>, -Source <key.sub>, -Json." }
         }
     }
     $s = Get-SpecNxSettings -Root $Root
     foreach ($w in $s.Warnings) { [Console]::Error.WriteLine("warning: $w") }
+    if ($Source) { $src = Get-SpecNxSource $s $Source; if ($src) { $src }; return }
     if ($Get) {
         $v = Get-SpecNxValue $s $Get
         if ($null -eq $v) { return }
