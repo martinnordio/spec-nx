@@ -1,17 +1,36 @@
 # Copilot CLI Costs Spec
 
 > **Author:** Martin Nordio
-> **Status:** 🔄 In progress — S1–S9, S11 done on `main`; S10, S12 open
+> **Status:** ✅ Complete — closed on `feature/settings-layers-and-prompt-log` (S10, S12 and the open question finished by `2026_11_22_settings_layers_and_prompt_log_spec.md`)
 > **Created:** 2026-11-21
-> **Last updated:** 2026-11-21
+> **Last updated:** 2026-11-22
 > **Branch:** `feature/copilot-cli-costs`
 
 ## Stage log
 
-| Date | Stage | Command | Model | Tokens (estimate — see [COSTS.md](../../stages/COSTS.md)) | Cost (CHF) | Note |
+| Date | Stage | Command | Model | Tokens (estimate — see [COSTS.md](../../../stages/COSTS.md)) | Cost (CHF) | Note |
 |------|-------|---------|-------|--------|------|------|
 | 2026-11-21 | requirements | `REQUIREMENTS:` | Claude Opus 5.5 | 3.64 M (36 k in · 3.59 M cached · 22 k out) | CHF 1.12 (133 credits) | Part 1 written, together with the reference fix in the hack_star project (measured from the Copilot CLI session log) |
 | 2026-11-21 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 8.81 M (43 k in · 8.74 M cached · 26 k out) | CHF 2.09 (249 credits) | S1–S9, S11 implemented in `stages/` (ps1 and sh), S11–S12 added; checked on real logs (also covers the hack_star kit's `-Agent` change) |
+| 2026-11-22 | implementation | `CLOSE:` | Claude Opus 5.5 | included in 2026_11_22_settings_layers_and_prompt_log_spec.md | included in 2026_11_22_settings_layers_and_prompt_log_spec.md | spec closed; S10, S12 and the open question done there (S21–S23) |
+
+## Cost summary
+
+This feature used 12.45 M tokens, CHF 3.21 — measured, see [COSTS.md](../../../stages/COSTS.md). The close and the work on S10 and S12 are counted in `2026_11_22_settings_layers_and_prompt_log_spec.md`.
+
+| Stage | Models | Tokens | Cost (CHF) | Share of Copilot Business |
+|-------|--------|--------|------------|---------------------------|
+| requirements | Claude Opus 5.5 | 3.64 M | CHF 1.12 (133 credits) | 7.0 % |
+| implementation | Claude Opus 5.5 | 8.81 M | CHF 2.09 (249 credits) | 13.1 % |
+| **Total** | | **12.45 M** | **CHF 3.21 (382 credits)** | **20.1 %** |
+
+**Implementation by Step**
+
+| Step | Model | Tokens | Cost (CHF) | Share of Copilot Business |
+|------|-------|--------|------------|---------------------------|
+| S1–S9, S11 (no plan stage) | Claude Opus 5.5 | 8.81 M | CHF 2.09 (249 credits) | 13.1 % |
+| CLOSE | Claude Opus 5.5 | included in `2026_11_22_settings_layers_and_prompt_log_spec.md` | included in `2026_11_22_settings_layers_and_prompt_log_spec.md` | — |
+| **Total implementation** | | **8.81 M** | **CHF 2.09 (249 credits)** | **13.1 %** |
 
 ---
 
@@ -40,8 +59,8 @@ Cost per feature is a key promise of spec-nx; it must never be lost without a lo
    `cacheReadTokens`, `cacheWriteTokens`, `outputTokens`) and the billed AI credits
    (`copilotUsage.totalNanoAiu`, 10⁹ nano = 1 credit; `tokenDetails` with `costPerBatch`),
    sub-agents included.
-2. Without `-Transcript`, the newest transcript of **another workspace** (`c:\repo` instead
-   of `c:\repo\hack_star`) was used: 0 requests, printed as `CHF 0.00` with success.
+2. Without `-Transcript`, the newest transcript of **another workspace** (the parent folder of
+   the project instead of the project) was used: 0 requests, printed as `CHF 0.00` with success.
 3. A result of 0 requests is not an error, so a wrong time range or log goes unnoticed.
 4. The rules let a stage write `N/A` without trying the right log.
 5. Unknown to the method: VS Code transcripts hold **no tool results** (each
@@ -88,7 +107,7 @@ worlds run's CLI log it matches the billed credits.
   characters (`file:///c%3A/repo/x`) are matched correctly.
 - **S10 — Checked:** The `testing/` checks include a small Copilot CLI log sample (with a
   sub-agent and two models), a sample from another workspace, and an empty range; they pass
-  for both scripts.
+  for both scripts. *(Done by `2026_11_22_settings_layers_and_prompt_log_spec.md`, S21.)*
 - **S11 — Orchestrator and sub-agents apart:** For a Copilot CLI log, `usage` can count only
   the chat's own requests or only its sub-agents' (`-Agent main|subagents`), and always shows
   both parts; in a per-Step run each Step row counts its sub-agent and one extra Stage log
@@ -96,19 +115,31 @@ worlds run's CLI log it matches the billed credits.
   orchestrator was ~500 of ~820 credits and was in no row.)
 - **S12 — Cost list without false gaps:** `costs_ledger` shows a row whose cells say
   `included in <spec>` as included (not `N/A`), and shows measured numbers without `~`.
+  *(Done by `2026_11_22_settings_layers_and_prompt_log_spec.md`, S22.)*
 
 ### Open questions
 
+_None open._ Answered on 2026-11-22 by `2026_11_22_settings_layers_and_prompt_log_spec.md`, S23: estimated numbers keep the `~`, and a note
+under a table says when it mixes measured and estimated numbers.
+
+<!-- previously open:
 - **Comparing tools:** measured (CLI, Claude Code) and estimated (VS Code) numbers differ by
   method — in hack_star the VS Code estimates were several times lower. Should the cost
   summary and `costs.md` mark estimated rows, and warn when a spec mixes both? Suggestion:
   yes — a short note under the table when estimated and measured rows are mixed.
+-->
 
 <!-- spec-nx:plan -->
 
 ---
 
 # Part 2 · Plan
+
+## Closing summary
+
+**Built:** `usage` measures Copilot CLI logs (tokens and billed credits, sub-agents included, `-Agent main|subagents`), looks only at the project's logs, and stops with an error instead of reporting 0; the rules for `N/A` are strict, and a per-Step run gets an orchestrator row. Its checks (S10) and the cost list without false gaps (S12) were finished by `2026_11_22_settings_layers_and_prompt_log_spec.md`, which also made `usage` count only the chat that runs the command (`-Run`).
+**Differs from the plan:** no plan stage ran (the fix was made from a working reference); S10, S12 and the open question moved to `2026_11_22_settings_layers_and_prompt_log_spec.md` (S21–S23) and were closed with it.
+**Files:** `stages/tools/usage.ps1`, `usage.sh`, `stages/COSTS.md`, `stages/spec_template.md`, `stages/tools/README.md`, `stages/implementation/prompt.md`.
 
 _No plan stage ran: the author asked for the fix to be made directly from the working
 reference in hack_star (2026-11-21)._
@@ -122,6 +153,6 @@ reference in hack_star (2026-11-21)._
   byte-identical to the previous script), on a CLI Step window (142.572); both stop with
   exit 1 on an empty range; `-Agent main` on a VS Code log is refused.
 
-**Open:**
-- S10 — sample logs and checks in `testing/` for both scripts.
-- S12 — `costs_ledger.ps1` / `.sh`: `included in <spec>` and measured numbers without `~`.
+**Finished by `2026_11_22_settings_layers_and_prompt_log_spec.md`:**
+- S10 — sample logs and checks in `testing/usage/` for both scripts (S21 there).
+- S12 — `costs_ledger.ps1` / `.sh`: `included in <spec>` and measured numbers without `~` (S22 there).

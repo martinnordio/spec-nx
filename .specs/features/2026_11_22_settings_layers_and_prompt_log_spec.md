@@ -1,7 +1,7 @@
 # Settings Layers and Prompt Log Spec
 
 > **Author:** Martin Nordio
-> **Status:** ⬜ Not started — plan ready
+> **Status:** 🔄 In progress — Steps 1–5 done
 > **Created:** 2026-11-22
 > **Last updated:** 2026-11-22
 > **Branch:** `feature/settings-layers-and-prompt-log`
@@ -17,6 +17,7 @@
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 10.79 M (38 k in · 10.73 M cached · 31 k out) | CHF 2.47 (295 credits) | Step 2 done |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 14.20 M (133 k in · 14.01 M cached · 56 k out) | CHF 3.84 (458 credits) | Step 3 done (window includes the Step 4 and 5 code written meanwhile, and the trial sub-agent) |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 2.60 M (6 k in · 2.58 M cached · 5 k out) | CHF 0.54 (65 credits) | Step 4 done (its code is in the Step 3 row) |
+| 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 4.76 M (13 k in · 4.74 M cached · 8 k out) | CHF 0.98 (117 credits) | Step 5 done; Copilot CLI costs spec closed |
 
 ---
 
@@ -210,7 +211,7 @@ command), Q5 → S18 (a marker in the chat). The Copilot CLI costs spec's open q
 | **2** | Backlog item and issue fields | ✅ Done | [→ Step 2](#step-2--backlog-item-and-issue-fields) |
 | **3** | Prompt log | ✅ Done | [→ Step 3](#step-3--prompt-log) |
 | **4** | Cost of this chat only | ✅ Done | [→ Step 4](#step-4--cost-of-this-chat-only) |
-| **5** | Finish the Copilot CLI costs spec | ⬜ Not started | [→ Step 5](#step-5--finish-the-copilot-cli-costs-spec) |
+| **5** | Finish the Copilot CLI costs spec | ✅ Done | [→ Step 5](#step-5--finish-the-copilot-cli-costs-spec) |
 | **6** | Customizing page, documents and final check | ⬜ Not started | [→ Step 6](#step-6--customizing-page-documents-and-final-check) |
 
 > **Step completion protocol (required):** every time a Step is finished, in the same edit:
@@ -367,21 +368,24 @@ The open parts of `2026_11_21_copilot_cli_costs_spec.md` are done and that spec 
 (S21–S24).
 
 ### Tasks
-- [ ] Record the start time in Notes below.
-- [ ] `testing/usage/` (D8): sample logs (Copilot CLI with a sub-agent and two models, another
+- [x] Record the start time in Notes below.
+- [x] `testing/usage/` (D8): sample logs (Copilot CLI with a sub-agent and two models, another
       workspace, empty range, two parallel chats) and `check_usage.ps1` / `.sh` that run both
       `usage` scripts and `costs_ledger` on them; `.gitignore` and `testing/README.md` updated.
-- [ ] `costs_ledger.*`: `included in <spec>` counted as included (not `N/A`); measured numbers
+- [x] `costs_ledger.*`: `included in <spec>` counted as included (not `N/A`); measured numbers
       without `~`; a note under a table that mixes measured and estimated numbers (S22, S23).
-- [ ] `stages/COSTS.md` and `stages/implementation/prompt.md` (Cost summary): `~` only on
+- [x] `stages/COSTS.md` and `stages/implementation/prompt.md` (Cost summary): `~` only on
       estimated numbers, the mixed note (S23).
-- [ ] Close `2026_11_21_copilot_cli_costs_spec.md`: S10 and S12 point to this spec, Closing
+- [x] Close `2026_11_21_copilot_cli_costs_spec.md`: S10 and S12 point to this spec, Closing
       summary, Cost summary, local paths removed, moved to `done/` (S24).
-- [ ] Check: both `check_usage` scripts pass; `costs_ledger` on this repository shows the
+- [x] Check: both `check_usage` scripts pass; `costs_ledger` on this repository shows the
       included rows and the note.
 
 ### Notes
 <!-- On completion, append: **Done (YYYY-MM-DD · ~Xh Ym · model)** — summary + verifying result. -->
+Started: 2026-11-22 09:45
+
+**Done (2026-11-22 · ~9m · Claude Opus 5.5)** — `testing/usage/` committed (`.gitignore` exception, `testing/README.md`): synthetic Copilot CLI logs (a chat with a sub-agent and two models, a second chat of the same project, a chat of another project) and three sample specs (measured, estimated, `included in`), with `check_usage.ps1` that runs `usage` and `costs_ledger` of both shells; `costs_ledger.ps1` / `.sh`: `included in` rows count as *included*, `~` only on estimated sums, a note under a list that mixes both; `COSTS.md` rule 5 and the implementation prompt's Cost summary say the same; `2026_11_21_copilot_cli_costs_spec.md` closed (S10, S12 and its question point here, Cost summary measured 12.45 M · CHF 3.21, `CLOSE:` row *included in* this spec, local paths removed, moved to `done/`). Checks: `check_usage.ps1` 19 / 19 pass (both shells); `costs_ledger` on this repository shows the measured specs without `~` and the mix note; `check_all` is down to the 4 placeholder links of the templates that were there before · 4.76 M (13 k in · 4.74 M cached · 8 k out) · CHF 0.98
 
 ---
 

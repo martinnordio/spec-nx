@@ -1,0 +1,3 @@
+{"type":"session.start","data":{"sessionId":"chat-other","version":1,"producer":"copilot-agent"},"id":"s-chat-other","timestamp":"2026-11-20T09:00:00.000Z"}
+{"type":"assistant.message","data":{"content":"spec-nx run 20261120-1000-else. A chat of another project."},"id":"m-2026-11-20T10:00:10.000Z","timestamp":"2026-11-20T10:00:10.000Z"}
+{"type":"session.usage_record","data":{"usage":{"model":"claude-opus-5.5","modelDisplayName":"Claude Opus 5.5","inputTokens":90000,"outputTokens":900,"cacheReadTokens":80000,"cacheWriteTokens":0,"copilotUsage":{"totalNanoAiu":5000000000}}},"id":"u-2026-11-20T10:00:20.000Z","timestamp":"2026-11-20T10:00:20.000Z"}

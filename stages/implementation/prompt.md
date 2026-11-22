@@ -195,7 +195,11 @@ Only with per-Step models (`models` has tiers). Fixed or no `models`: one Step p
    ISSUE:` under requirements, `CLOSE:` under implementation, `CODE REVIEW:` under review;
    leave out the rows of stages that have no Stage log row yet — such as `pr`, which runs after
    `CLOSE:` — and put any other stage, such as documentation, in its own row). Cost cells are
-   written as in the Stage log: `~<currency> <amount> (<credits> credits)`. **Models** lists the
+   written as in the Stage log: `~<currency> <amount> (<credits> credits)` — the `~` only when a
+   row added up is estimated; all measured, no `~` (also in the sentence above the table). When
+   a table mixes measured and estimated rows, add under it: *Mixes measured and estimated (`~`)
+   numbers — see COSTS.md.* A row whose cells say `included in <spec>` is counted there, not
+   here; a stage with only such rows reads `included in <spec>`. **Models** lists the
    models of the stage's Stage log rows (each once, in order); a Step's **Model** is the model
    in its Stage log row — the model that ran it. The second table splits implementation into its Steps and
    `CLOSE:`; its total equals the implementation row. The share is credits ÷
