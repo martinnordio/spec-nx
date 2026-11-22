@@ -191,8 +191,9 @@ def candidates(root):
 
 
 def has_marker(path):
+    # The whole id: "spec-nx run abc" must not match "spec-nx run abcd".
     with open(path, encoding="utf-8", errors="replace") as f:
-        return marker in f.read()
+        return re.search(re.escape(marker) + r"(?![A-Za-z0-9_-])", f.read()) is not None
 
 
 root = os.path.abspath(a.root)

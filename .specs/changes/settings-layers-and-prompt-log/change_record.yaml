@@ -1,0 +1,139 @@
+# yaml-language-server: $schema=../../../stages/review/change_record.schema.json
+version: 1
+branch: feature/settings-layers-and-prompt-log
+base: 9e2445b
+why: |
+  A developer could not adapt the settings to their own work (another parent, only the
+  requirements, their backlog area) without changing the committed file for everyone; backlog
+  items and issues were created without area, iteration, assignee or type; there was no record
+  of the prompts behind a spec; and two chats on one project could get each other's cost. This
+  branch reads the settings in three layers (kit, project, developer), adds work-item fields,
+  an optional prompt log and a per-chat cost marker, finishes the Copilot CLI costs spec, and
+  documents it all on one page.
+spec:
+  path: .specs/features/done/2026_11_22_settings_layers_and_prompt_log_spec.md
+  statements: [S1, S2, S3, S4, S5, S6, S7, S8, S9, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27]
+changes:
+  - id: settings-layers
+    kind: config
+    change: modified
+    object: "generator/questions.md — where the settings come from"
+    note: Two files (local wins key by key) become three layers with a merge rule and project-only keys; check that old files give the same result.
+    statements: [S1, S2, S3, S6]
+    examples:
+      - name: questions
+        input: |
+          the section above the question table of generator/questions.md
+  - id: settings-command
+    kind: command
+    change: added
+    object: "stages/tools/settings.ps1 / settings.sh"
+    note: One helper per shell that every script uses; prints every setting with its file, -Get one value, -Source its file (null keeps "(removed)").
+    statements: [S1, S2, S3, S5]
+    examples:
+      - name: example-project
+        input: |
+          a project with .my-kit/.specs/spec-nx.json, .specs/spec-nx.json and .specs/spec-nx.local.json
+          pwsh .my-kit/tools/settings.ps1
+  - id: stage-settings
+    kind: command
+    change: modified
+    object: "Settings section of every stage prompt"
+    note: Read the three layers, turn the stage off when it is not in stages (never GUIDELINES:), name the settings used, keep the prompt log; and the chat marker for usage.
+    statements: [S4, S5, S12, S18]
+    examples:
+      - name: plan-prompt
+        input: |
+          stages/plan/prompt.md, from "Skills to load" to "Files this stage uses"
+  - id: work-items
+    kind: data-format
+    change: modified
+    object: ".specs/spec-nx.json keys work_items, parent, prompt_log"
+    note: work_items gains area, iteration, assigned_to (Azure DevOps) and type, assigned_to (GitHub); prompt_log is new; all optional in any layer.
+    statements: [S7, S8, S9, S10, S12]
+    examples:
+      - name: row
+        input: |
+          the rows of work_items, parent and prompt_log in generator/questions.md
+  - id: create-issue-ado
+    kind: command
+    change: modified
+    object: "stages/tools/azure_devops/create_issue.ps1 / .sh"
+    note: Area, iteration and assignee from the options or the settings, default the signed-in user, each checked first; the dry run names the file of every field.
+    statements: [S7, S8, S11]
+    examples:
+      - name: syntax
+        input: |
+          Get-Command stages/tools/azure_devops/create_issue.ps1 -Syntax
+  - id: create-issue-github
+    kind: command
+    change: modified
+    object: "stages/tools/github/create_issue.ps1 / .sh"
+    note: Issue type (organizations only) and assignee (default @me), checked first; the parent as before.
+    statements: [S8, S9, S10, S11]
+    examples:
+      - name: syntax
+        input: |
+          Get-Command stages/tools/github/create_issue.ps1 -Syntax
+  - id: prompt-log
+    kind: data-format
+    change: added
+    object: ".specs/prompts/<yyyy_mm_dd>_<name>_prompt.md and <yyyy_mm_dd>_other_prompt.md"
+    note: The format every stage writes when prompt_log is on (kit README, Prompt log); tried by a sub-agent on scratch projects.
+    statements: [S12, S13, S14, S15, S16, S17]
+    examples:
+      - name: kit-readme
+        input: |
+          section "Prompt log" of stages/kit_readme.md
+  - id: usage-run
+    kind: command
+    change: modified
+    object: "stages/tools/usage.ps1 / .sh"
+    note: -Run <id> counts only the log with the marker "spec-nx run <id>"; without it, several chats in the range are an error instead of the busiest winning.
+    statements: [S18, S19, S21]
+    examples:
+      - name: syntax
+        input: |
+          Get-Command stages/tools/usage.ps1 -Syntax
+  - id: costs-ledger
+    kind: output
+    change: modified
+    object: "stages/tools/costs_ledger.ps1 / .sh → .specs/costs.md"
+    note: Measured numbers without ~, "included in" rows as included instead of N/A, a note when measured and estimated are mixed.
+    statements: [S22, S23]
+    examples:
+      - name: sample-specs
+        input: |
+          costs_ledger.ps1 -CostsLink ../COSTS.md -DryRun
+          on testing/usage/samples/specs (a measured, an estimated and an "included in" spec)
+  - id: readme-top
+    kind: message
+    change: modified
+    object: "README.md — Make it yours, and docs/customize.md"
+    note: A highlighted line near the top links the new customizing page; the settings sections of the README and docs link it too.
+    statements: [S25, S26, S27]
+    examples:
+      - name: top
+        input: |
+          README.md from "For anyone who builds" to the next heading
+breaking: "no — files with one or two layers give the same settings as before; new parameters are optional and come after the existing positional ones; usage without -Run behaves as before when the project has one chat in the range, and only refuses to guess when it has several"
+review:
+  - question: Why does usage now stop when two chats are found, instead of taking the busiest?
+    answer: |
+      The busiest chat is often the other one (a long implementation chat next to a short
+      review chat), so the cost of one command was silently booked to another. An error that
+      names both logs, plus the marker that every stage now writes, is always right.
+  - question: Why is the kit's own settings file a layer, and why are some keys project-only?
+    answer: |
+      A shared kit used as a submodule had its defaults baked into the prompts at generation;
+      reading its file at run time lets a team change a default without regenerating every
+      project. Keys like kit_dir or shells describe the generated kit itself, so a kit's or a
+      developer's value for them would be wrong for the project.
+  - question: How does "assigned_to null" differ from no assigned_to, if null removes the key?
+    answer: |
+      The merge removes the value but keeps where it was removed ("(removed)" in -Source), so the
+      scripts see "set to nobody in this file" and do not fall back to assigning it to you.
+  - question: Why are the usage checks committed when testing/ is local?
+    answer: |
+      They use only synthetic logs and specs, and they are the tests of S21 and S22; the rest of
+      testing/ stays a local scratch area (.gitignore keeps only README.md and usage/).

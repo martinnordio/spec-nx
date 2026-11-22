@@ -16,10 +16,10 @@ param(
     [Parameter(Mandatory)] [string] $Model,
     [string] $Until,
     [string] $Transcript,
-    [string] $Run,
     [string] $Root = '.',
     [int] $ContextCap = 200000,
     [ValidateSet('all', 'main', 'subagents')] [string] $Agent = 'all',
+    [string] $Run,
     [switch] $Json
 )
 $ErrorActionPreference = 'Stop'
@@ -150,7 +150,8 @@ function Test-Inside([string] $folder, [string] $rootPath) {
 }
 
 function Test-Marker([string] $path) {
-    return [IO.File]::ReadAllText($path, [Text.Encoding]::UTF8).Contains($marker)
+    # The whole id: "spec-nx run abc" must not match "spec-nx run abcd".
+    return [regex]::IsMatch([IO.File]::ReadAllText($path, [Text.Encoding]::UTF8), [regex]::Escape($marker) + '(?![A-Za-z0-9_-])')
 }
 
 $rootPath = (Resolve-Path $Root).Path

@@ -77,6 +77,10 @@ Check 'parallel: -Run picks chat a' ($p -and $p.transcript -match 'chat_a' -and 
 Check 'parallel: --run picks chat a (bash)' ($s -and $s.transcript -match 'chat_a' -and $s.credits -eq 15.25)
 $p = Json (Invoke-Ps 'usage.ps1' @('-Since', $range[0], '-Until', $range[1], '-Model', 'x', '-Run', '20261120-1000-othr', '-Json'))
 Check 'parallel: -Run picks chat b' ($p -and $p.transcript -match 'chat_b' -and $p.credits -eq 2.4)
+$r = Invoke-Ps 'usage.ps1' @('-Since', $range[0], '-Until', $range[1], '-Model', 'x', '-Run', '20261120-1000-tes')
+Check 'parallel: a marker id is matched whole, not as a prefix' ($r.code -ne 0 -and $r.out -match 'No logs') $r.out
+$r = Invoke-Sh 'usage.sh' @('--since', $range[0], '--until', $range[1], '--model', 'x', '--run', '20261120-1000-tes')
+Check 'parallel: whole id in bash too' ($r.code -ne 0 -and $r.out -match 'No logs') $r.out
 $r = Invoke-Ps 'usage.ps1' @('-Since', $range[0], '-Until', $range[1], '-Model', 'x', '-Run', '20261120-1000-else')
 Check 'other project: its marker is not found here' ($r.code -ne 0 -and $r.out -match 'No logs') $r.out
 $r = Invoke-Ps 'usage.ps1' @('-Since', $range[0], '-Until', $range[1], '-Model', 'x', '-Run', '20261120-1000-othr', '-Transcript', $logA)
@@ -96,6 +100,26 @@ Check 'ledger: "included in" rows show as included, not N/A' ($p.out -match '\[I
 Check 'ledger: measured numbers have no ~' ($p.out -match '\| CHF 1\.20 \(143 credits\)' -and $p.out -notmatch '~CHF 1\.20') $p.out
 Check 'ledger: note when measured and estimated are mixed' ($p.out -match 'mixes measured and estimated') $p.out
 Check 'ledger: bash gives the same list' ($s.out.Trim() -eq $p.out.Trim()) $s.out
+
+# 5. The settings in three layers (settings.ps1 / settings.sh): same result in both shells.
+$kitDir = Join-Path $project '.my-kit'
+New-Item -ItemType Directory -Force (Join-Path $kitDir '.specs'), (Join-Path $kitDir 'tools') | Out-Null
+Copy-Item (Join-Path $tools 'settings.ps1'), (Join-Path $tools 'settings.sh') (Join-Path $kitDir 'tools')
+[IO.File]::WriteAllText((Join-Path $kitDir '.specs/spec-nx.json'), '{ "version": 1, "kit_dir": ".", "stages": ["requirements", "plan", "pr"], "git_host": "azure_devops", "work_items": { "org": "acme", "project": "ai" }, "models": { "fixed": "M" } }', $enc)
+[IO.File]::WriteAllText((Join-Path $project '.specs/spec-nx.json'), '{ "version": 1, "work_items": { "project": "product-x", "area": "product-x\\Team A" }, "parent": 4100, "cost": { "enabled": true, "currency": "CHF" } }', $enc)
+[IO.File]::WriteAllText((Join-Path $project '.specs/spec-nx.local.json'), '{ "version": 1, "stages": ["requirements"], "parent": 4231, "models": null, "work_items": { "assigned_to": null }, "kit_dir": "x" }', $enc)
+$tools = $kitDir + '/tools'
+$p = Invoke-Ps 'settings.ps1' @('-Json')
+$s = Invoke-Sh 'settings.sh' @('--json')
+$pj = $null; try { $pj = ([regex]::Match($p.out, '(?ms)^\{.*^\}').Value) | ConvertFrom-Json } catch { }
+Check 'settings: a list is replaced, a key wins, null removes' ($pj -and @($pj.stages).Count -eq 1 -and $pj.parent -eq 4231 -and -not $pj.PSObject.Properties['models']) $p.out
+Check 'settings: objects are merged key by key' ($pj -and $pj.work_items.org -eq 'acme' -and $pj.work_items.project -eq 'product-x' -and $pj.work_items.area -eq 'product-x\Team A')
+Check 'settings: a project-only key in the local file is ignored with a warning' ($p.out -match "(?s)'kit_dir' in .* is ignored" -and -not ($pj -and $pj.PSObject.Properties['kit_dir']))
+$sj = $null; try { $sj = ([regex]::Match($s.out, '(?ms)^\{.*^\}').Value) | ConvertFrom-Json } catch { }
+Check 'settings: bash gives the same result' ($sj -and (ConvertTo-Json $sj -Depth 9 -Compress) -eq (ConvertTo-Json $pj -Depth 9 -Compress)) $s.out
+$src = Invoke-Ps 'settings.ps1' @('-Source', 'work_items.assigned_to')
+Check 'settings: null keeps its source, so "nobody" differs from "unset"' ($src.out -match 'spec-nx.local.json \(removed\)') $src.out
+$tools = Join-Path (Split-Path (Split-Path $here -Parent) -Parent) 'stages/tools'
 
 Remove-Item -Recurse -Force $work
 "$fails failure(s)"
