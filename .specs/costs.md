@@ -1,9 +1,9 @@
 # Cost of the specs
 
 > Estimate — see [COSTS.md](../stages/COSTS.md). **All costs are estimates and may be wrong.** Rebuilt by
-> `costs_ledger` from the Stage logs on 2026-11-16; do not edit by hand.
+> `costs_ledger` from the Stage logs on 2026-11-22; do not edit by hand.
 
-**All specs: ~41.85 M · ~CHF 12.35 (1474 credits)**
+**All specs: ~120.79 M · ~CHF 35.50 (4237 credits)**
 
 | Spec | Status | Requirements | Plan | Implementation | Review | PR | Other | Total |
 |------|--------|--------------|------|----------------|--------|----|-------|-------|
@@ -17,7 +17,11 @@
 | [The Right Model and Cost for Each Step](features/done/2026_11_14_model_per_step_spec.md) | ✅ Complete | ~5.72 M · ~CHF 1.83 | ~3.10 M · ~CHF 1.01 | ~14.50 M · ~CHF 4.04 | ~2.67 M · ~CHF 0.96 | ~740 k · ~CHF 0.23 | — | ~26.72 M · ~CHF 8.07 |
 | [Update Without Questions](features/done/2026_11_14_update_without_questions_spec.md) | ✅ Complete | N/A | N/A | N/A | N/A | N/A | N/A | N/A |
 | [Simpler Setup](features/done/2026_11_16_simpler_setup_spec.md) | ✅ Complete | ~1.20 M · ~CHF 0.31 | — | ~13.93 M · ~CHF 3.97 | — | — | — | ~15.13 M · ~CHF 4.28 |
-| **All specs** | | | | | | | | **~41.85 M · ~CHF 12.35** |
+| [Copilot CLI Costs](features/done/2026_11_21_copilot_cli_costs_spec.md) | ✅ Complete | 3.64 M · CHF 1.12 | — | 8.81 M · CHF 2.09 | — | — | — | 12.45 M · CHF 3.21 |
+| [Settings Layers and Prompt Log](features/done/2026_11_22_settings_layers_and_prompt_log_spec.md) | ✅ Complete | 2.55 M · CHF 3.21 | 5.29 M · CHF 2.67 | 49.60 M · CHF 11.87 | 9.05 M · CHF 2.19 | — | — | 66.49 M · CHF 19.94 |
+| **All specs** | | | | | | | | **~120.79 M · ~CHF 35.50** |
+
+> This list mixes measured and estimated (`~`) numbers; they come from different methods — see [COSTS.md](../stages/COSTS.md).
 
 ## Implementation by Step
 
@@ -46,3 +50,9 @@
 | Simpler Setup | 7 | Claude Opus 5.5 | ~1.30 M | ~CHF 0.41 (49 credits) |
 | Simpler Setup | 7 | Claude Opus 5.5 | ~679 k | ~CHF 0.18 (21 credits) |
 | Simpler Setup | 9 | Claude Opus 5.5 | ~1.21 M | ~CHF 0.34 (40 credits) |
+| Settings Layers and Prompt Log | 1 | Claude Opus 5.5 | 11.04 M | CHF 2.68 (320 credits) |
+| Settings Layers and Prompt Log | 2 | Claude Opus 5.5 | 10.79 M | CHF 2.47 (295 credits) |
+| Settings Layers and Prompt Log | 3 | Claude Opus 5.5 | 14.20 M | CHF 3.84 (458 credits) |
+| Settings Layers and Prompt Log | 4 | Claude Opus 5.5 | 2.60 M | CHF 0.54 (65 credits) |
+| Settings Layers and Prompt Log | 5 | Claude Opus 5.5 | 4.76 M | CHF 0.98 (117 credits) |
+| Settings Layers and Prompt Log | 6 | Claude Opus 5.5 | 3.26 M | CHF 0.74 (88 credits) |
