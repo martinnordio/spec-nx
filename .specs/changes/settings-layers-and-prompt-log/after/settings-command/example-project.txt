@@ -1,0 +1,12 @@
+warning: 'kit_dir' in <project>\.specs\spec-nx.local.json is ignored: it describes the generated kit and is set only in <project>\.specs\spec-nx.json.
+stages = [requirements]   (.specs\spec-nx.local.json)
+git_host = azure_devops   (.my-kit\.specs\spec-nx.json)
+work_items.org = acme   (.my-kit\.specs\spec-nx.json)
+work_items.project = product-x   (.specs\spec-nx.json)
+version = 1   (.specs\spec-nx.json)
+work_items.area = product-x\Team A   (.specs\spec-nx.json)
+parent = 4231   (.specs\spec-nx.local.json)
+cost.enabled = true   (.specs\spec-nx.json)
+cost.currency = CHF   (.specs\spec-nx.json)
+models = (removed)   (.specs\spec-nx.local.json (removed))
+work_items.assigned_to = (removed)   (.specs\spec-nx.local.json (removed))

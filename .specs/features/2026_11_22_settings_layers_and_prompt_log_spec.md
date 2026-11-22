@@ -19,6 +19,7 @@
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 2.60 M (6 k in · 2.58 M cached · 5 k out) | CHF 0.54 (65 credits) | Step 4 done (its code is in the Step 3 row) |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 4.76 M (13 k in · 4.74 M cached · 8 k out) | CHF 0.98 (117 credits) | Step 5 done; Copilot CLI costs spec closed |
 | 2026-11-22 | implementation | `IMPLEMENT:` | Claude Opus 5.5 | 3.26 M (12 k in · 3.24 M cached · 8 k out) | CHF 0.74 (88 credits) | Step 6 done |
+| 2026-11-22 | review | `REVIEW:` | Claude Opus 5.5 | 9.05 M (38 k in · 8.98 M cached · 32 k out) | CHF 2.19 (262 credits) | semantic diff and code review: Approve with follow-ups; findings 1–3 fixed here (whole marker id, -Run last, settings checks), 4–7 deferred |
 
 ---
 
@@ -422,6 +423,10 @@ Started: 2026-11-22 09:52
 
 | Task | Reason | Target Spec |
 |------|--------|-------------|
+| Committed tests for the `create_issue` scripts of both hosts (mocked host) | Code review finding 4 (C7): they need a live host; checked by hand with dry runs | a later spec-nx improvement spec |
+| `azure_devops/create_issue.sh`: read the settings once instead of once per key | Code review finding 5 | a later spec-nx improvement spec |
+| A clear message when a token lacks the *Identity (read)* scope for the person check | Code review finding 6 | a later spec-nx improvement spec |
+| Run `GENERATE KIT --update` end to end with the Settings sections and `tools/settings.*` | Code review finding 7 | the next regeneration of a shared kit |
 
 ---
 
@@ -429,6 +434,22 @@ Started: 2026-11-22 09:52
 
 | Date | Reviewer | Scope | Outcome | Findings |
 |------|----------|-------|---------|----------|
+| 2026-11-22 | AI assistant (Claude Opus 5.5) | semantic diff | — | [review page](../review/2026-11-22_feature-settings-layers-and-prompt-log.html) |
+| 2026-11-22 | AI assistant (Claude Opus 5.5) | diff | Approve with follow-ups | 0 blocking · 3 should-fix · 4 nit (3 fixed) |
+
+### Code review 2026-11-22
+
+| # | Finding | Layer | Class | Severity | Target |
+|---|---------|-------|-------|----------|--------|
+| 1 | `usage -Run` matched the marker as a substring: the id `…-test` also matched another chat's `…-test2` | code | guideline | Should-fix | fix now — resolved: the whole id is matched in both shells; 2 checks |
+| 2 | `-Run` was added before `-Root` in `usage.ps1`, shifting the positions of `-Root`, `-ContextCap`, `-Agent` (S20) | code | guideline | Should-fix | fix now — resolved: `-Run` is the last positional parameter |
+| 3 | The settings helpers had no committed check | code | test | Nit | fix now — resolved: 5 checks in `testing/usage/check_usage.ps1` (26 in all, both shells) |
+| 4 | C7: the `create_issue` scripts have no committed test (they need a live host) | code | test | Nit | improvement spec (Deferred Items) |
+| 5 | `azure_devops/create_issue.sh` starts `settings.sh` once per key | code | guideline | Nit | improvement spec (Deferred Items) |
+| 6 | With a token, the person check needs the *Identity (read)* scope; without it the REST error is shown | code | guideline | Nit | improvement spec (Deferred Items) |
+| 7 | `GENERATE KIT` not run end to end with the new Settings sections and `tools/settings.*` | spec | test | Should-fix | the next regeneration of a shared kit (Deferred Items) |
+
+**Good:** one merge rule in one helper per shell, byte-identical results in both; old projects give the same settings and the existing scripts the same output; every new value is checked before anything is created on a host; the prompt log was tried by a sub-agent and its unclear points fixed; the cost checks use only synthetic data.
 
 ---
 
@@ -438,6 +459,6 @@ Started: 2026-11-22 09:52
 - [x] Plan · Part 2 written; every Step has a goal and tasks
 - [ ] Implementation · every Step's tasks checked
 - [ ] Documentation · affected docs updated
-- [ ] Review · semantic diff and code review; findings routed
+- [x] Review · semantic diff and code review; findings routed
 - [ ] Spec closed · moved to `.specs/features/done/`
 - [ ] Pull request · opened with the spec summary; reviewed; merged; branch deleted

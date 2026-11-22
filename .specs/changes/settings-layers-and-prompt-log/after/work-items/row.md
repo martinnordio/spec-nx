@@ -1,0 +1,3 @@
+| `work_items` | Optional, set by hand. Azure DevOps: `org`, `project` (backlog items in another project), `area`, `iteration`, `assigned_to` (email; missing = you, `null` = nobody). GitHub: `type` (an issue type of the organization), `assigned_to` (login; missing = `@me`, `null` = nobody). |
+| `parent` | Optional, set by hand: the default parent (issue number / work item id) of `CREATE ISSUE`, used when neither the command nor the spec header names one. |
+| `prompt_log` | Optional, set by hand in any layer (not asked; missing = `false`): `true` keeps every prompt of a spec in `.specs/prompts/<yyyy_mm_dd>_<name>_prompt.md` and the others in `.specs/prompts/<yyyy_mm_dd>_other_prompt.md` (the kit's README, *Prompt log*). |

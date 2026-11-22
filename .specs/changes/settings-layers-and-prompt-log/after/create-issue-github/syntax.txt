@@ -1,0 +1,6 @@
+create_issue.ps1 [-Title] <string> [-SummaryFile] <string> [[-Parent] <int>]
+    [[-Type] <string>]
+    [[-AssignedTo] <string>]
+    [-Unassigned]
+    [-DryRun]
+    [<CommonParameters>]
