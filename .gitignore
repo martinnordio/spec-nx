@@ -2,9 +2,10 @@
 *.local.md
 .specs/spec-nx.local.json
 
-# Local trial runs of the generator (only the README is kept)
+# Local trial runs of the generator (only the README and the usage checks are kept)
 testing/*
 !testing/README.md
+!testing/usage/
 
 # Python
 __pycache__/

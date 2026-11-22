@@ -58,6 +58,14 @@ def tokens(cell):
     return float(m.group(1).replace(",", "")) * (1e6 if m.group(2) == "M" else 1e3)
 
 
+def add(into, frm):
+    # A cell is [tokens, amount, credits, estimated, measured, included].
+    for i in range(3):
+        into[i] += frm[i]
+    for i in range(3, 6):
+        into[i] = into[i] or frm[i]
+
+
 def stage_of(stage):
     return stage if stage in ("requirements", "plan", "implementation", "review", "pr") else "other"
 
@@ -91,21 +99,28 @@ for path in sorted(files, key=lambda f: os.path.basename(f)):
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
         if len(cells) <= max(head.values()) or set(cells[0]) <= set("-: "):
             continue
+        key = stage_of(cells[head["Stage"]])
+        # A row whose numbers are counted in another spec ("included in <spec>", COSTS.md).
+        if cells[head["Tokens"]].startswith("included in") or cells[head["Cost"]].startswith("included in"):
+            spec["tracked"] = True
+            spec["stages"].setdefault(key, [0.0, 0.0, 0.0, False, False, False])[5] = True
+            continue
         n = tokens(cells[head["Tokens"]])
         if n is None:
             continue
+        estimated = cells[head["Tokens"]].startswith("~") or cells[head["Cost"]].startswith("~")
         money = MONEY.search(cells[head["Cost"]])
         cr = CREDITS.search(cells[head["Cost"]])
         value = float(money.group(2)) if money else 0.0
         credits = float(cr.group(1).replace(",", "")) if cr else 0.0
         currency = money.group(1) if money else cost.get("currency", "USD")
         spec["tracked"] = True
-        s = spec["stages"].setdefault(stage_of(cells[head["Stage"]]), [0.0, 0.0, 0.0])
-        s[0] += n; s[1] += value; s[2] += credits
+        add(spec["stages"].setdefault(key, [0.0, 0.0, 0.0, False, False, False]),
+            [n, value, credits, estimated, not estimated, False])
         step = re.search(r"Step (\d+)", cells[head["Note"]]) if "Note" in head else None
         if step and cells[head["Stage"]] == "implementation":
             spec["steps"].append((step.group(1), n, value, credits, currency,
-                                  cells[head["Model"]] if "Model" in head else ""))
+                                  cells[head["Model"]] if "Model" in head else "", estimated))
     specs.append(spec)
 
 currency = cost.get("currency", "USD")
@@ -117,20 +132,28 @@ def k(n):
 
 
 def cell(v):
-    return "N/A" if v is None else "~%s%s~%s %.2f" % (k(v[0]), dot, currency, round(v[1], 2))
+    if v is None:
+        return "N/A"
+    if not v[3] and not v[4]:
+        return "included" if v[5] else "N/A"
+    tilde = "~" if v[3] else ""
+    return "%s%s%s%s%s %.2f" % (tilde, k(v[0]), dot, tilde, currency, round(v[1], 2))
 
 
 def total(spec):
     if not spec["tracked"]:
         return None
-    return [sum(s[i] for s in spec["stages"].values()) for i in range(3)]
+    t = [0.0, 0.0, 0.0, False, False, False]
+    for s in spec["stages"].values():
+        add(t, s)
+    return t
 
 
-rows, grand = [], [0.0, 0.0, 0.0]
+rows, grand = [], [0.0, 0.0, 0.0, False, False, False]
 for spec in specs:
     t = total(spec)
     if t:
-        grand = [grand[i] + t[i] for i in range(3)]
+        add(grand, t)
         parts = [cell(spec["stages"][x]) if x in spec["stages"] else "\u2014"
                  for x in ("requirements", "plan", "implementation", "review", "pr", "other")]
     else:
@@ -140,21 +163,24 @@ for spec in specs:
 out = ["# Cost of the specs", "",
        "> Estimate \u2014 see [COSTS.md](%s). **All costs are estimates and may be wrong.** Rebuilt by" % link,
        "> `costs_ledger` from the Stage logs on %s; do not edit by hand." % datetime.date.today().isoformat(), "",
-       "**All specs: ~%s%s~%s %.2f (%s)**" % (k(grand[0]), dot, currency, round(grand[1], 2), credit_text(grand[2])), "",
+       "**All specs: %s (%s)**" % (cell(grand), credit_text(grand[2])), "",
        "| Spec | Status | Requirements | Plan | Implementation | Review | PR | Other | Total |",
        "|------|--------|--------------|------|----------------|--------|----|-------|-------|"]
 out += rows
 out.append("| **All specs** | | | | | | | | **%s** |" % cell(grand))
+if grand[3] and grand[4]:
+    out += ["", "> This list mixes measured and estimated (`~`) numbers; they come from different methods \u2014 see [COSTS.md](%s)." % link]
 steps = [(s, st) for s in specs for st in s["steps"]]
 if steps:
     out += ["", "## Implementation by Step", "", "| Spec | Step | Model | Tokens | Cost |", "|------|------|-------|--------|------|"]
-    for s, (n, tok, val, cr, cur, model) in steps:
-        out.append("| %s | %s | %s | ~%s | ~%s %.2f (%s) |" % (s["title"], n, model, k(tok), cur, round(val, 2), credit_text(cr)))
+    for s, (n, tok, val, cr, cur, model, est) in steps:
+        tilde = "~" if est else ""
+        out.append("| %s | %s | %s | %s%s | %s%s %.2f (%s) |" % (s["title"], n, model, tilde, k(tok), tilde, cur, round(val, 2), credit_text(cr)))
 text = "\n".join(out) + "\n"
 if a.dry_run:
     print(text, end="")
     sys.exit(0)
 with open(os.path.join(a.root, ".specs", "costs.md"), "w", encoding="utf-8", newline="\n") as f:
     f.write(text)
-print("Wrote .specs/costs.md: %d specs, ~%s, ~%s %.2f" % (len(specs), k(grand[0]), currency, round(grand[1], 2)))
+print("Wrote .specs/costs.md: %d specs, %s" % (len(specs), cell(grand)))
 PY

@@ -3,6 +3,21 @@
 Everything in this folder except this README is ignored by git: use it to try the generator
 and the stages on throw-away projects without pushing anything.
 
+## Committed checks: `usage/`
+
+`usage/check_usage.ps1` checks the `usage` and `costs_ledger` scripts of both shells on the
+sample logs and specs in `usage/samples/` (no real data): a Copilot CLI chat with a sub-agent
+and two models, two chats of one project at the same time (`-Run`), a chat of another project,
+an empty range, and a cost list with measured, estimated and `included in` rows.
+
+```
+powershell -File testing/usage/check_usage.ps1              # Windows (Git Bash for the bash scripts)
+pwsh testing/usage/check_usage.ps1 -Bash bash               # macOS / Linux
+```
+
+The bash scripts need `python3` (pass `-BashPath <folder>` to put one first on the path). It
+prints one line per check and exits with 1 when one fails.
+
 ## Try it
 
 1. Create a scratch project:
