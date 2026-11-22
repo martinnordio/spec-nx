@@ -29,6 +29,8 @@ the project's `.specs/spec-nx.json` and the developer's `.specs/spec-nx.local.js
 winning. In your report, name each
 setting you used that does not come from the kit, with its file (for example *parent 150310 —
 from `.specs/spec-nx.local.json`*).
+With `prompt_log` on, add the prompt you were given to the prompt log at the start and its reply
+summary at the end (the kit's README, section *Prompt log*).
 
 ## Files this stage uses
 
