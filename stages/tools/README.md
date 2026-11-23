@@ -85,6 +85,7 @@ file. The bash script needs `python3`.
 | `-Root` / `--root` | The project root (default: the current folder) |
 | `-ContextCap` / `--context-cap` | Context size at which the chat is assumed to be summarized (default 200000) |
 | `-Agent` / `--agent` | `all` (default), `main` (only the chat's own requests) or `subagents` (only its sub-agents') — Copilot CLI logs only; a `Split:` line always shows both parts |
+| `-AgentName` / `--agent-name` | Only the requests of the sub-agents started under these display names (`--agent-name` comma-separated or repeated) — Copilot CLI logs only; exact per-agent rows without time windows |
 | `-Json` / `--json` | One JSON line instead of the three text lines |
 
 ```

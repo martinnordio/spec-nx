@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 # Tokens and cost of a time range of the AI chat, by the method of COSTS.md.
 # usage: usage.sh --since <time> --model <name> [--until <time>] [--transcript <file>]
-#                 [--run <id>] [--root <dir>] [--context-cap <tokens>] [--json]
+#                 [--run <id>] [--agent all|main|subagents] [--agent-name <names>]
+#                 [--root <dir>] [--context-cap <tokens>] [--json]
 # --run: the id of the marker "spec-nx run <id>" the stage wrote into its chat at its start;
 # only the log that contains it is counted (other chats of the same project are left out).
+# --agent-name: only the requests of the sub-agents started under these display names
+# (comma-separated or repeated); Copilot CLI logs only.
 set -euo pipefail
 command -v python3 >/dev/null || { echo "usage.sh needs python3" >&2; exit 1; }
 # The kit's, the project's and the developer's settings, the later winning (settings.sh).
@@ -28,8 +31,10 @@ p.add_argument("--run")
 p.add_argument("--root", default=".")
 p.add_argument("--context-cap", type=int, default=200000)
 p.add_argument("--agent", choices=("all", "main", "subagents"), default="all")
+p.add_argument("--agent-name", action="append", default=[])
 p.add_argument("--json", action="store_true")
 a = p.parse_args()
+agent_names = {n.strip() for v in a.agent_name for n in v.split(",") if n.strip()}
 
 
 def utc(text):
@@ -96,12 +101,23 @@ def measure(path):
          "credits": None, "models": [], "main": None, "sub": None}
     if kind == "cli":
         nano, split, models = 0.0, {"main": 0.0, "sub": 0.0}, set()
+        # --agent-name: the ids of the sub-agents started under those display names.
+        named = None
+        if agent_names:
+            named = set()
+            for raw in lines:
+                if raw.startswith('{"type":"subagent.started"'):
+                    s = json.loads(raw)
+                    if s.get("data", {}).get("agentDisplayName") in agent_names:
+                        named.add(s.get("agentId"))
         for raw in lines:
             if not raw.startswith('{"type":"session.usage_record"') or not since <= stamp(raw) < until:
                 continue
             record = json.loads(raw)
             # Requests of sub-agents carry the sub-agent's id; the main agent's have none.
             is_sub = bool(record.get("agentId"))
+            if named is not None and not (is_sub and record.get("agentId") in named):
+                continue
             u = record["data"]["usage"]
             cu = u.get("copilotUsage") or {}
             n = float(cu["totalNanoAiu"]) if cu.get("totalNanoAiu") is not None else sum(
@@ -239,9 +255,9 @@ if t is None or t["requests"] == 0:
              "or pass --transcript <file> (Copilot CLI: ~/.copilot/session-state/<session>/events.jsonl)."
              % (since, until if a.until else "now", root, listed))
 vscode = t["kind"] == "vscode"
-if a.agent != "all" and t["kind"] != "cli":
-    sys.exit("--agent %s needs a Copilot CLI log (only it marks the requests of sub-agents); %s is a %s log."
-             % (a.agent, transcript, t["kind"]))
+if (a.agent != "all" or agent_names) and t["kind"] != "cli":
+    sys.exit("--agent / --agent-name need a Copilot CLI log (only it marks the requests of sub-agents); %s is a %s log."
+             % (transcript, t["kind"]))
 
 
 def prices():

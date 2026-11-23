@@ -156,3 +156,5 @@ reference in hack_star (2026-11-21)._
 **Finished by `2026_11_22_settings_layers_and_prompt_log_spec.md`:**
 - S10 — sample logs and checks in `testing/usage/` for both scripts (S21 there).
 - S12 — `costs_ledger.ps1` / `.sh`: `included in <spec>` and measured numbers without `~` (S22 there).
+
+**Added later (2026-11-23):** `-AgentName <names>` / `--agent-name` in `usage.ps1` / `usage.sh` — counts only the requests of the sub-agents started under those names (Copilot CLI logs only), ported from hack_star's kit; `stages/COSTS.md` and `stages/tools/README.md` say when to use it.
